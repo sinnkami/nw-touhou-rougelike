@@ -1,0 +1,14 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "window": {
+    "min_width": 400,
+    "min_height": 400,
+	"frame": true,
+	"toolbar": false
+  },
+  "author": "",
+  "license": "ISC"
+}
