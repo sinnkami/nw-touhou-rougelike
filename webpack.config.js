@@ -1,4 +1,4 @@
-const args = require("./tasks/lib/value");
+const args = require("./gulp/lib/value");
 
 const { resolve } = require("path");
 
@@ -23,11 +23,30 @@ module.exports = {
 			{
 				// ローダーの処理対象ファイル
 				test: /\.ts$/,
-				// 利用するローダー
-				use: "babel-loader",
 				// ローダーの処理対象から外すディレクトリ
-				exclude: /node_modules/
-			}
-		]
+				exclude: /node_modules/,
+				use: {
+					// 利用するローダー
+					loader: "babel-loader",
+					options: {
+						presets: [
+							[
+								"@babel/preset-env",
+								{
+									targets: {
+										node: "4.9.1",
+									},
+								}
+							],
+							"@babel/typescript",
+						],
+						plugins: [
+							"@babel/proposal-class-properties",
+							"@babel/proposal-object-rest-spread",
+						],
+					},
+				},
+			},
+		],
 	},
 };

@@ -4,9 +4,9 @@ const path = require("path");
 
 const nw = new NwBuilder({
 	files: path.resolve(args.dest, "**", "*"),
-    platforms: ["osx64", "win32", "win64"],
+	platforms: ["osx64", "win32", "win64"],
 	version: "0.18.2",
-	flavor: "normal",
+	flavor: "sdk",
 	appName: "テスト",
 	appVersion: "1.0.0",
 	buildDir: args.build,
@@ -17,12 +17,12 @@ const nw = new NwBuilder({
 	macIcns: false, // path
 	winIco: null, // path
 	zip: true,
-	
+
 });
 
 nw.on('log', console.log);
 
-nw.build().then(function () {
+nw.run().then(function () {
 	console.log('all done!');
 }).catch(function (error) {
 	console.error(error);

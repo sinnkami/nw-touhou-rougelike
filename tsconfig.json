@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     /* トランスパイル後のECMAScriptのバージョン */
-    "target": "es3",
+    "target": "esnext",
 
     /* 相対パスではないモジュールは node_modules 配下を検索する */
     "moduleResolution": "node",
