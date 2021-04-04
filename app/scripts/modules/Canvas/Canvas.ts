@@ -1,5 +1,4 @@
-import Construct from "../../Construct";
-import { IRenderOptions } from "../../definitions/modules/Canvas/IRenderOptions";
+import Const from "../../class/Const";
 import Render from "./Render";
 
 export default class Canvas {
@@ -14,8 +13,9 @@ export default class Canvas {
 		canvas.height = height;
 		this.dom = canvas;
 
-		const body = document.getElementById(Construct.BASE_DOM_ID);
-		body?.append(canvas);
+		const body = document.body;
+		if (!body) throw new Error("dom not found");
+		body.append(canvas);
 
 		const ctx = canvas.getContext("2d");
 		if (!ctx) throw new Error("new ctx error");
@@ -67,5 +67,10 @@ export default class Canvas {
 	public clearAllRender(): void {
 		if (!this.ctx) return;
 		this.ctx.clearRect(0, 0, this.width, this.height);
+	}
+
+	public initRenderList(): void {
+		this.renderList = [];
+		this.clearAllRender();
 	}
 }
