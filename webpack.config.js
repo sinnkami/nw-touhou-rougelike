@@ -12,9 +12,9 @@ module.exports = {
 		// 出力するファイル名
 		filename: "bundle.min.js",
 	},
-	optimization: {
-		minimize: true
-	},
+	// optimization: {
+	// 	minimize: true
+	// },
 	resolve: {
 		extensions: [".ts"],
 	},
