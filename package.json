@@ -19,6 +19,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.12.13",
     "@babel/preset-env": "^7.12.16",
     "@babel/preset-typescript": "^7.12.16",
+    "@types/lokijs": "^1.5.4",
     "@types/stats.js": "^0.17.0",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
@@ -38,5 +39,8 @@
     "webpack": "^5.22.0",
     "webpack-cli": "^4.5.0",
     "webpack-stream": "^6.1.2"
+  },
+  "dependencies": {
+    "lokijs": "^1.5.11"
   }
 }

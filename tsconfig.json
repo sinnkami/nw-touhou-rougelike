@@ -24,6 +24,9 @@
 	"esModuleInterop": true,
 	
 	"removeComments": true,
-	"forceConsistentCasingInFileNames": true
+	"forceConsistentCasingInFileNames": true,
+
+	/** jsonをimportできるようにする */
+	"resolveJsonModule": true,
   }
 }
