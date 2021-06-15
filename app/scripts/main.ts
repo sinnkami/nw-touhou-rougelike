@@ -1,7 +1,7 @@
-import Manager from "./class/Manager"
+import GameManager from "./class/GameManager"
 
 window.onload = () => {
-	Manager.gameStart();
+	GameManager.gameStart();
 }
 
 export {}

@@ -6,7 +6,7 @@ import ErrorManager, { ErrorCode } from "./ErrorManager";
 import Scene_Base from "./Scene/Scene_Base";
 import Scene_Test from "./Scene/Scene_Test";
 
-export default class Manager {
+export default class GameManager {
 	// 現在のシーン
 	private static scene?: Scene_Base;
 	private static canvas: ICanvasLayer = {};
