@@ -11,7 +11,7 @@ export default class Const {
 	public static readonly size: IGameSize = {
 		width: 832,
 		height: 640,
-	}
+	};
 
 	/** canvasを入れるdomのID */
 	public static readonly baseDomId = "body";

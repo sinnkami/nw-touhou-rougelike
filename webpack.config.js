@@ -1,6 +1,6 @@
-const args = require("./gulp/lib/value");
+import args from "./gulp/lib/value";
 
-const { resolve } = require("path");
+import { resolve } from "path";
 
 module.exports = {
 	mode: "development",
@@ -16,7 +16,7 @@ module.exports = {
 	// 	minimize: true
 	// },
 	resolve: {
-		extensions: [".ts"],
+		extensions: [".ts", ".js"],
 	},
 	module: {
 		rules: [
@@ -36,7 +36,7 @@ module.exports = {
 									targets: {
 										node: "4.9.1",
 									},
-								}
+								},
 							],
 							"@babel/typescript",
 						],

@@ -1,4 +1,6 @@
-const args = require("yargs")
+import yargs from "yargs";
+
+const argv = yargs(process.argv.slice(2))
 	.option("compression", {
 		boolean: true,
 		default: false,
@@ -14,9 +16,9 @@ const value = {
 	dest: "dist/",
 	src: "app",
 	build: "build/",
-	watch: args.watch,
-	sourcemaps: args.sourcemaps,
-	compression: args.compression,
+	watch: argv.watch,
+	sourcemaps: argv.sourcemaps,
+	compression: argv.compression,
 };
 
 module.exports = value;

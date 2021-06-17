@@ -16,7 +16,6 @@ export default class Scene_Test extends Scene_Base {
 			}
 			this.setInterval(this.updateScene);
 		});
-		
 	}
 
 	public updateScene(): Promise<void> {
@@ -30,8 +29,10 @@ export default class Scene_Test extends Scene_Base {
 	}
 
 	public stopScene(): Promise<void> {
-		return Promise.resolve().then(() => {
-			this.clearInterval();
-		}).then(super.stopScene);
+		return Promise.resolve()
+			.then(() => {
+				this.clearInterval();
+			})
+			.then(super.stopScene);
 	}
 }

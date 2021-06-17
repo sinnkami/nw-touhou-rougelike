@@ -8,7 +8,7 @@ export default class Sprite_Test extends Sprite_Base {
 	protected get width(): number {
 		return 32;
 	}
-	
+
 	/**
 	 * 高さ
 	 * @override
@@ -35,5 +35,4 @@ export default class Sprite_Test extends Sprite_Base {
 		ctx.clearRect(this.x, this.y, this.width, this.height);
 		return Promise.resolve();
 	}
-
 }

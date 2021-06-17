@@ -9,7 +9,7 @@ export default class ErrorManager {
 			case ErrorCode.CollectionNotFound: {
 				error.name = "ReferenceError";
 				error.message = `${messages[0]} is not found in collection name`;
-				}
+			}
 		}
 		return error;
 	}
