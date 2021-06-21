@@ -10,12 +10,17 @@ export default class ErrorManager {
 				error.name = "ReferenceError";
 				error.message = `${messages[0]} is not found in collection name`;
 			}
+			case ErrorCode.NotLoadScene: {
+				error.name = "ReferenceError";
+				error.message = "not loading scene";
+			}
 		}
 		return error;
 	}
 }
 
 export enum ErrorCode {
+	NotLoadScene = 1,
 	CanvasNotFound = 400,
 	CollectionNotFound = 500,
 }

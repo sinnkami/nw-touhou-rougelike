@@ -21,7 +21,7 @@ export default class Scene_Base {
 	}
 
 	protected setInterval(func: () => Promise<any>): Promise<any> {
-		this.intervalNumber = window.setInterval(func, 1000 / this.getFps());
+		this.intervalNumber = window.setInterval(func.bind(this), 1000 / this.getFps());
 		return Promise.resolve();
 	}
 

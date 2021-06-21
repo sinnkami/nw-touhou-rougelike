@@ -1,3 +1,4 @@
+import { Graphics, utils } from "pixi.js";
 import Sprite_Base from "./Sprite_Base";
 
 export default class Sprite_Test extends Sprite_Base {
@@ -18,21 +19,30 @@ export default class Sprite_Test extends Sprite_Base {
 	}
 
 	public constructor(x: number, y: number) {
-		super();
-		this.setName(`${this.constructor.name}`);
-		this.setPosition(x, y);
+		super(new Graphics());
+		this.x = x;
+		this.y = y;
 	}
 
-	public update(ctx: CanvasRenderingContext2D): Promise<void> {
-		super.update(ctx);
-		ctx.fillStyle = `rgb(${Math.floor(this.x % 255)}, ${Math.floor(this.y % 255)}, 0)`;
-		ctx.fillRect(this.x, this.y, this.width, this.height);
+	/**
+	 * @override
+	 */
+	public update(): Promise<void> {
+		const sprite = this.getSprite();
+		const color = utils.rgb2hex([
+			Math.floor(this.x % (255 * Math.random())),
+			Math.floor(this.y % (255 * Math.random())),
+			0,
+		]);
+		sprite.beginFill(color);
+		sprite.drawRect(this.x, this.y, 32, 32);
 		return Promise.resolve();
 	}
 
-	public clear(ctx: CanvasRenderingContext2D) {
-		super.clear(ctx);
-		ctx.clearRect(this.x, this.y, this.width, this.height);
-		return Promise.resolve();
+	/**
+	 * @override
+	 */
+	public getSprite(): Graphics {
+		return super.getSprite() as Graphics;
 	}
 }

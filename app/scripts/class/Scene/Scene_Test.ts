@@ -1,31 +1,32 @@
-import { CanvasLayer } from "../Const";
-import DebugManager from "../DebugManager";
 import GameManager from "../GameManager";
+import Sprite_Base from "../Sprite/Sprite_Base";
 import Sprite_Test from "../Sprite/Sprite_Test";
 import Scene_Base from "./Scene_Base";
 
 export default class Scene_Test extends Scene_Base {
+	public renderList: Sprite_Base[] = [];
+
 	public startScene(): Promise<void> {
 		return super.startScene().then(() => {
-			const canvas = GameManager.getCanvas(CanvasLayer.Background);
+			const canvas = GameManager.getCanvas();
 			for (let x = 0; x <= 832; x += 32) {
 				for (let y = 0; y <= 640; y += 32) {
 					const render = new Sprite_Test(x, y);
-					canvas.addRender(render);
+					canvas.addRender(render.getSprite());
+					this.renderList.push(render);
 				}
 			}
-			this.setInterval(this.updateScene);
 		});
 	}
 
 	public updateScene(): Promise<void> {
-		return super.updateScene().then(() => {
-			const canvas = GameManager.getCanvas(CanvasLayer.Background);
-			canvas.clearAllRender();
-			canvas.update();
+		if (GameManager.frameCount % 120 !== 0) return Promise.resolve();
 
-			DebugManager.updateStats();
+		const promiseList = this.renderList.map(render => {
+			console.log("aaa");
+			return render.update.bind(render);
 		});
+		return Promise.all(promiseList.map(v => v())).then();
 	}
 
 	public stopScene(): Promise<void> {
