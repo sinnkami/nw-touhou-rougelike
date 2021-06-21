@@ -1,4 +1,4 @@
-import yargs from "yargs";
+const yargs = require("yargs");
 
 const argv = yargs(process.argv.slice(2))
 	.option("compression", {

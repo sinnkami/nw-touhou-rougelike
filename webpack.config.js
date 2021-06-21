@@ -1,6 +1,6 @@
-import args from "./gulp/lib/value";
+const args = require("./gulp/lib/value");
 
-import { resolve } from "path";
+const { resolve } = require("path");
 
 module.exports = {
 	mode: "development",
@@ -40,10 +40,7 @@ module.exports = {
 							],
 							"@babel/typescript",
 						],
-						plugins: [
-							"@babel/proposal-class-properties",
-							"@babel/proposal-object-rest-spread",
-						],
+						plugins: ["@babel/proposal-class-properties", "@babel/proposal-object-rest-spread"],
 					},
 				},
 			},
