@@ -34,7 +34,6 @@ export default class GameManager {
 	}
 
 	public static getScene(): Scene_Base | undefined {
-		console.log(this);
 		return this.scene;
 	}
 
