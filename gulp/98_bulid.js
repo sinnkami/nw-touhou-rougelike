@@ -7,6 +7,7 @@ gulp.task("build", gulp.series(
 		"scripts",
 		"view",
 		"package",
+		"images",
 	),
 	"watch",
 ));

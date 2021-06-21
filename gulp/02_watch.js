@@ -9,6 +9,7 @@ gulp.task("watch", callback => {
 
 	gulp.watch(`${args.src}/package.json`, gulp.series("package"));
 	gulp.watch(`${args.src}/scripts/**/*`, gulp.series("scripts"));
+	gulp.watch(`${args.src}/assets/images/**/*`, gulp.series("images"));
 	gulp.watch(`${args.src}/index.html`, gulp.series("view"));
 
 });
