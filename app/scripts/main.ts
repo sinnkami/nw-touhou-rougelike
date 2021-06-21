@@ -1,7 +1,7 @@
 import GameManager from "./class/GameManager";
 
 window.onload = () => {
-	GameManager.gameStart();
+	GameManager.init();
 };
 
 export {};

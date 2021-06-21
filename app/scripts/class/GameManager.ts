@@ -21,7 +21,7 @@ export default class GameManager {
 		const scene = new Scene_Test();
 		this.setScene(scene);
 
-		scene.startScene().then(this.gameStart);
+		scene.startScene().then(this.gameStart.bind(this));
 	}
 
 	public static gameStart(): void {
@@ -34,6 +34,7 @@ export default class GameManager {
 	}
 
 	public static getScene(): Scene_Base | undefined {
+		console.log(this);
 		return this.scene;
 	}
 
@@ -54,17 +55,17 @@ export default class GameManager {
 	}
 
 	private static gameLoop(): void {
-		if (!this.isLoop) return;
+		if (!GameManager.isLoop) return;
 
 		// 現在のシーンを取得
-		const scene = this.getScene();
+		const scene = GameManager.getScene();
 		if (!scene) throw ErrorManager.getError(ErrorCode.NotLoadScene);
 
 		GameManager.frameCount++;
 		DebugManager.updateStats();
 		console.log(GameManager.frameCount);
-		Promise.all([scene.updateScene()]).finally(() => {
-			requestAnimationFrame(this.gameLoop);
+		Promise.all([scene.updateScene()]).then(() => {
+			requestAnimationFrame(GameManager.gameLoop);
 		});
 	}
 }
