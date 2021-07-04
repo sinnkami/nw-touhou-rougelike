@@ -27,10 +27,11 @@ export class Game_Loop extends Game_Base {
 
 		this.incrementFrame();
 		DebugManager.updateStats();
+
 		GameManager.getCanvas().update();
-		Promise.all([SceneManager.updateScene()]).then(() => {
-			requestAnimationFrame(this.gameLoop.bind(this));
-		});
+		SceneManager.updateScene();
+
+		requestAnimationFrame(this.gameLoop.bind(this));
 	}
 
 	private incrementFrame(): void {

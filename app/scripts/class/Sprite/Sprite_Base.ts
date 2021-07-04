@@ -31,15 +31,15 @@ export default class Sprite_Base {
 		return this.getSprite().height;
 	}
 
-	public update(): Promise<any> {
-		return Promise.resolve();
+	public update(): void {
+		return;
 	}
 
-	public destroy(): Promise<any> {
+	public destroy(): void {
 		const sprite = this.getSprite();
 		sprite.destroy();
 
-		return Promise.resolve();
+		return;
 	}
 
 	public getSprite(): Container {

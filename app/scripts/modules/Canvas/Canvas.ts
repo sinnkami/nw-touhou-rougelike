@@ -1,12 +1,11 @@
+import { AbstractRenderer, Application, DisplayObject, Renderer } from "pixi.js";
 import Const from "../../class/Const";
-import * as PIXI from "pixi.js";
-import { AbstractRenderer, Renderer } from "pixi.js";
 
 export default class Canvas {
-	public app: PIXI.Application;
+	public app: Application;
 
 	public constructor(width: number, height: number) {
-		const app = new PIXI.Application({
+		const app = new Application({
 			width,
 			height,
 			backgroundColor: 0xffffff,
@@ -33,43 +32,17 @@ export default class Canvas {
 		return this.app.renderer;
 	}
 
-	public addRender(render: PIXI.DisplayObject, index?: number): void {
+	public addRender(render: DisplayObject): void {
 		const stage = this.app.stage;
-		if (index) {
-			stage.addChildAt(render, index);
-		} else {
-			stage.addChild(render);
-		}
+		stage.addChild(render);
 	}
 
-	public deleteRender(index?: number): void {
+	public deleteRender(render: DisplayObject): void {
 		const stage = this.app.stage;
-		if (!index) {
-			index = stage.children.length - 1;
-		}
-		stage.removeChildAt(index);
+		stage.removeChild(render);
 	}
 
-	public update(): Promise<any> {
-		this.app.render();
-		return Promise.resolve();
+	public update(): void {
+		return this.app.render();
 	}
-
-	// public clear(): Promise<any> {
-	// 	const ctx = this.ctx;
-	// 	if (!ctx) {
-	// 		throw new Error("not canvas setting");
-	// 	}
-	// 	return Promise.all(this.renderList.map((render) => render.clear(ctx)));
-	// }
-
-	// public clearAllRender(): void {
-	// 	if (!this.ctx) return;
-	// 	this.ctx.clearRect(0, 0, this.width, this.height);
-	// }
-
-	// public initRenderList(): void {
-	// 	this.renderList = [];
-	// 	this.clearAllRender();
-	// }
 }

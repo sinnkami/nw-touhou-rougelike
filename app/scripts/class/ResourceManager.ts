@@ -1,6 +1,10 @@
 import { Loader, Texture } from "pixi.js";
 
 export default class ResourceManager {
+	public static init(): Promise<void> {
+		return Promise.all([]).then();
+	}
+
 	public static getTexture(path: string): Promise<Texture> {
 		const loader = this.getLoader();
 

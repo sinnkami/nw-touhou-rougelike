@@ -10,8 +10,8 @@ export default class GameManager {
 	public static map: Game_Map = new Game_Map();
 	public static loop: Game_Loop = new Game_Loop();
 
-	public static init(): void {
-		this.setCanvas();
+	public static init(): Promise<void> {
+		return Promise.all([this.setCanvas()]).then();
 	}
 
 	public static getCanvas(): Canvas {
@@ -22,7 +22,8 @@ export default class GameManager {
 		return this.canvas.getRenderer();
 	}
 
-	private static setCanvas(): void {
+	private static setCanvas(): Promise<void> {
 		this.canvas = new Canvas(Const.size.width, Const.size.height);
+		return Promise.resolve();
 	}
 }

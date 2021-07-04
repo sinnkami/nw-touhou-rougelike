@@ -6,15 +6,15 @@ export default class Scene_Base {
 		return this.constructor.name;
 	}
 
-	public startScene(): Promise<any> {
-		return Promise.resolve();
+	public startScene(): void {
+		return;
 	}
 
-	public updateScene(): Promise<any> {
-		return Promise.resolve();
+	public updateScene(): void {
+		return;
 	}
 
-	public stopScene(): Promise<any> {
-		return Promise.resolve();
+	public stopScene(): void {
+		return;
 	}
 }

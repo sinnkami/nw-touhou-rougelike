@@ -33,11 +33,11 @@ export default class Sprite_Map extends Sprite_Base {
 	/**
 	 * @override
 	 */
-	public update(): Promise<void> {
+	public update(): void {
 		const sprite = this.getSprite();
 		// sprite.rotation++;
 		// sprite.updateTransform();
 
-		return Promise.resolve();
+		return;
 	}
 }

@@ -1,4 +1,8 @@
 export default class ErrorManager {
+	public static init(): Promise<void> {
+		return Promise.all([]).then();
+	}
+
 	public static getError(code: number, ...messages: any[]): Error {
 		const error = new Error();
 		switch (code) {
