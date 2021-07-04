@@ -1,8 +1,9 @@
 import Const from "../../class/Const";
 import * as PIXI from "pixi.js";
+import { AbstractRenderer, Renderer } from "pixi.js";
 
 export default class Canvas {
-	protected app: PIXI.Application;
+	public app: PIXI.Application;
 
 	public constructor(width: number, height: number) {
 		const app = new PIXI.Application({
@@ -27,6 +28,11 @@ export default class Canvas {
 		return this.app.view.height;
 	}
 
+	public getRenderer(): Renderer | AbstractRenderer {
+		if (!this.app) throw new Error("not render");
+		return this.app.renderer;
+	}
+
 	public addRender(render: PIXI.DisplayObject, index?: number): void {
 		const stage = this.app.stage;
 		if (index) {
@@ -44,9 +50,10 @@ export default class Canvas {
 		stage.removeChildAt(index);
 	}
 
-	// public update(): Promise<any> {
-	// 	this.app
-	// }
+	public update(): Promise<any> {
+		this.app.render();
+		return Promise.resolve();
+	}
 
 	// public clear(): Promise<any> {
 	// 	const ctx = this.ctx;

@@ -1,36 +1,48 @@
-import { DisplayObject } from "pixi.js";
+import { Container } from "pixi.js";
 
 export default class Sprite_Base {
-	protected x: number;
-	protected y: number;
+	public name: string;
+	protected sprite: Container;
+
+	public constructor(name: string, content: Container) {
+		this.name = name;
+		this.sprite = content;
+	}
+
+	protected get x(): number {
+		return this.getSprite().x;
+	}
+
+	protected get y(): number {
+		return this.getSprite().y;
+	}
 
 	/**
 	 * 横幅
 	 */
 	protected get width(): number {
-		return 0;
+		return this.getSprite().width;
 	}
 
 	/**
 	 * 高さ
 	 */
 	protected get height(): number {
-		return 0;
-	}
-
-	protected sprite: DisplayObject;
-
-	public constructor(content: DisplayObject) {
-		this.sprite = content;
-		this.x = 0;
-		this.y = 0;
+		return this.getSprite().height;
 	}
 
 	public update(): Promise<any> {
 		return Promise.resolve();
 	}
 
-	public getSprite(): DisplayObject {
+	public destroy(): Promise<any> {
+		const sprite = this.getSprite();
+		sprite.destroy();
+
+		return Promise.resolve();
+	}
+
+	public getSprite(): Container {
 		return this.sprite;
 	}
 }
