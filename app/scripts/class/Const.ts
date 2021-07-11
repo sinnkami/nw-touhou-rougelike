@@ -1,9 +1,5 @@
 import { IGameSize } from "../definitions/IConstruct";
 
-export enum CanvasLayer {
-	Background = "background",
-}
-
 export default class Const {
 	/** このゲームのFPS */
 	public static readonly fps: number = 60;
@@ -15,4 +11,11 @@ export default class Const {
 
 	/** canvasを入れるdomのID */
 	public static readonly baseDomId = "body";
+}
+
+export enum KeyCode {
+	UP = "ArrowUp",
+	DOWN = "ArrowDown",
+	LEFT = "ArrowLeft",
+	RIGHT = "ArrowRight",
 }

@@ -1,3 +1,7 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { Loader } from "pixi.js";
 import Stats from "stats.js";
 
 export default class DebugManager {
@@ -8,6 +12,7 @@ export default class DebugManager {
 		return Promise.all([
 			// fps表示用ライブラリ
 			this.setStats(),
+			this.setProcessLogs(),
 		]).then();
 	}
 
@@ -22,6 +27,19 @@ export default class DebugManager {
 		this.stats = new Stats();
 		this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
 		document.body.appendChild(this.stats.dom);
+		return Promise.resolve();
+	}
+
+	private static setProcessLogs(): Promise<void> {
+		// Loader.shared.onStart.add(loader => console.info("onStart"));
+		Loader.shared.onProgress.add((_loader: any, resource: { name: any }) =>
+			console.info("loading...", `[${resource.name}]`)
+		);
+		// Loader.shared.onLoad.add((loader, resource) => console.info("load"));
+		Loader.shared.onComplete.add((_loader: any, resources: any) => console.info("complete!!! for ", resources));
+		Loader.shared.onError.add((error: any, _loader: any, _resource: any) => {
+			throw error;
+		});
 		return Promise.resolve();
 	}
 }

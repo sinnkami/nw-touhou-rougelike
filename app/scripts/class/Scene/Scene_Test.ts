@@ -10,7 +10,6 @@ export default class Scene_Test extends Scene_Base {
 		super.startScene();
 
 		const PATH = "assets/images/test.png";
-		console.log(PATH);
 
 		const mapData: number[][] = [];
 
@@ -28,7 +27,7 @@ export default class Scene_Test extends Scene_Base {
 
 	public updateScene(): void {
 		this.renderList.forEach(render => {
-			return render.update.bind(render);
+			render.update();
 		});
 
 		return;
