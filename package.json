@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "lokijs": "^1.5.11",
-    "pixi.js": "^6.0.4"
+    "pixi.js": "^6.0.4",
+    "rot-js": "^2.1.5"
   }
 }
