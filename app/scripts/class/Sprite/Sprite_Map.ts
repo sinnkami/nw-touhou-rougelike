@@ -36,7 +36,10 @@ export default class Sprite_Map extends Sprite_Base {
 	 */
 	public update(x: number, y: number): void {
 		super.update(x, y);
-		this.move(x, y);
+
+		const speed = 32;
+		this.move(x * speed, y * speed);
+
 		return;
 	}
 

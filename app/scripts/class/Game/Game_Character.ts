@@ -3,8 +3,6 @@ import { Map } from "../Const";
 import GameManager from "../GameManager";
 import { Game_Base } from "./Game_Base";
 
-const MOVE_QUANTITY = 1;
-
 export default class Game_Character extends Game_Base {
 	private x: number;
 	private y: number;
@@ -58,10 +56,8 @@ export default class Game_Character extends Game_Base {
 
 	public canMove(x: number, y: number): boolean {
 		const map = GameManager.map.getMapData();
-		if (!map[this.y + y]) {
-			return false;
-		}
-		console.log(this.x, this.y, map[this.y][this.x]);
+		if (!map[this.y + y]) return false;
+
 		return map[this.y + y][this.x + x] === Map.Road;
 	}
 }
