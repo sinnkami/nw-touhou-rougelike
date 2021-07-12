@@ -4,6 +4,7 @@ import Const from "./Const";
 import Game_Input from "./Game/Game_Input";
 import { Game_Loop } from "./Game/Game_Loop";
 import { Game_Map } from "./Game/Game_Map";
+import Game_Player from "./Game/Game_Player";
 
 export default class GameManager {
 	private static canvas: Canvas;
@@ -11,6 +12,7 @@ export default class GameManager {
 	public static map: Game_Map = new Game_Map();
 	public static loop: Game_Loop = new Game_Loop();
 	public static input: Game_Input = new Game_Input();
+	public static player: Game_Player = new Game_Player();
 
 	public static init(): Promise<void> {
 		return Promise.all([this.setCanvas()]).then();

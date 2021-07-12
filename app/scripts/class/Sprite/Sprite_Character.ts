@@ -7,23 +7,25 @@ import { KeyCode } from "../Const";
 
 const SPRITE_NAME = "map";
 
-export default class Sprite_Map extends Sprite_Base {
-	public constructor(path: string, mapData: number[][]) {
+export default class Sprite_Character extends Sprite_Base {
+	public constructor(path: string, x: number, y: number) {
 		const container = new Container();
 		super(SPRITE_NAME, container);
+		console.log("aaa");
 
 		ResourceManager.getTexture(path).then(texture => {
 			const sheet = new Spritesheet(texture, json);
 			sheet.parse(() => {
-				mapData.forEach((xList: number[], y: number) => {
-					xList.forEach((chip: number, x: number) => {
-						const texture = sheet.textures[chip.toString()];
-						const sprite = new Sprite(texture);
-						sprite.setTransform(x * sprite.width, y * sprite.height);
+				// TODO: ちゃんとキャラ画像へ
+				const texture = sheet.textures["99"];
 
-						container.addChild(sprite);
-					});
-				});
+				console.log(texture);
+
+				const sprite = new Sprite(texture);
+				console.log(sprite);
+				sprite.setTransform(x * sprite.width, y * sprite.height);
+
+				container.addChild(sprite);
 			});
 		});
 

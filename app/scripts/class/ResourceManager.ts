@@ -9,17 +9,15 @@ export default class ResourceManager {
 		const loader = this.getLoader();
 
 		const resources = loader.resources[path];
-		if (!resources) {
-			return this.loadResources([path]).then(() => this.getTexture(path));
-		}
 
 		// TODO:あとでエラー内容設定
-		if (!resources.isComplete || !resources.texture) return this.getTexture(path);
+		if (!resources) throw new Error("not load");
+		if (!resources.isComplete || !resources.texture) throw new Error("not load");
 
 		return Promise.resolve(resources.texture);
 	}
 
-	private static loadResources(paths: string[]): Promise<void> {
+	public static loadResources(paths: string[]): Promise<void> {
 		return new Promise<void>(resolve => {
 			const loader = this.getLoader();
 

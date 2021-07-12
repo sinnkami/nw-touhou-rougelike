@@ -19,3 +19,8 @@ export enum KeyCode {
 	LEFT = "ArrowLeft",
 	RIGHT = "ArrowRight",
 }
+
+export enum Map {
+	Road = 1,
+	Wall = 0,
+}

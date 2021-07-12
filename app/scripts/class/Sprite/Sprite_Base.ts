@@ -31,7 +31,7 @@ export default class Sprite_Base {
 		return this.getSprite().height;
 	}
 
-	public update(): void {
+	public update(x: number, y: number): void {
 		return;
 	}
 

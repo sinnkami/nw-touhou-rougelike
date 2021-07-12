@@ -19,6 +19,26 @@
 				"w": 32,
 				"h": 32
 			}
+		},
+		"99": {
+			"frame": {
+				"x": 32,
+				"y": 32,
+				"w": 32,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 32,
+				"y": 32,
+				"w": 32,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 32,
+				"h": 32
+			}
 		}
 	},
 	"meta": {
