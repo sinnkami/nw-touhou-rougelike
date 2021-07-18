@@ -1,5 +1,5 @@
 import { ICharacterPosition } from "../../definitions/class/Game/IGameCharacter";
-import { Map } from "../Const";
+import { MapChip } from "../Const";
 import GameManager from "../GameManager";
 import { Game_Base } from "./Game_Base";
 
@@ -55,9 +55,11 @@ export default class Game_Character extends Game_Base {
 	}
 
 	public canMove(x: number, y: number): boolean {
-		const map = GameManager.map.getMapData();
-		if (!map[this.y + y]) return false;
+		const mapDataList = GameManager.map.getMapData();
+		const mapData = mapDataList.find(v => v.x === x + this.x && v.y === y + this.y);
+		console.log(mapData);
+		if (!mapData) return false;
 
-		return map[this.y + y][this.x + x] === Map.Road;
+		return mapData.chip === MapChip.Road;
 	}
 }

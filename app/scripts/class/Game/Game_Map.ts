@@ -1,11 +1,14 @@
 import { Room } from "rot-js/lib/map/features";
 import Uniform from "rot-js/lib/map/uniform";
 import { ICharacterPosition } from "../../definitions/class/Game/IGameCharacter";
+import { IGameMapData } from "../../definitions/class/Game/IGameMap";
+import { IRoomSize, ISize } from "../../definitions/IConstruct";
+import Const, { MapChip } from "../Const";
 import { Game_Base } from "./Game_Base";
 
 export class Game_Map extends Game_Base {
 	private rooms: Room[] = [];
-	private mapData: number[][] = [];
+	private mapData: IGameMapData[] = [];
 
 	public constructor() {
 		super();
@@ -16,7 +19,7 @@ export class Game_Map extends Game_Base {
 		this.mapData = [];
 	}
 
-	public getMapData(): number[][] {
+	public getMapData(): IGameMapData[] {
 		return this.mapData;
 	}
 
@@ -28,30 +31,58 @@ export class Game_Map extends Game_Base {
 	public getRandomPosition(): ICharacterPosition {
 		const room = this.getRandomRoom();
 
-		const x = Math.floor(Math.random() * (room.getLeft() + 1 - room.getRight())) + room.getRight();
-		const y = Math.floor(Math.random() * (room.getTop() + 1 - room.getBottom())) + room.getBottom();
+		const x =
+			Math.floor(Math.random() * (room.getLeft() + 1 - room.getRight())) + room.getRight() + this.WALL_ZONE_SIZE;
+		const y =
+			Math.floor(Math.random() * (room.getTop() + 1 - room.getBottom())) + room.getBottom() + this.WALL_ZONE_SIZE;
 
 		return { x, y };
 	}
 
-	public setMapData(mapData: number[][]): void {
+	public setMapData(mapData: IGameMapData[]): void {
 		this.mapData = mapData;
 	}
 
-	public createMapData(): number[][] {
-		const map = new Uniform(200, 200, {
-			roomWidth: [5, 26],
-			roomHeight: [5, 20],
+	public createMapData(): IGameMapData[] {
+		const map = new Uniform(this.MAP_SIZE.width, this.MAP_SIZE.height, {
+			roomWidth: this.ROOM_SIZE.width,
+			roomHeight: this.ROOM_SIZE.height,
 		});
-		this.rooms = map.getRooms();
 
-		const mapData: number[][] = [];
-		map.create((x, y, content) => {
-			if (!mapData[y]) {
-				mapData[y] = [];
+		const mapData: IGameMapData[] = []; //Array.from({ length: this.WALL_ZONE_SIZE * 2 + this.MAP_SIZE.height }, () =>Array.from({ length: this.WALL_ZONE_SIZE * 2 + this.MAP_SIZE.width }, () => MapChip.Wall));
+		for (let y = 0; y <= this.MAP_SIZE.height + this.WALL_ZONE_SIZE * 2; y++) {
+			for (let x = 0; x <= this.MAP_SIZE.width + this.WALL_ZONE_SIZE * 2; x++) {
+				mapData.push({
+					x,
+					y,
+					chip: MapChip.Wall,
+				});
 			}
-			mapData[y][x] = content ? 0 : 1;
+		}
+
+		map.create((x, y, content) => {
+			x += this.WALL_ZONE_SIZE;
+			y += this.WALL_ZONE_SIZE;
+			const map = mapData.find(v => v.x === x && v.y === y);
+			if (map) {
+				map.chip = content ? MapChip.Wall : MapChip.Road;
+			}
 		});
+		console.log(mapData.length);
+
+		this.rooms = map.getRooms();
 		return mapData;
+	}
+
+	private get WALL_ZONE_SIZE(): number {
+		return Const.wallZoneSize;
+	}
+
+	private get MAP_SIZE(): ISize {
+		return Const.mapSize;
+	}
+
+	private get ROOM_SIZE(): IRoomSize {
+		return Const.roomSize;
 	}
 }

@@ -1,3 +1,4 @@
+import { IGameMapData } from "../../definitions/class/Game/IGameMap";
 import Const, { KeyCode } from "../Const";
 import GameManager from "../GameManager";
 import ResourceManager from "../ResourceManager";
@@ -14,7 +15,7 @@ export default class Scene_Test extends Scene_Base {
 		const PATH = "assets/images/test.png";
 
 		ResourceManager.loadResources([PATH]).then(() => {
-			const mapData: number[][] = GameManager.map.createMapData();
+			const mapData: IGameMapData[] = GameManager.map.createMapData();
 
 			// for (let y = 0; y <= 640 / 32; y++) {
 			// 	if (!Array.isArray(mapData[y])) {
@@ -44,7 +45,6 @@ export default class Scene_Test extends Scene_Base {
 
 			this.renderList.push(() => {
 				const GameInput = GameManager.input;
-
 				const speed = 1;
 				if (GameInput.isPushedKey(KeyCode.UP)) {
 					const key = GameInput.getKey(KeyCode.UP);
