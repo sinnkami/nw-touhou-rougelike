@@ -12,9 +12,10 @@ export default class Scene_Test extends Scene_Base {
 	public startScene(): void {
 		super.startScene();
 
-		const PATH = "assets/images/test.png";
+		const MAP_PATH = "assets/images/map/chip.png";
+		const CHARACTER_PATH = "assets/images/character/ReimuHakurei.png";
 
-		ResourceManager.loadResources([PATH]).then(() => {
+		ResourceManager.loadResources([MAP_PATH, CHARACTER_PATH]).then(async () => {
 			const mapData: IGameMapData[] = GameManager.map.createMapData();
 
 			// for (let y = 0; y <= 640 / 32; y++) {
@@ -27,12 +28,16 @@ export default class Scene_Test extends Scene_Base {
 			// }
 
 			GameManager.map.setMapData(mapData);
-			const MapRender = new Sprite_Map(PATH, mapData);
+			const MapRender = new Sprite_Map();
+			await MapRender.init(MAP_PATH, mapData);
 
 			const GamePlayer = GameManager.player;
 			const position = GameManager.map.getRandomPosition();
 			GamePlayer.setPosition(position.x, position.y);
-			const PlayerRender = new Sprite_Character(PATH, position.x, position.y);
+
+			const PlayerRender = new Sprite_Character();
+			await PlayerRender.init(CHARACTER_PATH, 0, 0);
+			// await PlayerRender.init(CHARACTER_PATH, position.x, position.y);
 
 			// MEMO: キャラを中心に表示する
 			// MEMO: 現在地と中心点の差分を見て調節を行う
@@ -40,8 +45,8 @@ export default class Scene_Test extends Scene_Base {
 				Const.size.width / 32 / 2 - GameManager.player.getPosition().x - 1,
 				Const.size.height / 32 / 2 - GameManager.player.getPosition().y,
 			];
-			PlayerRender.update(x, y);
-			MapRender.update(x, y);
+			PlayerRender.move(Const.size.width / 32 / 2 - 1, Const.size.height / 32 / 2);
+			MapRender.move(x, y);
 
 			this.renderList.push(() => {
 				const GameInput = GameManager.input;
@@ -51,6 +56,7 @@ export default class Scene_Test extends Scene_Base {
 					const flag = GamePlayer.move(0, -speed);
 					if (flag) {
 						MapRender.update(0, speed);
+						PlayerRender.update(0, speed);
 					}
 				}
 
@@ -59,6 +65,7 @@ export default class Scene_Test extends Scene_Base {
 					const flag = GamePlayer.move(0, speed);
 					if (flag) {
 						MapRender.update(0, -speed);
+						PlayerRender.update(0, -speed);
 					}
 				}
 
@@ -67,6 +74,7 @@ export default class Scene_Test extends Scene_Base {
 					const flag = GamePlayer.move(speed, 0);
 					if (flag) {
 						MapRender.update(-speed, 0);
+						PlayerRender.update(-speed, 0);
 					}
 				}
 
@@ -75,9 +83,11 @@ export default class Scene_Test extends Scene_Base {
 					const flag = GamePlayer.move(-speed, 0);
 					if (flag) {
 						MapRender.update(speed, 0);
+						PlayerRender.update(speed, 0);
 					}
 				}
 			});
+			this.renderList.push(() => PlayerRender.animation());
 		});
 	}
 

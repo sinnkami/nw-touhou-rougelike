@@ -1,34 +1,45 @@
 import { Container } from "pixi.js";
 
 export default class Sprite_Base {
-	public name: string;
-	protected sprite: Container;
+	public name = "";
+	private sprite?: Container;
 
-	public constructor(name: string, content: Container) {
-		this.name = name;
+	protected setSprite(content: Container): void {
 		this.sprite = content;
 	}
 
 	protected get x(): number {
-		return this.getSprite().x;
+		const sprite = this.getSprite();
+		if (!sprite) return 0;
+
+		return sprite.x;
 	}
 
 	protected get y(): number {
-		return this.getSprite().y;
+		const sprite = this.getSprite();
+		if (!sprite) return 0;
+
+		return sprite.y;
 	}
 
 	/**
 	 * 横幅
 	 */
 	protected get width(): number {
-		return this.getSprite().width;
+		const sprite = this.getSprite();
+		if (!sprite) return 0;
+
+		return sprite.width;
 	}
 
 	/**
 	 * 高さ
 	 */
 	protected get height(): number {
-		return this.getSprite().height;
+		const sprite = this.getSprite();
+		if (!sprite) return 0;
+
+		return sprite.height;
 	}
 
 	public update(x: number, y: number): void {
@@ -37,12 +48,21 @@ export default class Sprite_Base {
 
 	public destroy(): void {
 		const sprite = this.getSprite();
+		if (!sprite) return;
+
 		sprite.destroy();
 
 		return;
 	}
 
-	public getSprite(): Container {
+	public clearPosition(): void {
+		const sprite = this.getSprite();
+		if (!sprite) return;
+
+		sprite.x = 0;
+		sprite.y = 0;
+	}
+	public getSprite(): Container | undefined {
 		return this.sprite;
 	}
 }

@@ -1,3 +1,5 @@
+import "babel-polyfill";
+
 import DebugManager from "./class/DebugManager";
 import ErrorManager from "./class/ErrorManager";
 import GameManager from "./class/GameManager";

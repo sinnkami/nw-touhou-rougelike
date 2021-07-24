@@ -1,3 +1,9 @@
+export interface IKeyInfoDict {
+	[keyCode: string]: IKeyInfo;
+}
+
 export interface IKeyInfo {
-	[keyCode: string]: number;
+	keyCode: string;
+	frame: number;
+	interval?: number;
 }
