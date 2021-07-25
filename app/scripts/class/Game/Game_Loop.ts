@@ -29,6 +29,7 @@ export class Game_Loop extends Game_Base {
 		DebugManager.updateStats();
 
 		GameManager.getCanvas().update();
+		GameManager.input.update();
 		SceneManager.updateScene();
 
 		requestAnimationFrame(this.gameLoop.bind(this));

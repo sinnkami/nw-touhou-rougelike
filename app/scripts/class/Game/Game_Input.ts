@@ -22,41 +22,39 @@ export default class Game_Input extends Game_Base {
 		this.input[keyInfo.keyCode] = keyInfo;
 	}
 
+	public deleteKey(keyCode: string): void {
+		delete this.input[keyCode];
+	}
+
+	public hasKey(keyCode: string): boolean {
+		const key = this.getKey(keyCode);
+		return !!key;
+	}
+
 	public isPushedKey(keyCode: string): boolean {
-		return !!this.input[keyCode];
+		return this.hasKey(keyCode);
+	}
+
+	public update(): void {
+		const keyList = Object.values(this.getKeys());
+		keyList.forEach(v => (v.frame += 1));
 	}
 
 	private setListener(): void {
 		document.addEventListener("keydown", ev => {
-			const key = this.getKey(ev.key) || {
-				keyCode: ev.key,
-				frame: 0,
-			};
-			if (!key.interval) {
-				key.interval = setInterval(this.frameCount.bind(this), 1000 / Const.fps, ev.key);
-				this.setKey(key);
+			if (!this.hasKey(ev.key)) {
+				this.setKey({
+					keyCode: ev.key,
+					frame: 0,
+				});
 			}
 			ev.preventDefault();
-			// console.log(e.timeStamp);
-			// if (typeof this.input[e.key] !== "number") {
-			// 	this.input[e.key] = 0;
-			// }
-			// this.input[e.key] += 1;
 		});
 		document.addEventListener("keyup", ev => {
-			const key = this.getKey(ev.key);
-			if (key && key.interval) {
-				clearInterval(key.interval);
-				delete this.input[key.keyCode];
+			if (this.hasKey(ev.key)) {
+				this.deleteKey(ev.key);
 			}
+			ev.preventDefault();
 		});
-	}
-
-	private frameCount(keyCode: string): void {
-		console.log("count: ", keyCode);
-		const key = this.getKey(keyCode);
-		if (key) {
-			key.frame += 1;
-		}
 	}
 }

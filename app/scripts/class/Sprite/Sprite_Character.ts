@@ -26,10 +26,6 @@ export default class Sprite_Character extends Sprite_Base {
 		sprite.width = 32;
 		sprite.height = 32;
 
-		console.log(sheet);
-		console.log(sprite);
-		console.log(texture);
-
 		sprite.animationSpeed = 0.25;
 
 		sprite.play();
@@ -65,24 +61,22 @@ export default class Sprite_Character extends Sprite_Base {
 		const keyRight = GameInput.getKey(KeyCode.RIGHT);
 		const keyLeft = GameInput.getKey(KeyCode.LEFT);
 
-		console.log(keyUp);
-
-		if (keyUp && keyUp.frame === 0) {
+		if (keyUp && keyUp.frame === 1) {
 			sprite.textures = sheet.animations["up"];
 			sprite.play();
 			return;
 		}
-		if (keyDown && keyDown.frame === 0) {
+		if (keyDown && keyDown.frame === 1) {
 			sprite.textures = sheet.animations["down"];
 			sprite.play();
 			return;
 		}
-		if (keyRight && keyRight.frame === 0) {
+		if (keyRight && keyRight.frame === 1) {
 			sprite.textures = sheet.animations["right"];
 			sprite.play();
 			return;
 		}
-		if (keyLeft && keyLeft.frame === 0) {
+		if (keyLeft && keyLeft.frame === 1) {
 			sprite.textures = sheet.animations["left"];
 			sprite.play();
 			return;
