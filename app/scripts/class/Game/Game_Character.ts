@@ -55,11 +55,9 @@ export default class Game_Character extends Game_Base {
 	}
 
 	public canMove(x: number, y: number): boolean {
-		const mapDataList = GameManager.map.getMapData();
-		const mapData = mapDataList.find(v => v.x === x + this.x && v.y === y + this.y);
-		console.log(mapData);
-		if (!mapData) return false;
+		const mapChip = GameManager.map.getMapChip(this.x + x, this.y + y);
+		if (!mapChip) return false;
 
-		return mapData.chip === MapChip.Road;
+		return mapChip.chip === MapChip.Road;
 	}
 }

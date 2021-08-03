@@ -62,6 +62,7 @@ export default class Sprite_Base {
 		sprite.x = 0;
 		sprite.y = 0;
 	}
+
 	public getSprite(): Container | undefined {
 		return this.sprite;
 	}

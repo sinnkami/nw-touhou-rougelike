@@ -1,5 +1,5 @@
 import { IGameMapData } from "../../definitions/class/Game/IGameMap";
-import Const, { KeyCode } from "../Const";
+import Const, { EventName, KeyCode } from "../Const";
 import GameManager from "../GameManager";
 import ResourceManager from "../ResourceManager";
 import Sprite_Character from "../Sprite/Sprite_Character";
@@ -16,7 +16,7 @@ export default class Scene_Test extends Scene_Base {
 		const CHARACTER_PATH = "assets/images/character/ReimuHakurei.png";
 
 		ResourceManager.loadResources([MAP_PATH, CHARACTER_PATH]).then(async () => {
-			const mapData: IGameMapData[] = GameManager.map.createMapData();
+			GameManager.map.createMapData()
 
 			// for (let y = 0; y <= 640 / 32; y++) {
 			// 	if (!Array.isArray(mapData[y])) {
@@ -27,9 +27,8 @@ export default class Scene_Test extends Scene_Base {
 			// 	}
 			// }
 
-			GameManager.map.setMapData(mapData);
 			const MapRender = new Sprite_Map();
-			await MapRender.init(MAP_PATH, mapData);
+			await MapRender.init(MAP_PATH);
 
 			const GamePlayer = GameManager.player;
 			const position = GameManager.map.getRandomPosition();
@@ -84,6 +83,15 @@ export default class Scene_Test extends Scene_Base {
 					if (flag) {
 						MapRender.update(speed, 0);
 						PlayerRender.update(speed, 0);
+					}
+				}
+
+				if (GameInput.isPushedKey(KeyCode.Select)) {
+					const key = GameInput.getKey(KeyCode.Select);
+					const position = GamePlayer.getPosition();
+					const eventChip = GameManager.map.getEventMapChip(position.x, position.y);
+					if (eventChip) {
+						console.log(eventChip.name, eventChip.event);
 					}
 				}
 			});

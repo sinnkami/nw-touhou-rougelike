@@ -5,3 +5,9 @@ export interface IGameMapData {
 	y: number;
 	chip: MapChip;
 }
+
+export interface IGameEventMapData extends IGameMapData {
+	name: string;
+	//TODO: クラスを指定
+	event?: any;
+}

@@ -31,9 +31,15 @@ export enum KeyCode {
 	DOWN = "ArrowDown",
 	LEFT = "ArrowLeft",
 	RIGHT = "ArrowRight",
+	Select = "Enter",
 }
 
 export enum MapChip {
 	Road = "road",
 	Wall = "wall",
+	Stairs = "stairs",
+}
+
+export enum EventName {
+	Stairs = "stairs",
 }
