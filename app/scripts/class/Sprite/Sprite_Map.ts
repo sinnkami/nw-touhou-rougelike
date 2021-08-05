@@ -26,7 +26,7 @@ export default class Sprite_Map extends Sprite_Base {
 
 		await new Promise(resolve => sheet.parse(() => resolve(null)));
 
-		baseMapData.forEach((map) => {
+		baseMapData.forEach(map => {
 			const texture = sheet.textures[map.chip.toString()];
 			const sprite = new Sprite(texture);
 			sprite.setTransform(map.x * sprite.width, map.y * sprite.height);
@@ -34,7 +34,7 @@ export default class Sprite_Map extends Sprite_Base {
 			container.addChild(sprite);
 		});
 
-		eventMapData.forEach((map) => {
+		eventMapData.forEach(map => {
 			const texture = sheet.textures[map.chip.toString()];
 			const sprite = new Sprite(texture);
 			sprite.name = map.name;

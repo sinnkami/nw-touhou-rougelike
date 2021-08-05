@@ -27,10 +27,10 @@ export default class Const {
 }
 
 export enum KeyCode {
-	UP = "ArrowUp",
-	DOWN = "ArrowDown",
-	LEFT = "ArrowLeft",
-	RIGHT = "ArrowRight",
+	Up = "ArrowUp",
+	Down = "ArrowDown",
+	Left = "ArrowLeft",
+	Right = "ArrowRight",
 	Select = "Enter",
 }
 

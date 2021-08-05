@@ -16,7 +16,7 @@ export default class Scene_Test extends Scene_Base {
 		const CHARACTER_PATH = "assets/images/character/ReimuHakurei.png";
 
 		ResourceManager.loadResources([MAP_PATH, CHARACTER_PATH]).then(async () => {
-			GameManager.map.createMapData()
+			GameManager.map.createMapData();
 
 			// for (let y = 0; y <= 640 / 32; y++) {
 			// 	if (!Array.isArray(mapData[y])) {
@@ -50,8 +50,8 @@ export default class Scene_Test extends Scene_Base {
 			this.renderList.push(() => {
 				const GameInput = GameManager.input;
 				const speed = 1;
-				if (GameInput.isPushedKey(KeyCode.UP)) {
-					const key = GameInput.getKey(KeyCode.UP);
+				if (GameInput.isPushedKey(KeyCode.Up)) {
+					const key = GameInput.getKey(KeyCode.Up);
 					const flag = GamePlayer.move(0, -speed);
 					if (flag) {
 						MapRender.update(0, speed);
@@ -59,8 +59,8 @@ export default class Scene_Test extends Scene_Base {
 					}
 				}
 
-				if (GameInput.isPushedKey(KeyCode.DOWN)) {
-					const key = GameInput.getKey(KeyCode.DOWN);
+				if (GameInput.isPushedKey(KeyCode.Down)) {
+					const key = GameInput.getKey(KeyCode.Down);
 					const flag = GamePlayer.move(0, speed);
 					if (flag) {
 						MapRender.update(0, -speed);
@@ -68,8 +68,8 @@ export default class Scene_Test extends Scene_Base {
 					}
 				}
 
-				if (GameInput.isPushedKey(KeyCode.RIGHT)) {
-					const key = GameInput.getKey(KeyCode.RIGHT);
+				if (GameInput.isPushedKey(KeyCode.Right)) {
+					const key = GameInput.getKey(KeyCode.Right);
 					const flag = GamePlayer.move(speed, 0);
 					if (flag) {
 						MapRender.update(-speed, 0);
@@ -77,8 +77,8 @@ export default class Scene_Test extends Scene_Base {
 					}
 				}
 
-				if (GameInput.isPushedKey(KeyCode.LEFT)) {
-					const key = GameInput.getKey(KeyCode.LEFT);
+				if (GameInput.isPushedKey(KeyCode.Left)) {
+					const key = GameInput.getKey(KeyCode.Left);
 					const flag = GamePlayer.move(-speed, 0);
 					if (flag) {
 						MapRender.update(speed, 0);

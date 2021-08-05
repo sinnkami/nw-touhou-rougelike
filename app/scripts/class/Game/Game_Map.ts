@@ -29,7 +29,7 @@ export class Game_Map extends Game_Base {
 		return this.eventMap;
 	}
 
-	public getMapChip(x:number, y: number): IGameMapData | undefined {
+	public getMapChip(x: number, y: number): IGameMapData | undefined {
 		const mapDataList = this.getMapData();
 		return mapDataList.find(v => v.x === x && v.y === y);
 	}
@@ -58,7 +58,6 @@ export class Game_Map extends Game_Base {
 		} else {
 			return this.getRandomPosition();
 		}
-
 	}
 
 	public setMapData(mapData: IGameMapData[]): void {
@@ -99,7 +98,7 @@ export class Game_Map extends Game_Base {
 	}
 
 	public setStairs(): void {
-		const {x, y} = this.getRandomPosition();
+		const { x, y } = this.getRandomPosition();
 		const mapChip = this.getMapChip(x, y);
 		if (!mapChip || this.getEventMapChip(x, y)) {
 			return this.setStairs();

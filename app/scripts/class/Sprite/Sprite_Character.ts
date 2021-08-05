@@ -7,8 +7,16 @@ import Const, { KeyCode } from "../Const";
 
 const SPRITE_NAME = "character";
 
+export enum CharacterAnimation {
+	Up = "up",
+	Down = "down",
+	Right = "right",
+	Left = "left",
+}
+
 export default class Sprite_Character extends Sprite_Base {
 	private sheet?: Spritesheet;
+	private runingAnimation: CharacterAnimation = CharacterAnimation.Down;
 
 	public async init(path: string, x: number, y: number): Promise<void> {
 		const container = new Container();
@@ -56,35 +64,38 @@ export default class Sprite_Character extends Sprite_Base {
 
 		const GameInput = GameManager.input;
 
-		const keyUp = GameInput.getKey(KeyCode.UP);
-		const keyDown = GameInput.getKey(KeyCode.DOWN);
-		const keyRight = GameInput.getKey(KeyCode.RIGHT);
-		const keyLeft = GameInput.getKey(KeyCode.LEFT);
-
-		if (keyUp && keyUp.frame === 1) {
-			sprite.textures = sheet.animations["up"];
-			sprite.play();
-			return;
-		}
-		if (keyDown && keyDown.frame === 1) {
-			sprite.textures = sheet.animations["down"];
-			sprite.play();
-			return;
-		}
-		if (keyRight && keyRight.frame === 1) {
-			sprite.textures = sheet.animations["right"];
-			sprite.play();
-			return;
-		}
-		if (keyLeft && keyLeft.frame === 1) {
-			sprite.textures = sheet.animations["left"];
-			sprite.play();
-			return;
-		}
+		const keyUp = GameInput.getKey(KeyCode.Up);
+		const keyDown = GameInput.getKey(KeyCode.Down);
+		const keyRight = GameInput.getKey(KeyCode.Right);
+		const keyLeft = GameInput.getKey(KeyCode.Left);
 
 		if (!(keyUp || keyDown || keyLeft || keyRight)) {
 			sprite.gotoAndStop(1);
+		} else {
+			sprite.play();
 		}
+
+		if (keyUp && !this.sameAnimation(CharacterAnimation.Up)) {
+			sprite.textures = sheet.animations[CharacterAnimation.Up];
+			this.runingAnimation = CharacterAnimation.Up;
+			return;
+		}
+		if (keyDown && !this.sameAnimation(CharacterAnimation.Down)) {
+			sprite.textures = sheet.animations[CharacterAnimation.Down];
+			this.runingAnimation = CharacterAnimation.Down;
+			return;
+		}
+		if (keyRight && !this.sameAnimation(CharacterAnimation.Right)) {
+			sprite.textures = sheet.animations[CharacterAnimation.Right];
+			this.runingAnimation = CharacterAnimation.Right;
+			return;
+		}
+		if (keyLeft && !this.sameAnimation(CharacterAnimation.Left)) {
+			sprite.textures = sheet.animations[CharacterAnimation.Left];
+			this.runingAnimation = CharacterAnimation.Left;
+			return;
+		}
+
 		return;
 	}
 
@@ -114,5 +125,9 @@ export default class Sprite_Character extends Sprite_Base {
 		if (!sprite) return;
 
 		return sprite as AnimatedSprite;
+	}
+
+	private sameAnimation(animation: CharacterAnimation): boolean {
+		return this.runingAnimation === animation;
 	}
 }
