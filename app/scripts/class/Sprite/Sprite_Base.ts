@@ -1,11 +1,25 @@
-import { Container } from "pixi.js";
+import { Container, Spritesheet } from "pixi.js";
+import GameManager from "../GameManager";
 
 export default class Sprite_Base {
 	public name = "";
 	private sprite?: Container;
+	private sheet?: Spritesheet;
 
-	protected setSprite(content: Container): void {
-		this.sprite = content;
+	protected nextUpdateFrame = 0;
+
+	protected updateFunc?: (frame: number) => void;
+
+	protected setSprite(sprite: Container): void {
+		this.sprite = sprite;
+	}
+
+	protected setSheet(sheet: Spritesheet): void {
+		this.sheet = sheet;
+	}
+
+	public get isAnimation(): boolean {
+		return GameManager.loop.frameCount <= this.nextUpdateFrame;
 	}
 
 	protected get x(): number {
@@ -42,7 +56,9 @@ export default class Sprite_Base {
 		return sprite.height;
 	}
 
-	public update(x: number, y: number): void {
+	public update(): void {
+		const func = this.getUpdateFunc();
+		func(GameManager.loop.frameCount);
 		return;
 	}
 
@@ -65,5 +81,29 @@ export default class Sprite_Base {
 
 	public getSprite(): Container | undefined {
 		return this.sprite;
+	}
+
+	public getSheet(): Spritesheet | undefined {
+		return this.sheet;
+	}
+
+	protected getUpdateFunc(): (frame: number) => void {
+		let func = this.updateFunc;
+		if (!func) {
+			func = () => {
+				return;
+			};
+		}
+		return func;
+	}
+
+	protected setUpdateFunc(func: (frame: number) => void): void {
+		this.updateFunc = func;
+	}
+
+	protected deleteUpdateFunc(): void {
+		this.updateFunc = () => {
+			return;
+		};
 	}
 }

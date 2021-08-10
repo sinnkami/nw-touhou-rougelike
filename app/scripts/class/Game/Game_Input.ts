@@ -35,6 +35,23 @@ export default class Game_Input extends Game_Base {
 		return this.hasKey(keyCode);
 	}
 
+	public getKeyOfLowestFrame(keyList?: (IKeyInfo | undefined)[]): IKeyInfo | undefined {
+		if (!keyList) {
+			keyList = Object.values(this.getKeys());
+		}
+
+		const key = keyList.reduce((a, b) => {
+			if (a === undefined && b) return b;
+			if (a && b === undefined) return a;
+			if (a && b) {
+				return a.frame < b.frame ? a : b;
+			}
+			return undefined;
+		});
+
+		return key;
+	}
+
 	public update(): void {
 		const keyList = Object.values(this.getKeys());
 		keyList.forEach(v => (v.frame += 1));

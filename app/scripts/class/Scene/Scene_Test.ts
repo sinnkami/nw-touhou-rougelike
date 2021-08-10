@@ -27,16 +27,9 @@ export default class Scene_Test extends Scene_Base {
 			// 	}
 			// }
 
-			const MapRender = new Sprite_Map();
-			await MapRender.init(MAP_PATH);
-
 			const GamePlayer = GameManager.player;
 			const position = GameManager.map.getRandomPosition();
 			GamePlayer.setPosition(position.x, position.y);
-
-			const PlayerRender = new Sprite_Character();
-			await PlayerRender.init(CHARACTER_PATH, 0, 0);
-			// await PlayerRender.init(CHARACTER_PATH, position.x, position.y);
 
 			// MEMO: キャラを中心に表示する
 			// MEMO: 現在地と中心点の差分を見て調節を行う
@@ -44,46 +37,46 @@ export default class Scene_Test extends Scene_Base {
 				Const.size.width / 32 / 2 - GameManager.player.getPosition().x - 1,
 				Const.size.height / 32 / 2 - GameManager.player.getPosition().y,
 			];
-			PlayerRender.move(Const.size.width / 32 / 2 - 1, Const.size.height / 32 / 2);
-			MapRender.move(x, y);
+			const MapRender = new Sprite_Map();
+			await MapRender.init(MAP_PATH, x, y);
+			this.renderList.push(() => MapRender.update());
+
+			const PlayerRender = new Sprite_Character();
+			await PlayerRender.init(CHARACTER_PATH, Const.size.width / 32 / 2 - 1, Const.size.height / 32 / 2);
+			this.renderList.push(() => PlayerRender.update());
 
 			this.renderList.push(() => {
 				const GameInput = GameManager.input;
 				const speed = 1;
+
+				let x = 0;
+				let y = 0;
+
+				console.log(PlayerRender.isAnimation, MapRender.isAnimation);
+				if (PlayerRender.isAnimation || MapRender.isAnimation) {
+					return;
+				}
+
+				// TODO: ローグライクで斜め移動ってだめでは・・・？
 				if (GameInput.isPushedKey(KeyCode.Up)) {
-					const key = GameInput.getKey(KeyCode.Up);
-					const flag = GamePlayer.move(0, -speed);
-					if (flag) {
-						MapRender.update(0, speed);
-						PlayerRender.update(0, speed);
-					}
+					y -= speed;
 				}
 
 				if (GameInput.isPushedKey(KeyCode.Down)) {
-					const key = GameInput.getKey(KeyCode.Down);
-					const flag = GamePlayer.move(0, speed);
-					if (flag) {
-						MapRender.update(0, -speed);
-						PlayerRender.update(0, -speed);
-					}
+					y += speed;
 				}
 
 				if (GameInput.isPushedKey(KeyCode.Right)) {
-					const key = GameInput.getKey(KeyCode.Right);
-					const flag = GamePlayer.move(speed, 0);
-					if (flag) {
-						MapRender.update(-speed, 0);
-						PlayerRender.update(-speed, 0);
-					}
+					x += speed;
 				}
 
 				if (GameInput.isPushedKey(KeyCode.Left)) {
-					const key = GameInput.getKey(KeyCode.Left);
-					const flag = GamePlayer.move(-speed, 0);
-					if (flag) {
-						MapRender.update(speed, 0);
-						PlayerRender.update(speed, 0);
-					}
+					x -= speed;
+				}
+
+				const flag = GamePlayer.move(x, y);
+				if (flag) {
+					MapRender.move(x, y);
 				}
 
 				if (GameInput.isPushedKey(KeyCode.Select)) {
@@ -95,11 +88,11 @@ export default class Scene_Test extends Scene_Base {
 					}
 				}
 			});
-			this.renderList.push(() => PlayerRender.animation());
 		});
 	}
 
 	public updateScene(): void {
+		super.updateScene();
 		this.renderList.forEach(render => render());
 		return;
 	}
