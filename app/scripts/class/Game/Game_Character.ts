@@ -2,7 +2,9 @@ import { ICharacterPosition } from "../../definitions/class/Game/IGameCharacter"
 import { MapChip } from "../Const";
 import GameManager from "../GameManager";
 import { Game_Base } from "./Game_Base";
-
+/**
+ * ゲーム内に登場するキャラの現在情報を保持するクラス
+ */
 export default class Game_Character extends Game_Base {
 	private x: number;
 	private y: number;

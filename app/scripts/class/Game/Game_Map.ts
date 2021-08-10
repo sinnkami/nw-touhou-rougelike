@@ -7,6 +7,9 @@ import { IRoomSize, ISize } from "../../definitions/IConstruct";
 import Const, { EventName, MapChip } from "../Const";
 import { Game_Base } from "./Game_Base";
 
+/**
+ * ゲーム内マップに関する
+ */
 export class Game_Map extends Game_Base {
 	private rooms: Room[] = [];
 	private baseMap: IGameMapData[] = [];

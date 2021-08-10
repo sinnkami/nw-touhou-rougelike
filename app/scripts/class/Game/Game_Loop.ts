@@ -3,6 +3,9 @@ import GameManager from "../GameManager";
 import SceneManager from "../SceneManager";
 import { Game_Base } from "./Game_Base";
 
+/**
+ * ゲーム内処理に関するクラス
+ */
 export class Game_Loop extends Game_Base {
 	private isLoop = false;
 
