@@ -1,8 +1,22 @@
+/**
+ * エラーを出力するマネージャークラス
+ */
 export default class ErrorManager {
+	/**
+	 * 初期化処理
+	 * @returns Promise<void>
+	 */
 	public static init(): Promise<void> {
 		return Promise.all([]).then();
 	}
 
+	/**
+	 * 指定されたエラーを取得
+	 * TODO: 設定されいている箇所が少ないので設定
+	 * @param code
+	 * @param messages
+	 * @returns Error
+	 */
 	public static getError(code: number, ...messages: any[]): Error {
 		const error = new Error();
 		switch (code) {
@@ -23,6 +37,7 @@ export default class ErrorManager {
 	}
 }
 
+// エラーコード
 export enum ErrorCode {
 	NotLoadScene = 1,
 	CanvasNotFound = 400,

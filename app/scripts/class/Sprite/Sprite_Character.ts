@@ -14,38 +14,55 @@ export enum CharacterAnimation {
 	Right = "right",
 	Left = "left",
 }
-
+/**
+ * キャラを描画を行うクラス
+ */
 export default class Sprite_Character extends Sprite_Base {
+	// 現在実行中のアニメーション
 	private runingAnimation: CharacterAnimation = CharacterAnimation.Down;
 
+	public constructor() {
+		super(SPRITE_NAME);
+	}
+
+	/**
+	 * 初期化処理
+	 * @override
+	 * @param path
+	 * @param x
+	 * @param y
+	 */
 	public async init(path: string, x: number, y: number): Promise<void> {
-		this.name = SPRITE_NAME;
+		// コンテナを設定し、取得
+		await super.init();
+		const container = super.getSprite();
+		if (!container) throw new Error("not container");
 
-		const container = new Container();
-		this.setSprite(container);
-
-		const canvas = GameManager.getCanvas();
-		canvas.addRender(container);
-
+		// スプライトシートを取得し、設定
 		const texture = await ResourceManager.getTexture(path);
 		const sheet = new Spritesheet(texture, json);
 		this.setSheet(sheet);
 
+		// スプライトシートを解析
 		await new Promise(resolve => sheet.parse(() => resolve(null)));
 
+		// 表示するキャラの情報を設定
 		const sprite = new AnimatedSprite([sheet.textures["down_0"]]);
 		sprite.animationSpeed = 0.25;
 
-		container.x = x * 32;
-		container.y = y * 32;
+		// コンテナの初期位置を設定
+		container.setTransform(x * 32, y * 32);
 
+		// コンテナに追加
 		container.addChild(sprite);
 	}
 
 	/**
+	 * スプライトの更新処理
 	 * @override
 	 */
 	public update(): void {
+		// キー情報を取得
 		const keyInfo = {
 			up: GameManager.input.getKey(KeyCode.Up),
 			down: GameManager.input.getKey(KeyCode.Down),
@@ -53,18 +70,29 @@ export default class Sprite_Character extends Sprite_Base {
 			left: GameManager.input.getKey(KeyCode.Left),
 		};
 
+		// 現在最も入力時間の短いキーを取得
 		const key = GameManager.input.getKeyOfLowestFrame(Object.values(keyInfo));
 
+		// アニメーションを設定
 		this.animation(key);
+
 		return;
 	}
 
+	/**
+	 * スプライトのアニメーションを行う
+	 * @param key
+	 * @returns
+	 */
 	public animation(key: IKeyInfo | undefined): void {
 		const sprite = this.getSprite();
 		if (!sprite) return;
 
 		if (key) {
+			// とりあえず再生
 			sprite.play();
+
+			// 方向キーに応じて向きを設定
 			switch (key.keyCode) {
 				case KeyCode.Up:
 					return this.setTextures(CharacterAnimation.Up);
@@ -76,12 +104,17 @@ export default class Sprite_Character extends Sprite_Base {
 					return this.setTextures(CharacterAnimation.Left);
 			}
 		} else {
-			sprite.gotoAndStop(1);
+			// 移動していない場合は止まる
+			this.stopAnimation();
 		}
 
 		return;
 	}
 
+	/**
+	 * 現在実行中のアニメーションを一時停止
+	 * @returns
+	 */
 	public stopAnimation(): void {
 		const sprite = this.getSprite();
 		if (!sprite) return;
@@ -90,26 +123,42 @@ export default class Sprite_Character extends Sprite_Base {
 		return;
 	}
 
+	/**
+	 * スプライトにアニメーションを設定
+	 * @param animation
+	 * @returns
+	 */
 	public setTextures(animation: CharacterAnimation): void {
 		const sheet = this.getSheet();
 		if (!sheet) return;
+
 		const sprite = this.getSprite();
 		if (!sprite) return;
 
+		// 現在設定されているアニメーションが同じものならスルー
 		if (this.sameAnimation(animation)) return;
 
+		// 出なければ設定
 		sprite.textures = sheet.animations[animation];
 		this.runingAnimation = animation;
+
 		return;
 	}
 
+	/**
+	 * スプライトの位置を移動
+	 * @param x
+	 * @param y
+	 */
 	public move(x: number, y: number): void {
 		const sprite = super.getSprite();
 		if (!sprite) throw new Error("no sprite");
 
+		// 移動出来ないようにする時間
 		const delay = 8;
 		this.nextUpdateFrame = GameManager.loop.frameCount + delay;
 
+		// 更新処理を設定
 		this.setUpdateFunc((frame: number) => {
 			if (frame > this.nextUpdateFrame) {
 				return this.deleteUpdateFunc();
@@ -120,16 +169,27 @@ export default class Sprite_Character extends Sprite_Base {
 		});
 	}
 
+	/**
+	 * スプライトを取得
+	 * @override
+	 * @returns sprite
+	 */
 	public getSprite(): AnimatedSprite | undefined {
 		const container = super.getSprite();
 		if (!container) return;
 
+		// キャラ画像は1つのみなので最初を取得
 		const sprite = container.getChildAt(0);
 		if (!sprite) return;
 
 		return sprite as AnimatedSprite;
 	}
 
+	/**
+	 * 指定されたアニメーションと同じかどうか
+	 * @param animation
+	 * @returns boolean
+	 */
 	private sameAnimation(animation: CharacterAnimation): boolean {
 		return this.runingAnimation === animation;
 	}

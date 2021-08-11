@@ -1,10 +1,22 @@
 import { Loader, Texture } from "pixi.js";
 
+/**
+ * Resourceの読み込みを行うマネージャークラス
+ */
 export default class ResourceManager {
+	/**
+	 * 初期化処理
+	 * @returns Promise<void>
+	 */
 	public static init(): Promise<void> {
 		return Promise.all([]).then();
 	}
 
+	/**
+	 * 指定されたパスのテクスチャを取得
+	 * @param path
+	 * @returns Promise<Texture>
+	 */
 	public static getTexture(path: string): Promise<Texture> {
 		const loader = this.getLoader();
 
@@ -17,6 +29,12 @@ export default class ResourceManager {
 		return Promise.resolve(resources.texture);
 	}
 
+	/**
+	 * 指定されたパスのリソースを読み込み
+	 * TODO: 成功したかどうかぐらい入れた方が良い気がする
+	 * @param paths
+	 * @returns Promise<boid>
+	 */
 	public static loadResources(paths: string[]): Promise<void> {
 		return new Promise<void>(resolve => {
 			const loader = this.getLoader();
@@ -29,6 +47,10 @@ export default class ResourceManager {
 		});
 	}
 
+	/**
+	 * Resourceローダーを取得
+	 * @returns Loader
+	 */
 	private static getLoader(): Loader {
 		return Loader.shared;
 	}

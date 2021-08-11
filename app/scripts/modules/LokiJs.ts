@@ -6,6 +6,9 @@ import ErrorManager, { ErrorCode } from "../class/ErrorManager";
 const db = new loki("");
 db.loadJSON(JSON.stringify(dbJson));
 
+/**
+ * インメモリデータベースの処理を行うクラス
+ */
 export default class LokiJs {
 	public static getAll(collectionName: string): Promise<any> {
 		const collection = db.getCollection(collectionName);
