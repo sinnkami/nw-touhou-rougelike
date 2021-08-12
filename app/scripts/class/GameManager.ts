@@ -7,7 +7,7 @@ import { Game_Map } from "./Game/Game_Map";
 import Game_Player from "./Game/Game_Player";
 
 /**
- * ゲームに関わる情報を取得できるようにするマネージャークラス
+ * ゲーム内情報を管理するクラス
  */
 export default class GameManager {
 	// pixi.jsラッパークラス

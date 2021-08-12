@@ -4,7 +4,7 @@
 import { Loader } from "pixi.js";
 import Stats from "stats.js";
 /**
- * デバッグ機能を司るクラス
+ * デバッグ機能を管理するクラス
  */
 export default class DebugManager {
 	// fps表示用ライブラリ
