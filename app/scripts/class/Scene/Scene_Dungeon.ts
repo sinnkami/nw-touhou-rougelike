@@ -66,6 +66,7 @@ export default class Scene_Dungeon extends Scene_Base {
 				let y = 0;
 
 				// TODO: ローグライクで斜め移動ってだめでは・・・？
+				// TODO: 通路に入り込む際に上手く斜め移動を行うと、描画が1マスずれる
 				// 方向キーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Up)) y -= speed;
 				if (GameManager.input.isPushedKey(KeyCode.Down)) y += speed;
