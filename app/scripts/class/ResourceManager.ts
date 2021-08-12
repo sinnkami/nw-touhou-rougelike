@@ -1,7 +1,7 @@
 import { Loader, Texture } from "pixi.js";
 
 /**
- * Resourceの読み込みを行うマネージャークラス
+ * Resourceを管理するクラス
  */
 export default class ResourceManager {
 	/**
@@ -39,7 +39,11 @@ export default class ResourceManager {
 		return new Promise<void>(resolve => {
 			const loader = this.getLoader();
 
-			paths.forEach(path => loader.add(path));
+			paths.forEach(path => {
+				if (!loader.resources[path]) {
+					loader.add(path);
+				}
+			});
 
 			loader.load(() => {
 				resolve();

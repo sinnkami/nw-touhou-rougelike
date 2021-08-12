@@ -1,4 +1,5 @@
 import { MapChip } from "../../../class/Const";
+import { Event_Base } from "../../../class/Event/Event_Base";
 
 /** マップチップの情報 */
 export interface IGameMapData {
@@ -10,6 +11,5 @@ export interface IGameMapData {
 /** イベントタイルの情報 */
 export interface IGameEventMapData extends IGameMapData {
 	name: string;
-	//TODO: クラスを指定
-	event?: any;
+	event?: Event_Base;
 }

@@ -54,6 +54,14 @@ export class Game_Loop extends Game_Base {
 		// 描画の更新
 		GameManager.getCanvas().update();
 
+		// ロード中は暗転した状態でループする
+		if (SceneManager.IsLoading) {
+			// TODO: ロード中の処理
+			console.log("now loading");
+			requestAnimationFrame(this.gameLoop.bind(this));
+			return;
+		}
+
 		// キー入力の更新
 		GameManager.input.update();
 

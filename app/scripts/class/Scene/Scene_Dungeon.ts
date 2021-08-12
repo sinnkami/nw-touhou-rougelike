@@ -2,14 +2,15 @@ import { IGameMapData } from "../../definitions/class/Game/IGameMap";
 import Const, { EventName, KeyCode } from "../Const";
 import GameManager from "../GameManager";
 import ResourceManager from "../ResourceManager";
+import SceneManager from "../SceneManager";
 import Sprite_Character from "../Sprite/Sprite_Character";
 import Sprite_Map from "../Sprite/Sprite_Map";
 import Scene_Base from "./Scene_Base";
 
 /**
- * TODO: ダンジョン内のシーンへ命名を変更
+ * ダンジョン内シーン
  */
-export default class Scene_Test extends Scene_Base {
+export default class Scene_Dungeon extends Scene_Base {
 	//TODO: 適切な名前へ変更して、親クラスへもっていく
 	public renderList: Array<() => void> = [];
 
@@ -89,9 +90,17 @@ export default class Scene_Test extends Scene_Base {
 						// 存在した場合は処理を行う
 						// TODO: イベントタイルの処理
 						console.log(eventChip.name, eventChip.event);
+						if (eventChip.event) {
+							//TODO: イベントクラス内で行う
+							PlayerRender.destroy();
+							MapRender.destroy();
+
+							eventChip.event.execute();
+						}
 					}
 				}
 			});
+			SceneManager.completeLoading();
 		});
 	}
 
@@ -104,5 +113,14 @@ export default class Scene_Test extends Scene_Base {
 		super.updateScene();
 		this.renderList.forEach(render => render());
 		return;
+	}
+
+	/**
+	 * シーンを停止する
+	 * @override
+	 * @returns
+	 */
+	public stopScene(): void {
+		this.renderList = [];
 	}
 }

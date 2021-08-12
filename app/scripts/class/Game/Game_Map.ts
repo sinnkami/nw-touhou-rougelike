@@ -5,6 +5,7 @@ import { ICharacterPosition } from "../../definitions/class/Game/IGameCharacter"
 import { IGameEventMapData, IGameMapData } from "../../definitions/class/Game/IGameMap";
 import { IRoomSize, ISize } from "../../definitions/IConstruct";
 import Const, { EventName, MapChip } from "../Const";
+import { EventCode, EventManager } from "../EventManager";
 import { Game_Base } from "./Game_Base";
 
 /**
@@ -23,7 +24,6 @@ export class Game_Map extends Game_Base {
 		super();
 		this.initMapData();
 	}
-
 
 	/** 画面買いを表示しないための壁サイズ */
 	private get WALL_ZONE_SIZE(): number {
@@ -175,7 +175,7 @@ export class Game_Map extends Game_Base {
 
 		const eventMapChip: IGameEventMapData = Object.assign({ name: EventName.Stairs }, mapChip);
 
-		eventMapChip.event = "階段";
+		eventMapChip.event = EventManager.getEvent(EventCode.Stairs);
 		eventMapChip.chip = MapChip.Stairs;
 
 		this.getEventMapData().push(eventMapChip);
