@@ -32,38 +32,6 @@ export default class Sprite_Base {
 		return GameManager.loop.frameCount <= this.nextUpdateFrame;
 	}
 
-	/** x軸 */
-	protected get x(): number {
-		const sprite = this.getSprite();
-		if (!sprite) return 0;
-
-		return sprite.x;
-	}
-
-	/** y軸 */
-	protected get y(): number {
-		const sprite = this.getSprite();
-		if (!sprite) return 0;
-
-		return sprite.y;
-	}
-
-	/** 横幅 */
-	protected get width(): number {
-		const sprite = this.getSprite();
-		if (!sprite) return 0;
-
-		return sprite.width;
-	}
-
-	/** 高さ */
-	protected get height(): number {
-		const sprite = this.getSprite();
-		if (!sprite) return 0;
-
-		return sprite.height;
-	}
-
 	/**
 	 * 初期化処理
 	 * @param values
