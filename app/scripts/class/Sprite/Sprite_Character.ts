@@ -62,6 +62,8 @@ export default class Sprite_Character extends Sprite_Base {
 	 * @override
 	 */
 	public update(): void {
+		super.update();
+
 		// キー情報を取得
 		const keyInfo = {
 			up: GameManager.input.getKey(KeyCode.Up),
@@ -157,16 +159,6 @@ export default class Sprite_Character extends Sprite_Base {
 		// 移動出来ないようにする時間
 		const delay = 8;
 		this.nextUpdateFrame = GameManager.loop.frameCount + delay;
-
-		// 更新処理を設定
-		this.setUpdateFunc((frame: number) => {
-			if (frame > this.nextUpdateFrame) {
-				return this.deleteUpdateFunc();
-			}
-
-			sprite.x -= x * (32 / delay);
-			sprite.y -= y * (32 / delay);
-		});
 	}
 
 	/**
