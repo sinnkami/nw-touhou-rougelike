@@ -4,6 +4,8 @@ import Const from "../Const";
 import GameManager from "../GameManager";
 import Sprite_Base from "./Sprite_Base";
 
+// TODO: ウィンドウとかの為に、別の物が必要
+// FIXME: なので名前は Sprite_Message になる？
 export class Sprite_Text extends Sprite_Base {
 	// 表示中のテキスト番号
 	private textIndex = 0;
@@ -55,17 +57,18 @@ export class Sprite_Text extends Sprite_Base {
 	 * @override
 	 */
 	public update(): void {
-		// アニメーション中は更新しない
-		if (this.isAnimation) return;
-
 		// 表示するテキストがなくなった場合、更新しない
 		if (this.textList.length <= this.newLineCount) return;
 
-		// テキストが出ないようにする時間
-		const delay = 8;
-		this.nextUpdateFrame = GameManager.loop.frameCount + delay;
+		super.update();
 
-		this.appendText();
+		if (!this.isAnimation) {
+			// テキストが出ないようにする時間
+			const delay = 4;
+			this.nextUpdateFrame = GameManager.loop.frameCount + delay;
+
+			this.appendText();
+		}
 	}
 
 	private appendText(): void {
@@ -92,22 +95,37 @@ export class Sprite_Text extends Sprite_Base {
 		const text = new Text(value, {
 			fontSize,
 			fill: "#FFFFFF",
+			align: "center",
 		});
 		text.x = fontSize * this.textIndex;
 		text.y = fontSize * this.newLineCount;
+
+		const size = text.width;
+
+		text.width = 0;
+		text.alpha = 0;
 
 		// 縦軸のテキスト表示範囲を超えた場合は表示しない
 		if (text.y >= option.height) {
 			return;
 		}
 
-		// 横軸のテキスト表示歯にを超えた場合は、改行数を増やし、テキスト番号を初期化
+		// 横軸のテキスト表示範囲を超えた場合は、改行数を増やし、テキスト番号を初期化
 		if (text.x >= option.width) {
 			this.newLineCount++;
 			this.textIndex = 0;
 		} else {
 			this.textIndex++;
 		}
+
+		this.setUpdateFunc((frame: number) => {
+			// TODO: ディレイ値が0にならないような調整が必要
+			text.width += size / 4;
+			text.alpha += 1 / 4;
+			if (frame >= this.nextUpdateFrame) {
+				return this.deleteUpdateFunc();
+			}
+		});
 
 		container.addChild(text);
 	}
