@@ -6,7 +6,7 @@ module.exports = {
 	mode: "development",
 	// エントリーポイントの設定
 	entry: resolve(args.src, "scripts", "main.ts"),
-	devtool: "inline-source-map",
+	devtool: "source-map",
 	// 出力の設定
 	output: {
 		// 出力するファイル名
