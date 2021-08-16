@@ -4,6 +4,7 @@ import json from "../../../spritesheet/mapChip.json";
 import GameManager from "../GameManager";
 import ResourceManager from "../ResourceManager";
 import Const from "../Const";
+import { ISpriteMapOption } from "../../definitions/class/Sprite/ISpriteMap";
 
 const SPRITE_NAME = "map";
 
@@ -11,8 +12,13 @@ const SPRITE_NAME = "map";
  * マップの描画を行うクラス
  */
 export default class Sprite_Map extends Sprite_Base {
-	public constructor() {
-		super(SPRITE_NAME);
+	protected readonly path: string;
+
+	public constructor(option: ISpriteMapOption) {
+		if (option.delay === undefined) option.delay = 8;
+
+		super(option);
+		this.path = option.path;
 	}
 
 	/**
@@ -20,14 +26,14 @@ export default class Sprite_Map extends Sprite_Base {
 	 * @param path
 	 * @param mapData
 	 */
-	public async init(path: string, x: number, y: number): Promise<void> {
+	public async init(): Promise<void> {
 		// コンテナを設定し、取得
 		await super.init();
 		const container = super.getSprite();
 		if (!container) throw new Error("not container");
 
 		// スプライトシートを取得し、設定
-		const texture = await ResourceManager.getTexture(path);
+		const texture = await ResourceManager.getTexture(this.path);
 		const sheet = new Spritesheet(texture, json);
 		this.setSheet(sheet);
 
@@ -58,7 +64,7 @@ export default class Sprite_Map extends Sprite_Base {
 		});
 
 		// マップの初期位置を設定
-		container.setTransform(x * 32, y * 32);
+		container.setTransform(this.x * 32, this.y * 32);
 	}
 
 	/**
@@ -81,17 +87,16 @@ export default class Sprite_Map extends Sprite_Base {
 		if (!sprite) throw new Error("no sprite");
 
 		// 移動出来ないようにする時間
-		const delay = 8;
-		this.nextUpdateFrame = GameManager.loop.frameCount + delay;
+		this.nextUpdateFrame = GameManager.loop.frameCount + this.delay;
 
 		// 更新処理を設定
 		this.setUpdateFunc((frame: number) => {
-			if (frame > this.nextUpdateFrame) {
+			sprite.x -= x * (32 / this.delay);
+			sprite.y -= y * (32 / this.delay);
+
+			if (frame >= this.nextUpdateFrame) {
 				return this.deleteUpdateFunc();
 			}
-
-			sprite.x -= x * (32 / delay);
-			sprite.y -= y * (32 / delay);
 		});
 	}
 

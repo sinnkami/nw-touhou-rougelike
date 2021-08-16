@@ -5,6 +5,7 @@ import GameManager from "../GameManager";
 import ResourceManager from "../ResourceManager";
 import Const, { KeyCode } from "../Const";
 import { IKeyInfo } from "../../definitions/class/Game/IGameInput";
+import { ISpriteCharacterOption } from "../../definitions/class/Sprite/ISpriteCharacter";
 
 const SPRITE_NAME = "character";
 
@@ -21,8 +22,18 @@ export default class Sprite_Character extends Sprite_Base {
 	// 現在実行中のアニメーション
 	private runingAnimation: CharacterAnimation = CharacterAnimation.Down;
 
-	public constructor() {
-		super(SPRITE_NAME);
+	// 読み込むファイルパス
+	protected readonly path: string;
+	protected readonly animationSpeed: number;
+
+	public constructor(option: ISpriteCharacterOption) {
+		if (option.name === undefined) option.name = SPRITE_NAME;
+		if (option.delay === undefined) option.delay = 8;
+
+		super(option);
+		this.path = option.path;
+		this.animationSpeed = option.animationSpeed || 0.25;
+
 	}
 
 	/**
@@ -32,14 +43,14 @@ export default class Sprite_Character extends Sprite_Base {
 	 * @param x
 	 * @param y
 	 */
-	public async init(path: string, x: number, y: number): Promise<void> {
+	public async init(): Promise<void> {
 		// コンテナを設定し、取得
 		await super.init();
 		const container = super.getSprite();
 		if (!container) throw new Error("not container");
 
 		// スプライトシートを取得し、設定
-		const texture = await ResourceManager.getTexture(path);
+		const texture = await ResourceManager.getTexture(this.path);
 		const sheet = new Spritesheet(texture, json);
 		this.setSheet(sheet);
 
@@ -48,10 +59,10 @@ export default class Sprite_Character extends Sprite_Base {
 
 		// 表示するキャラの情報を設定
 		const sprite = new AnimatedSprite([sheet.textures["down_0"]]);
-		sprite.animationSpeed = 0.25;
+		sprite.animationSpeed = this.animationSpeed;
 
 		// コンテナの初期位置を設定
-		container.setTransform(x * 32, y * 32);
+		container.setTransform(this.x * 32, this.y * 32);
 
 		// コンテナに追加
 		container.addChild(sprite);
@@ -62,6 +73,7 @@ export default class Sprite_Character extends Sprite_Base {
 	 * @override
 	 */
 	public update(): void {
+		// MEMO: 一応呼んでるけど要らんはず
 		super.update();
 
 		// キー情報を取得
@@ -157,8 +169,7 @@ export default class Sprite_Character extends Sprite_Base {
 		if (!sprite) throw new Error("no sprite");
 
 		// 移動出来ないようにする時間
-		const delay = 8;
-		this.nextUpdateFrame = GameManager.loop.frameCount + delay;
+		this.nextUpdateFrame = GameManager.loop.frameCount + this.delay;
 	}
 
 	/**

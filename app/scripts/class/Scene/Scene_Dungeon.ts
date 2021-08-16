@@ -37,30 +37,32 @@ export default class Scene_Dungeon extends Scene_Base {
 			GameManager.player.setPosition(position.x, position.y);
 
 			// 描画するマップを設定
-			const MapRender = new Sprite_Map();
 			// MEMO: 現在地と中心点の差分を見て調節を行う
 			// TODO: この意味わからん数値を良い感じにわかりやすくしたい
-			await MapRender.init(
-				MAP_PATH,
-				Const.size.width / 32 / 2 - GameManager.player.getPosition().x - 1,
-				Const.size.height / 32 / 2 - GameManager.player.getPosition().y
-			);
+			const MapRender = new Sprite_Map({
+				path: MAP_PATH,
+				x: Const.size.width / 32 / 2 - GameManager.player.getPosition().x - 1,
+				y: Const.size.height / 32 / 2 - GameManager.player.getPosition().y,
+			});
+			await MapRender.init();
 			this.renderList.push(() => MapRender.update());
 
 			// 描画する操作キャラを設定
-			const PlayerRender = new Sprite_Character();
-			// MEMO: キャラを中心に表示する
-			await PlayerRender.init(CHARACTER_PATH, Const.size.width / 32 / 2 - 1, Const.size.height / 32 / 2);
+			// MEMO: キャラを画面中心に表示する
+			const PlayerRender = new Sprite_Character({
+				path: CHARACTER_PATH,
+				x: Const.size.width / 32 / 2 - 1,
+				y: Const.size.height / 32 / 2,
+			});
+			await PlayerRender.init();
 			this.renderList.push(() => PlayerRender.update());
 
 			// 通常時のキー入力の処理
 			this.renderList.push(() => {
 				// 移動アニメーション中は移動不可
-				if (PlayerRender.isAnimation || MapRender.isAnimation) {
-					return;
-				}
+				if (MapRender.isAnimation) return;	
 
-				// 移動速度
+				// 移動マス
 				const speed = 1;
 				let x = 0;
 				let y = 0;

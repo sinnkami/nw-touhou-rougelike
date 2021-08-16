@@ -1,4 +1,5 @@
 import { Container, Spritesheet } from "pixi.js";
+import { ISpriteBaseOption } from "../../definitions/class/Sprite/ISpriteBase";
 import GameManager from "../GameManager";
 
 // スプライトのデフォルト名
@@ -8,21 +9,42 @@ export const DEFAULT_NAME = "sprite";
  * スプライト汎用クラス
  */
 export default class Sprite_Base {
-	public name: string;
+	
 	// スプライト本体
 	private sprite?: Container;
-
+	
 	// スプライトシート
 	private sheet?: Spritesheet;
 
 	// 次に更新できるフレーム
 	protected nextUpdateFrame: number;
-
+	
 	// スプライト更新時に呼び出す関数
 	protected updateFunc?: (frame: number) => void;
+	
+	protected readonly name: string;
 
-	public constructor(name?: string) {
-		this.name = name || DEFAULT_NAME;
+	protected readonly width: number;
+
+	protected readonly height: number;
+
+	protected readonly x: number;
+
+	protected readonly y: number;
+
+	protected readonly delay: number;
+
+
+	public constructor(option: ISpriteBaseOption) {
+		// オプションの初期化
+		this.name = option.name || DEFAULT_NAME;
+		this.width = option.width || 0;
+		this.height = option.height || 0;
+		this.x = option.x;
+		this.y = option.y;
+
+		this.delay = option.delay || 0;
+
 		this.nextUpdateFrame = 0;
 	}
 
