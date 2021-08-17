@@ -6,7 +6,10 @@ import GameManager from "../GameManager";
 import Sprite_Base from "./Sprite_Base";
 
 const SPRITE_NAME = "message";
-// TODO: ウィンドウとかの為に、別の物が必要
+
+/**
+ * アニメーション付きテキストを表示する
+ */
 export class Sprite_Message extends Sprite_Base {
 	// 表示中のテキスト番号
 	private textIndex = 0;
@@ -17,7 +20,10 @@ export class Sprite_Message extends Sprite_Base {
 	// 表示を行うテキスト情報
 	private textList: string[][] = [];
 
+	// 表示するテキスト
 	protected readonly text: string;
+
+	// 表示する際のフォントサイズ
 	protected readonly fontSize: number;
 
 	public constructor(option: ISpriteMessageOption) {
@@ -32,9 +38,6 @@ export class Sprite_Message extends Sprite_Base {
 	/**
 	 * 初期化処理
 	 * @override
-	 * @param text
-	 * @param x
-	 * @param y
 	 */
 	public async init(): Promise<void> {
 		// コンテナを設定し、取得
@@ -50,7 +53,9 @@ export class Sprite_Message extends Sprite_Base {
 
 		// テキスト情報を作成する
 		// 1. まず表示できる文字数で切り出す
-		const textListBySplitLength = this.text.match(new RegExp(`.{0,${Math.floor(this.width / this.fontSize)}}`, "g"));
+		const textListBySplitLength = this.text.match(
+			new RegExp(`.{0,${Math.floor(this.width / this.fontSize)}}`, "g")
+		);
 		if (!textListBySplitLength) throw new Error("not text");
 
 		textListBySplitLength.forEach(text => {

@@ -9,34 +9,37 @@ export const DEFAULT_NAME = "sprite";
  * スプライト汎用クラス
  */
 export default class Sprite_Base {
-	
 	// スプライト本体
 	private sprite?: Container;
-	
+
 	// スプライトシート
 	private sheet?: Spritesheet;
 
 	// 次に更新できるフレーム
 	protected nextUpdateFrame: number;
-	
+
 	// スプライト更新時に呼び出す関数
 	protected updateFunc?: (frame: number) => void;
-	
+
+	// スプライト名
 	protected readonly name: string;
 
+	// スプライトの初期横幅
 	protected readonly width: number;
 
+	// スプライトの初期縦幅
 	protected readonly height: number;
 
+	// スプライトの初期x座標
 	protected readonly x: number;
 
+	// スプライトの初期y座標
 	protected readonly y: number;
 
+	// スプライトの表示ディレイ
 	protected readonly delay: number;
 
-
 	public constructor(option: ISpriteBaseOption) {
-		// オプションの初期化
 		this.name = option.name || DEFAULT_NAME;
 		this.width = option.width || 0;
 		this.height = option.height || 0;
@@ -56,12 +59,12 @@ export default class Sprite_Base {
 
 	/**
 	 * 初期化処理
-	 * @param values
 	 * @returns
 	 */
-	public async init(...values: any[]): Promise<void> {
+	public async init(): Promise<void> {
 		// スプライトの入れ物を設定
 		const container = new Container();
+		container.name = this.name;
 		this.setSprite(container);
 
 		// 描画を行うクラスに登録

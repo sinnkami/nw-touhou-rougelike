@@ -24,6 +24,8 @@ export default class Sprite_Character extends Sprite_Base {
 
 	// 読み込むファイルパス
 	protected readonly path: string;
+
+	// 歩行アニメーションの更新速度
 	protected readonly animationSpeed: number;
 
 	public constructor(option: ISpriteCharacterOption) {
@@ -33,15 +35,11 @@ export default class Sprite_Character extends Sprite_Base {
 		super(option);
 		this.path = option.path;
 		this.animationSpeed = option.animationSpeed || 0.25;
-
 	}
 
 	/**
 	 * 初期化処理
 	 * @override
-	 * @param path
-	 * @param x
-	 * @param y
 	 */
 	public async init(): Promise<void> {
 		// コンテナを設定し、取得

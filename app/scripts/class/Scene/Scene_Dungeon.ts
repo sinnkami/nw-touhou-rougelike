@@ -5,6 +5,7 @@ import ResourceManager from "../ResourceManager";
 import SceneManager from "../SceneManager";
 import Sprite_Character from "../Sprite/Sprite_Character";
 import Sprite_Map from "../Sprite/Sprite_Map";
+import { Sprite_Message } from "../Sprite/Sprite_Message";
 import Scene_Base from "./Scene_Base";
 
 /**
@@ -57,10 +58,22 @@ export default class Scene_Dungeon extends Scene_Base {
 			await PlayerRender.init();
 			this.renderList.push(() => PlayerRender.update());
 
+			const TestText = new Sprite_Message({
+				text:
+					"滲み出す混濁の紋章\n不遜なる狂気の器\n湧き上がり・否定し・痺れ・瞬き・眠りを妨げる爬行する鉄の王女\n絶えず自壊する泥の人形\n結合せよ\n反発せよ\n地に満ち\n己の無力を知れ\n破道の九十・黒棺",
+				x: 100,
+				y: 100,
+				width: 300,
+				height: 900,
+				fontSize: 25,
+			});
+			await TestText.init();
+			this.renderList.push(() => TestText.update());
+
 			// 通常時のキー入力の処理
 			this.renderList.push(() => {
 				// 移動アニメーション中は移動不可
-				if (MapRender.isAnimation) return;	
+				if (MapRender.isAnimation) return;
 
 				// 移動マス
 				const speed = 1;

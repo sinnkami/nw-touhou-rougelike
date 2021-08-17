@@ -23,8 +23,6 @@ export default class Sprite_Map extends Sprite_Base {
 
 	/**
 	 * 初期化処理
-	 * @param path
-	 * @param mapData
 	 */
 	public async init(): Promise<void> {
 		// コンテナを設定し、取得
