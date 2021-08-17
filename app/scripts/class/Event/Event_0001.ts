@@ -14,8 +14,8 @@ export class Event_0001 extends Event_Base {
 	public execute(): void {
 		SceneManager.stopScene();
 		GameManager.map.initMapData();
-		SceneManager.setScene(new Scene_Dungeon()).then(() => {
-			SceneManager.startScene();
-		});
+
+		// 再実行することでダンジョン階層を変更
+		SceneManager.startScene();
 	}
 }

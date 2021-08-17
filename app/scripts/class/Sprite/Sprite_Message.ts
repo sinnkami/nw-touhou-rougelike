@@ -8,7 +8,7 @@ import Sprite_Base from "./Sprite_Base";
 const SPRITE_NAME = "message";
 
 /**
- * アニメーション付きテキストを表示する
+ * アニメーション付きテキストを描画するクラス
  */
 export class Sprite_Message extends Sprite_Base {
 	// 表示中のテキスト番号
@@ -52,11 +52,12 @@ export class Sprite_Message extends Sprite_Base {
 		container.addChild(new Graphics().beginFill(0x008000).drawRect(0, 0, this.width, this.height));
 
 		// テキスト情報を作成する
-		// 1. まず表示できる文字数で切り出す
+		// まず表示できる文字数で切り出す
 		const textListBySplitLength = this.text.match(
 			new RegExp(`.{0,${Math.floor(this.width / this.fontSize)}}`, "g")
 		);
 		if (!textListBySplitLength) throw new Error("not text");
+		console.log(textListBySplitLength);
 
 		textListBySplitLength.forEach(text => {
 			if (text) this.textList.push(text.split(""));

@@ -17,23 +17,25 @@ export class Game_Loop extends Game_Base {
 	 * 初期化処理
 	 */
 	public init(): void {
-		this.gameStart();
+		// MEMO: 2重呼び出しとなるのでここでは呼ばない
+		// this.gameStart();
 	}
 
 	/**
 	 * ゲーム開始処理
 	 */
-	public gameStart(): void {
+	public async gameStart(): Promise<void> {
 		this.isLoop = true;
-		SceneManager.startScene();
+		await SceneManager.startScene();
 		requestAnimationFrame(this.gameLoop.bind(this));
+		return Promise.resolve();
 	}
 
 	/**
 	 * ゲームの停止
 	 * MEMO: 実際に停止するのは処理のみでウィンドウ自体は存在
 	 */
-	public gameStop(): void {
+	public async gameStop(): Promise<void> {
 		this.isLoop = false;
 	}
 
@@ -41,7 +43,7 @@ export class Game_Loop extends Game_Base {
 	 * 実際のゲームループ
 	 * @returns
 	 */
-	private gameLoop(): void {
+	private async gameLoop(): Promise<void> {
 		// 終了するかどうかを判定
 		if (!this.isLoop) return;
 
@@ -49,7 +51,7 @@ export class Game_Loop extends Game_Base {
 		this.incrementFrame();
 
 		// デバッグ機能でfpsを表示するための処理
-		DebugManager.updateStats();
+		await DebugManager.updateStats();
 
 		// 描画の更新
 		GameManager.getCanvas().update();
@@ -66,7 +68,7 @@ export class Game_Loop extends Game_Base {
 		GameManager.input.update();
 
 		// 現在のシーンを更新
-		SceneManager.updateScene();
+		await SceneManager.updateScene();
 
 		// ループ
 		requestAnimationFrame(this.gameLoop.bind(this));

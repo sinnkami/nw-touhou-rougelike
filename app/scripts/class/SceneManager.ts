@@ -64,7 +64,7 @@ export default class SceneManager {
 	 * シーンの開始処理
 	 * @returns
 	 */
-	public static startScene(): void {
+	public static startScene(): Promise<void> {
 		const scene = this.getScene();
 		if (!scene) throw ErrorManager.getError(ErrorCode.NotLoadScene);
 		return scene.startScene();
@@ -74,7 +74,7 @@ export default class SceneManager {
 	 * シーンの更新処理
 	 * @returns
 	 */
-	public static updateScene(): void {
+	public static updateScene(): Promise<void> {
 		const scene = this.getScene();
 		if (!scene) throw ErrorManager.getError(ErrorCode.NotLoadScene);
 		return scene.updateScene();
@@ -84,7 +84,7 @@ export default class SceneManager {
 	 * シーンの停止処理
 	 * @returns
 	 */
-	public static stopScene(): void {
+	public static stopScene(): Promise<void> {
 		const scene = this.getScene();
 		if (!scene) throw ErrorManager.getError(ErrorCode.NotLoadScene);
 		return scene.stopScene();
