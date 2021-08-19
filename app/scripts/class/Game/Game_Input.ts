@@ -1,5 +1,4 @@
 import { IKeyInfo, IKeyInfoDict } from "../../definitions/class/Game/IGameInput";
-import Const from "../Const";
 import { Game_Base } from "./Game_Base";
 
 /**

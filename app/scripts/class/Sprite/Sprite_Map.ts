@@ -3,7 +3,6 @@ import Sprite_Base from "./Sprite_Base";
 import json from "../../../spritesheet/mapChip.json";
 import GameManager from "../GameManager";
 import ResourceManager from "../ResourceManager";
-import Const from "../Const";
 import { ISpriteMapOption } from "../../definitions/class/Sprite/ISpriteMap";
 
 const SPRITE_NAME = "map";

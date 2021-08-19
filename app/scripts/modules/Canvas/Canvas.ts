@@ -1,5 +1,4 @@
 import { AbstractRenderer, Application, DisplayObject, Renderer } from "pixi.js";
-import Const from "../../class/Const";
 
 /**
  * pixi.jsの描画処理を行うクラス

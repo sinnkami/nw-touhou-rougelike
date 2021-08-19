@@ -1,5 +1,5 @@
 import { ICharacterPosition } from "../../definitions/class/Game/IGameCharacter";
-import { MapChip } from "../Const";
+import { MapChip } from "../Construct/CommonConstruct";
 import GameManager from "../GameManager";
 import { Game_Base } from "./Game_Base";
 /**

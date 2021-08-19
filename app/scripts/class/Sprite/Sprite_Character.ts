@@ -3,7 +3,7 @@ import Sprite_Base from "./Sprite_Base";
 import json from "../../../spritesheet/character.json";
 import GameManager from "../GameManager";
 import ResourceManager from "../ResourceManager";
-import Const, { KeyCode } from "../Const";
+import { KeyCode } from "../Construct/CommonConstruct";
 import { IKeyInfo } from "../../definitions/class/Game/IGameInput";
 import { ISpriteCharacterOption } from "../../definitions/class/Sprite/ISpriteCharacter";
 

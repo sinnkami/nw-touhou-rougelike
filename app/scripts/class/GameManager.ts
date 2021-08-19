@@ -1,10 +1,13 @@
 import { AbstractRenderer, Renderer } from "pixi.js";
 import Canvas from "../modules/Canvas/Canvas";
-import Const from "./Const";
+import { CommonConstruct } from "./Construct/CommonConstruct";
 import Game_Input from "./Game/Game_Input";
 import { Game_Loop } from "./Game/Game_Loop";
 import { Game_Map } from "./Game/Game_Map";
 import Game_Player from "./Game/Game_Player";
+
+// 解像度
+const SIZE = CommonConstruct.size;
 
 /**
  * ゲーム内情報を管理するクラス
@@ -40,7 +43,7 @@ export default class GameManager {
 	 * @returns Promise<void>
 	 */
 	private static setCanvas(): Promise<void> {
-		this.canvas = new Canvas(Const.size.width, Const.size.height);
+		this.canvas = new Canvas(SIZE.width, SIZE.height);
 		return Promise.resolve();
 	}
 }

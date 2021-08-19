@@ -1,12 +1,17 @@
-import Arena from "rot-js/lib/map/arena";
 import { Room } from "rot-js/lib/map/features";
 import Uniform from "rot-js/lib/map/uniform";
 import { ICharacterPosition } from "../../definitions/class/Game/IGameCharacter";
 import { IGameEventMapData, IGameMapData } from "../../definitions/class/Game/IGameMap";
-import { IRoomSize, ISize } from "../../definitions/IConstruct";
-import Const, { EventName, MapChip } from "../Const";
+import { CommonConstruct, EventName, MapChip } from "../Construct/CommonConstruct";
 import { EventCode, EventManager } from "../EventManager";
 import { Game_Base } from "./Game_Base";
+
+/** 画面外を表示しないための壁サイズ */
+const WALL_ZONE_SIZE = CommonConstruct.wallZoneSize;
+/** マップの最大サイズ */
+const MAP_SIZE = CommonConstruct.mapSize;
+/** 部屋の最小・最大サイズ */
+const ROOM_SIZE = CommonConstruct.roomSize;
 
 /**
  * ゲーム内マップに関する情報を保持するクラス
@@ -23,21 +28,6 @@ export class Game_Map extends Game_Base {
 	public constructor() {
 		super();
 		this.initMapData();
-	}
-
-	/** 画面買いを表示しないための壁サイズ */
-	private get WALL_ZONE_SIZE(): number {
-		return Const.wallZoneSize;
-	}
-
-	/** マップの最大サイズ */
-	private get MAP_SIZE(): ISize {
-		return Const.mapSize;
-	}
-
-	/** 部屋の最小・最大サイズ */
-	private get ROOM_SIZE(): IRoomSize {
-		return Const.roomSize;
 	}
 
 	/**
@@ -104,10 +94,9 @@ export class Game_Map extends Game_Base {
 	public getRandomPosition(): ICharacterPosition {
 		const room = this.getRandomRoom();
 
-		const x =
-			Math.floor(Math.random() * (room.getLeft() + 1 - room.getRight())) + room.getRight() + this.WALL_ZONE_SIZE;
+		const x = Math.floor(Math.random() * (room.getLeft() + 1 - room.getRight())) + room.getRight() + WALL_ZONE_SIZE;
 		const y =
-			Math.floor(Math.random() * (room.getTop() + 1 - room.getBottom())) + room.getBottom() + this.WALL_ZONE_SIZE;
+			Math.floor(Math.random() * (room.getTop() + 1 - room.getBottom())) + room.getBottom() + WALL_ZONE_SIZE;
 
 		const mapChip = this.getMapChip(x, y);
 		if (mapChip && mapChip.chip === MapChip.Road) {
@@ -130,14 +119,14 @@ export class Game_Map extends Game_Base {
 	 * @returns
 	 */
 	public createMapData(): IGameMapData[] {
-		const map = new Uniform(this.MAP_SIZE.width, this.MAP_SIZE.height, {
-			roomWidth: this.ROOM_SIZE.width,
-			roomHeight: this.ROOM_SIZE.height,
+		const map = new Uniform(MAP_SIZE.width, MAP_SIZE.height, {
+			roomWidth: ROOM_SIZE.width,
+			roomHeight: ROOM_SIZE.height,
 		});
 
 		const mapData: IGameMapData[] = [];
-		for (let y = 0; y <= this.MAP_SIZE.height + this.WALL_ZONE_SIZE * 2; y++) {
-			for (let x = 0; x <= this.MAP_SIZE.width + this.WALL_ZONE_SIZE * 2; x++) {
+		for (let y = 0; y <= MAP_SIZE.height + WALL_ZONE_SIZE * 2; y++) {
+			for (let x = 0; x <= MAP_SIZE.width + WALL_ZONE_SIZE * 2; x++) {
 				mapData.push({
 					x,
 					y,
@@ -147,8 +136,8 @@ export class Game_Map extends Game_Base {
 		}
 
 		map.create((x, y, content) => {
-			x += this.WALL_ZONE_SIZE;
-			y += this.WALL_ZONE_SIZE;
+			x += WALL_ZONE_SIZE;
+			y += WALL_ZONE_SIZE;
 			const map = mapData.find(v => v.x === x && v.y === y);
 			if (map) {
 				map.chip = content ? MapChip.Wall : MapChip.Road;

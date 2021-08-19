@@ -1,5 +1,4 @@
 import loki from "lokijs";
-import Const from "../class/Const";
 import dbJson from "../../database/db.json";
 import ErrorManager, { ErrorCode } from "../class/ErrorManager";
 

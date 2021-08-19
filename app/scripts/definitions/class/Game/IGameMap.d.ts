@@ -1,4 +1,4 @@
-import { MapChip } from "../../../class/Const";
+import { MapChip } from "../../../class/Construct/CommonConstruct";
 import { Event_Base } from "../../../class/Event/Event_Base";
 
 /** マップチップの情報 */
