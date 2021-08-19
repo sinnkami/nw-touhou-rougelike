@@ -9,37 +9,37 @@ export const DEFAULT_NAME = "sprite";
  * スプライト汎用クラス
  */
 export default class Sprite_Base {
-	// スプライト本体
-	private sprite?: Container;
+	// コンテナ
+	private container?: Container;
 
 	// スプライトシート
 	private sheet?: Spritesheet;
 
 	// 次に更新できるフレーム
-	protected nextUpdateFrame: number;
+	protected nextUpdateFrame: number = 0;
 
 	// スプライト更新時に呼び出す関数
 	protected updateFunc?: (frame: number) => void;
 
 	// スプライト名
-	protected readonly name: string;
+	protected name: string = "";
 
 	// スプライトの初期横幅
-	protected readonly width: number;
+	protected width: number = 0;
 
 	// スプライトの初期縦幅
-	protected readonly height: number;
+	protected height: number = 0;
 
 	// スプライトの初期x座標
-	protected readonly x: number;
+	protected x: number = 0;
 
 	// スプライトの初期y座標
-	protected readonly y: number;
+	protected y: number = 0;
 
 	// スプライトの表示ディレイ
-	protected readonly delay: number;
+	protected delay: number = 0;
 
-	public constructor(option: ISpriteBaseOption) {
+	public init(option: ISpriteBaseOption): void {
 		this.name = option.name || DEFAULT_NAME;
 		this.width = option.width || 0;
 		this.height = option.height || 0;
@@ -58,14 +58,23 @@ export default class Sprite_Base {
 	}
 
 	/**
-	 * 初期化処理
+	 * スプライトの設定
 	 * @returns
 	 */
-	public async init(): Promise<void> {
+	public async setSprite(): Promise<void> {
+		// MEMO: オーバーライドして使用する
+		return;
+	}
+
+	/**
+	 * コンテナの設定
+	 * @returns
+	 */
+	protected async setContainer(): Promise<void> {
 		// スプライトの入れ物を設定
 		const container = new Container();
 		container.name = this.name;
-		this.setSprite(container);
+		this.container = container;
 
 		// 描画を行うクラスに登録
 		const canvas = GameManager.getCanvas();
@@ -91,20 +100,20 @@ export default class Sprite_Base {
 	 * @returns
 	 */
 	public destroy(): void {
-		const sprite = this.getSprite();
-		if (!sprite) return;
+		const container = this.getContainer();
+		if (!container) return;
 
-		sprite.destroy();
+		container.destroy();
 
 		return;
 	}
 
 	/**
-	 * スプライトを取得
-	 * @returns sprite | undefined
+	 * コンテナを取得
+	 * @returns container | undefined
 	 */
-	public getSprite(): Container | undefined {
-		return this.sprite;
+	protected getContainer(): Container | undefined {
+		return this.container;
 	}
 
 	/**
@@ -127,14 +136,6 @@ export default class Sprite_Base {
 			};
 		}
 		return func;
-	}
-
-	/**
-	 * スプライトを設定する
-	 * @param sprite
-	 */
-	protected setSprite(sprite: Container): void {
-		this.sprite = sprite;
 	}
 
 	/**
@@ -167,10 +168,10 @@ export default class Sprite_Base {
 	 * @returns
 	 */
 	public clearPosition(): void {
-		const sprite = this.getSprite();
-		if (!sprite) return;
+		const container = this.getContainer();
+		if (!container) return;
 
-		sprite.x = 0;
-		sprite.y = 0;
+		container.x = 0;
+		container.y = 0;
 	}
 }

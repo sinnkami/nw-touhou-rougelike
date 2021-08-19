@@ -11,22 +11,23 @@ const SPRITE_NAME = "map";
  * マップの描画を行うクラス
  */
 export default class Sprite_Map extends Sprite_Base {
-	protected readonly path: string;
+	protected path: string = "";
 
-	public constructor(option: ISpriteMapOption) {
+	public init(option: ISpriteMapOption): void {
 		if (option.delay === undefined) option.delay = 8;
 
-		super(option);
+		super.init(option);
 		this.path = option.path;
 	}
 
 	/**
-	 * 初期化処理
+	 * 描画するスプライトを設定
+	 * @override
 	 */
-	public async init(): Promise<void> {
+	public async setSprite(): Promise<void> {
 		// コンテナを設定し、取得
-		await super.init();
-		const container = super.getSprite();
+		await super.setContainer();
+		const container = super.getContainer();
 		if (!container) throw new Error("not container");
 
 		// スプライトシートを取得し、設定
@@ -69,8 +70,8 @@ export default class Sprite_Map extends Sprite_Base {
 	 * @override
 	 */
 	public update(): void {
-		super.update();
 		// MEMO: 特段処理する必要はなし
+		// super.update();
 		return;
 	}
 
@@ -80,16 +81,16 @@ export default class Sprite_Map extends Sprite_Base {
 	 * @param y
 	 */
 	public move(x: number, y: number): void {
-		const sprite = this.getSprite();
-		if (!sprite) throw new Error("no sprite");
+		const container = super.getContainer();
+		if (!container) throw new Error("no sprite");
 
 		// 移動出来ないようにする時間
 		this.nextUpdateFrame = GameManager.loop.frameCount + this.delay;
 
 		// 更新処理を設定
 		this.setUpdateFunc((frame: number) => {
-			sprite.x -= x * (32 / this.delay);
-			sprite.y -= y * (32 / this.delay);
+			container.x -= x * (32 / this.delay);
+			container.y -= y * (32 / this.delay);
 
 			if (frame >= this.nextUpdateFrame) {
 				return this.deleteUpdateFunc();
@@ -103,10 +104,10 @@ export default class Sprite_Map extends Sprite_Base {
 	 * @returns
 	 */
 	public getChildByName(name: string): Sprite {
-		const sprite = this.getSprite();
-		if (!sprite) throw new Error("no sprite");
+		const container = super.getContainer();
+		if (!container) throw new Error("no sprite");
 
-		const childSprite = sprite.getChildByName(name);
+		const childSprite = container.getChildByName(name);
 		return childSprite as Sprite;
 	}
 }
