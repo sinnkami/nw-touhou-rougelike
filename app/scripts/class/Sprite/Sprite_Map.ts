@@ -70,8 +70,7 @@ export default class Sprite_Map extends Sprite_Base {
 	 * @override
 	 */
 	public update(): void {
-		// MEMO: 特段処理する必要はなし
-		// super.update();
+		super.update();
 		return;
 	}
 

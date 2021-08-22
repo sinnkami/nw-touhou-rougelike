@@ -23,28 +23,28 @@ export default class Sprite_Character extends Sprite_Base {
 	private runingAnimation: CharacterAnimation = CharacterAnimation.Down;
 
 	// 読み込むファイルパス
-	protected readonly path: string;
+	protected path: string = "";
 
 	// 歩行アニメーションの更新速度
-	protected readonly animationSpeed: number;
+	protected animationSpeed: number = 0;
 
-	public constructor(option: ISpriteCharacterOption) {
+	public init(option: ISpriteCharacterOption): void {
 		if (option.name === undefined) option.name = SPRITE_NAME;
 		if (option.delay === undefined) option.delay = 8;
 
-		super(option);
+		super.init(option);
 		this.path = option.path;
 		this.animationSpeed = option.animationSpeed || 0.25;
 	}
 
 	/**
-	 * 初期化処理
+	 * 描画するスプライトを設定
 	 * @override
 	 */
-	public async init(): Promise<void> {
+	public async setSprite(): Promise<void> {
 		// コンテナを設定し、取得
-		await super.init();
-		const container = super.getSprite();
+		await super.setContainer();
+		const container = super.getContainer();
 		if (!container) throw new Error("not container");
 
 		// スプライトシートを取得し、設定
@@ -163,7 +163,7 @@ export default class Sprite_Character extends Sprite_Base {
 	 * @param y
 	 */
 	public move(x: number, y: number): void {
-		const sprite = super.getSprite();
+		const sprite = super.getContainer();
 		if (!sprite) throw new Error("no sprite");
 
 		// 移動出来ないようにする時間
@@ -176,7 +176,7 @@ export default class Sprite_Character extends Sprite_Base {
 	 * @returns sprite
 	 */
 	public getSprite(): AnimatedSprite | undefined {
-		const container = super.getSprite();
+		const container = super.getContainer();
 		if (!container) return;
 
 		// キャラ画像は1つのみなので最初を取得

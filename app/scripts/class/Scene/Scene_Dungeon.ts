@@ -1,5 +1,6 @@
 import { IGameMapData } from "../../definitions/class/Game/IGameMap";
-import Const, { EventName, KeyCode } from "../Const";
+import { IProcessInfo, IResourceInfo } from "../../definitions/class/Scene/ISceneDungeon";
+import { CommonConstruct, EventName, KeyCode } from "../Construct/CommonConstruct";
 import GameManager from "../GameManager";
 import ResourceManager from "../ResourceManager";
 import SceneManager from "../SceneManager";
@@ -9,16 +10,56 @@ import { Sprite_Message } from "../Sprite/Sprite_Message";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
 import Scene_Base from "./Scene_Base";
 
-enum ProcessName {
+/** プロセス名 */
+export enum ProcessName {
 	MapRender = "MapRender",
 	PlayerRender = "PlayerRender",
 	InputProcess = "InputProcess",
 }
 
+/** 画像パスを取得する際の名前 */
+export enum ResourceName {
+	Map = "Map",
+	Character = "Character",
+}
+
+/** 解像度 */
+const SIZE = CommonConstruct.size;
+
 /**
  * ダンジョン内シーン
  */
 export default class Scene_Dungeon extends Scene_Base {
+	// TODO: この2種Baseに移動したいけど、取得が・・・・
+	// プロセス情報
+	private processInfo: IProcessInfo = {
+		[ProcessName.MapRender]: {
+			class: new Sprite_Map(),
+			process: async (time: number) => this.processInfo[ProcessName.MapRender].class.update(),
+		},
+		[ProcessName.PlayerRender]: {
+			class: new Sprite_Character(),
+			process: async (time: number) => this.processInfo[ProcessName.PlayerRender].class.update(),
+		},
+		[ProcessName.InputProcess]: {
+			class: undefined,
+			process: async (time: number) => this.inputProcess(),
+		},
+	};
+	private get processList(): ((time: number) => Promise<void>)[] {
+		return Object.values(this.processInfo).map((info: { process: (time: number) => Promise<void> }) => {
+			return info.process;
+		});
+	}
+
+	// リソース情報
+	private resourceInfo: IResourceInfo;
+
+	public constructor(resourceInfo: IResourceInfo) {
+		super();
+		this.resourceInfo = resourceInfo;
+	}
+
 	/**
 	 * シーンを開始する
 	 * TODO: いい感じに切り分けたい
@@ -37,30 +78,24 @@ export default class Scene_Dungeon extends Scene_Base {
 		// 描画するマップを設定
 		// MEMO: 現在地と中心点の差分を見て調節を行う
 		// TODO: この意味わからん数値を良い感じにわかりやすくしたい
-		const mapPath = 
-		const MapRender = new Sprite_Map({
-			path: MAP_PATH,
-			x: Const.size.width / 32 / 2 - GameManager.player.getPosition().x - 1,
-			y: Const.size.height / 32 / 2 - GameManager.player.getPosition().y,
+		const MapRender = this.processInfo[ProcessName.MapRender].class;
+		console.log(this.resourceInfo);
+		await MapRender.init({
+			path: this.resourceInfo[ResourceName.Map],
+			x: SIZE.width / 32 / 2 - GameManager.player.getPosition().x - 1,
+			y: SIZE.height / 32 / 2 - GameManager.player.getPosition().y,
 		});
-		await MapRender.init();
-		this.addProcess({
-			name: "MapRender",
-			process: async () => MapRender.update(),
-		});
+		await MapRender.setSprite();
 
 		// 描画する操作キャラを設定
 		// MEMO: キャラを画面中心に表示する
-		const PlayerRender = new Sprite_Character({
-			path: CHARACTER_PATH,
-			x: Const.size.width / 32 / 2 - 1,
-			y: Const.size.height / 32 / 2,
+		const PlayerRender = this.processInfo[ProcessName.PlayerRender].class;
+		await PlayerRender.init({
+			path: this.resourceInfo[ResourceName.Character],
+			x: SIZE.width / 32 / 2 - 1,
+			y: SIZE.height / 32 / 2,
 		});
-		await PlayerRender.init();
-		this.addProcess({
-			name: "PlayerRender",
-			process: async () => PlayerRender.update(),
-		});
+		await PlayerRender.setSprite();
 
 		// const TestText = new Sprite_Text({
 		// 	text:
@@ -77,12 +112,6 @@ export default class Scene_Dungeon extends Scene_Base {
 		// 	process: async () => TestText.update(),
 		// });
 
-		// 通常時のキー入力の処理
-		this.addProcess({
-			name: "InputProcess",
-			process: ,
-		});
-
 		SceneManager.completeLoading();
 	}
 
@@ -93,7 +122,7 @@ export default class Scene_Dungeon extends Scene_Base {
 	 */
 	public async updateScene(): Promise<void> {
 		await super.updateScene();
-		this.renderList.forEach(render => render());
+		this.processList.forEach(process => process(GameManager.loop.frameCount));
 	}
 
 	/**
@@ -102,10 +131,17 @@ export default class Scene_Dungeon extends Scene_Base {
 	 * @returns
 	 */
 	public async stopScene(): Promise<void> {
-		this.renderList = [];
+		return;
 	}
 
+	/**
+	 * キー入力の処理を行う
+	 * @returns
+	 */
 	private async inputProcess(): Promise<void> {
+		const MapRender = this.processInfo[ProcessName.MapRender].class;
+		const PlayerRender = this.processInfo[ProcessName.PlayerRender].class;
+
 		// 移動アニメーション中は移動不可
 		if (MapRender.isAnimation) return;
 
@@ -124,6 +160,7 @@ export default class Scene_Dungeon extends Scene_Base {
 
 		// 移動量に合わせてキャラを移動
 		const flag = GameManager.player.move(x, y);
+		console.log(flag);
 		if (flag) {
 			// 移動できたならマップをずらす
 			MapRender.move(x, y);
