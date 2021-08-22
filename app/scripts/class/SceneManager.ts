@@ -1,6 +1,6 @@
 import ErrorManager, { ErrorCode } from "./ErrorManager";
+import { EventCode, EventManager } from "./EventManager";
 import Scene_Base from "./Scene/Scene_Base";
-import Scene_Dungeon from "./Scene/Scene_Dungeon";
 
 /**
  * シーンを管理するクラス
@@ -24,8 +24,8 @@ export default class SceneManager {
 	 */
 	public static init(): Promise<void> {
 		// TODO: Scene_Bootを作成し、設定
-		const scene = new Scene_Dungeon();
-		return Promise.all([this.setScene(scene)]).then();
+		const event = EventManager.getEvent(EventCode.InvasionDungeon);
+		return event.execute();
 	}
 
 	/**

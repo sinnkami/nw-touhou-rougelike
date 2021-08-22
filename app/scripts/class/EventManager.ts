@@ -1,4 +1,5 @@
 import { Event_0001 } from "./Event/Event_0001";
+import { Event_0002 } from "./Event/Event_0002";
 import { Event_Base } from "./Event/Event_Base";
 
 /**
@@ -16,14 +17,17 @@ export class EventManager {
 	/**
 	 * イベント内容を取得
 	 */
-	public static getEvent(eventCode: EventCode): Event_Base | undefined {
+	public static getEvent(eventCode: EventCode): Event_Base {
 		switch (eventCode) {
 			case EventCode.Stairs:
 				return new Event_0001();
+			case EventCode.InvasionDungeon:
+				return new Event_0002();
 		}
 	}
 }
 
 export enum EventCode {
 	Stairs = "1",
+	InvasionDungeon = "2",
 }
