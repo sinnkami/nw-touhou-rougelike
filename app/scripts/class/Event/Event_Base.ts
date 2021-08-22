@@ -6,7 +6,7 @@ export class Event_Base {
 	 * イベントを実行
 	 * @returns
 	 */
-	public execute(): void {
-		return;
+	public async execute(): Promise<void> {
+		return Promise.resolve();
 	}
 }

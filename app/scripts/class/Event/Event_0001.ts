@@ -11,11 +11,11 @@ export class Event_0001 extends Event_Base {
 	 * イベントを実行
 	 * @override
 	 */
-	public execute(): void {
+	public async execute(): Promise<void> {
 		SceneManager.stopScene();
 		GameManager.map.initMapData();
 
 		// 再実行することでダンジョン階層を変更
-		SceneManager.startScene();
+		return SceneManager.startScene();
 	}
 }
