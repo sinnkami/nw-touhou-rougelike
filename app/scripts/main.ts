@@ -19,7 +19,7 @@ window.onload = () => {
 		ErrorManager.init(),
 		EventManager.init(),
 	]).then(() => {
-		GameManager.loop.gameStart();
+		GameManager.loop.gameLoopStart();
 	});
 };
 
