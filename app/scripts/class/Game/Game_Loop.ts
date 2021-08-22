@@ -22,20 +22,19 @@ export class Game_Loop extends Game_Base {
 	}
 
 	/**
-	 * ゲーム開始処理
+	 * ゲームループ開始処理
 	 */
-	public async gameStart(): Promise<void> {
+	public async gameLoopStart(): Promise<void> {
 		this.isLoop = true;
-		await SceneManager.startScene();
 		requestAnimationFrame(this.gameLoop.bind(this));
 		return Promise.resolve();
 	}
 
 	/**
-	 * ゲームの停止
+	 * ゲームループ停止処理
 	 * MEMO: 実際に停止するのは処理のみでウィンドウ自体は存在
 	 */
-	public async gameStop(): Promise<void> {
+	public async gameLoopStop(): Promise<void> {
 		this.isLoop = false;
 	}
 
