@@ -10,48 +10,42 @@ const SPRITE_NAME = "text";
  */
 export class Sprite_Text extends Sprite_Base {
 	// 表示するテキスト
-	protected readonly text: string;
+	protected text: string = "";
 
 	// 表示する際のフォントサイズ
-	protected readonly fontSize: number;
+	protected fontSize: number = 0;
 
-	public constructor(option: ISpriteMessageOption) {
+	public init(option: ISpriteMessageOption): void {
 		if (option.name === undefined) option.name = SPRITE_NAME;
 
-		super(option);
+		super.init(option);
 		this.text = option.text;
 		this.fontSize = option.fontSize;
 	}
 
 	/**
-	 * 初期化処理
+	 * 描画するスプライトを設定
 	 * @override
 	 */
-	public async init(): Promise<void> {
+	public async setSprite(): Promise<void> {
 		// コンテナを設定し、取得
-		await super.init();
-		const container = super.getSprite();
+		await super.setContainer();
+		const container = super.getContainer();
 		if (!container) throw new Error("not container");
 
 		// コンテナの初期位置を設定
 		container.setTransform(this.x, this.y);
 
 		// TODO: 背景画像を仮の物ではなくちゃんとした物へ
-		container.addChild(new Graphics().beginFill(0x008000).drawRect(0, 0, this.width, this.height));
+		container.addChild(new Graphics().beginFill(0x008000).drawRect(this.x, this.y, this.width, this.height));
 
-		// まず表示できる文字数で切り出す
-		const textListBySplitLength = this.text.match(
-			new RegExp(`.{0,${Math.floor(this.width / this.fontSize)}}`, "g")
-		);
-		if (!textListBySplitLength) throw new Error("not text");
-
-		const value = textListBySplitLength.filter(v => v.length).reduce((a, b) => a + "\n" + b, "");
-
-		const text = new Text(value, {
+		const text = new Text(this.text, {
 			fontSize: this.fontSize,
 			fill: "#FFFFFF",
 			align: "left",
 		});
+
+		text.setTransform(this.x, this.y);
 
 		container.addChild(text);
 

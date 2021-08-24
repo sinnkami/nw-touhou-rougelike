@@ -20,35 +20,35 @@ export class Sprite_Message extends Sprite_Base {
 	private textList: string[][] = [];
 
 	// 表示するテキスト
-	protected readonly text: string;
+	protected text: string = "";
 
 	// 表示する際のフォントサイズ
-	protected readonly fontSize: number;
+	protected fontSize: number = 0;
 
-	public constructor(option: ISpriteMessageOption) {
+	public init(option: ISpriteMessageOption): void {
 		if (option.name === undefined) option.name = SPRITE_NAME;
 		if (option.delay === undefined) option.delay = 4;
 
-		super(option);
+		super.init(option);
 		this.text = option.text;
 		this.fontSize = option.fontSize;
 	}
 
 	/**
-	 * 初期化処理
+	 * 描画するスプライトを設定
 	 * @override
 	 */
-	public async init(): Promise<void> {
+	public async setSprite(): Promise<void> {
 		// コンテナを設定し、取得
-		await super.init();
-		const container = super.getSprite();
+		await super.setContainer();
+		const container = super.getContainer();
 		if (!container) throw new Error("not container");
 
 		// コンテナの初期位置を設定
 		container.setTransform(this.x, this.y);
 
 		// TODO: 背景画像を仮の物ではなくちゃんとした物へ
-		container.addChild(new Graphics().beginFill(0x008000).drawRect(0, 0, this.width, this.height));
+		container.addChild(new Graphics().beginFill(0x008000).drawRect(this.x, this.y, this.width, this.height));
 
 		// テキスト情報を作成する
 		// まず表示できる文字数で切り出す
@@ -84,7 +84,7 @@ export class Sprite_Message extends Sprite_Base {
 	}
 
 	private appendText(): void {
-		const container = super.getSprite();
+		const container = super.getContainer();
 		if (!container) return;
 
 		// 次に表示する行が無い場合は、処理しない
@@ -104,8 +104,8 @@ export class Sprite_Message extends Sprite_Base {
 			fill: "#FFFFFF",
 			align: "center",
 		});
-		text.x = this.fontSize * this.textIndex;
-		text.y = this.fontSize * this.newLineCount;
+		text.x = this.x + this.fontSize * this.textIndex;
+		text.y = this.y + this.fontSize * this.newLineCount;
 
 		const size = text.width;
 
