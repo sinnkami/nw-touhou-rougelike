@@ -57,22 +57,16 @@ export default class Game_Character extends Game_Base {
 	 * @returns boolean (移動できたかどうか)
 	 */
 	public move(x: number, y: number): boolean {
-		let flag = false;
-		if (Math.sign(x) > 0 && this.canMove(x, y)) {
+		let flag = true;
+
+		if (Math.sign(x) > 0 && !this.canMove(x, y)) flag = false;
+		if (Math.sign(x) < 0 && !this.canMove(x, y)) flag = false;
+		if (Math.sign(y) > 0 && !this.canMove(x, y)) flag = false;
+		if (Math.sign(y) < 0 && !this.canMove(x, y)) flag = false;
+
+		if (flag) {
 			this.x += x;
-			flag = true;
-		}
-		if (Math.sign(x) < 0 && this.canMove(x, y)) {
-			this.x += x;
-			flag = true;
-		}
-		if (Math.sign(y) > 0 && this.canMove(x, y)) {
 			this.y += y;
-			flag = true;
-		}
-		if (Math.sign(y) < 0 && this.canMove(x, y)) {
-			this.y += y;
-			flag = true;
 		}
 
 		return flag;
