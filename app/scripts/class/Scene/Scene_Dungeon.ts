@@ -1,6 +1,7 @@
 import { IGameMapData } from "../../definitions/class/Game/IGameMap";
 import { IProcessInfo, IResourceInfo } from "../../definitions/class/Scene/ISceneDungeon";
 import { CommonConstruct, EventName, KeyCode } from "../Construct/CommonConstruct";
+import { EventCode, EventManager } from "../EventManager";
 import GameManager from "../GameManager";
 import ResourceManager from "../ResourceManager";
 import SceneManager from "../SceneManager";
@@ -15,6 +16,8 @@ export enum ProcessName {
 	MapRender = "MapRender",
 	PlayerRender = "PlayerRender",
 	InputProcess = "InputProcess",
+	StairsText = "StairsText",
+	TestProcess = "TestProcess",
 }
 
 /** 画像パスを取得する際の名前 */
@@ -32,7 +35,7 @@ const SIZE = CommonConstruct.size;
 export default class Scene_Dungeon extends Scene_Base {
 	// TODO: この2種Baseに移動したいけど、取得が・・・・
 	// プロセス情報
-	private processInfo: IProcessInfo = {
+	public readonly processInfo: IProcessInfo = {
 		[ProcessName.MapRender]: {
 			class: new Sprite_Map(),
 			process: async (time: number) => this.processInfo[ProcessName.MapRender].class.update(),
@@ -45,6 +48,10 @@ export default class Scene_Dungeon extends Scene_Base {
 			class: undefined,
 			process: async (time: number) => this.inputProcess(),
 		},
+		[ProcessName.StairsText]: {
+			class: new Sprite_Text(),
+			process: async (time: number) => this.processInfo[ProcessName.StairsText].class.update(),
+		},
 	};
 	private get processList(): ((time: number) => Promise<void>)[] {
 		return Object.values(this.processInfo).map((info: { process: (time: number) => Promise<void> }) => {
@@ -53,7 +60,7 @@ export default class Scene_Dungeon extends Scene_Base {
 	}
 
 	// リソース情報
-	private resourceInfo: IResourceInfo;
+	public readonly resourceInfo: IResourceInfo;
 
 	public constructor(resourceInfo: IResourceInfo) {
 		super();
@@ -97,7 +104,19 @@ export default class Scene_Dungeon extends Scene_Base {
 		});
 		await PlayerRender.setSprite();
 
-		// const TestText = new Sprite_Text({
+		const StairsText = this.processInfo[ProcessName.StairsText].class;
+		await StairsText.init({
+			text: `${GameManager.dungeon.getName()}: ${GameManager.dungeon.getCurrentHierarchy()}F`,
+			x: 10,
+			y: 10,
+			width: 300,
+			height: 30,
+			fontSize: 25,
+		});
+		await StairsText.setSprite();
+
+		// const TestText = this.processInfo[ProcessName.TestProcess].class;
+		// await TestText.init({
 		// 	text:
 		// 		"滲み出す混濁の紋章\n不遜なる狂気の器\n湧き上がり・否定し・痺れ・瞬き・眠りを妨げる爬行する鉄の王女\n絶えず自壊する泥の人形\n結合せよ\n反発せよ\n地に満ち\n己の無力を知れ\n破道の九十・黒棺",
 		// 	x: 100,
@@ -106,11 +125,7 @@ export default class Scene_Dungeon extends Scene_Base {
 		// 	height: 900,
 		// 	fontSize: 25,
 		// });
-		// await TestText.init();
-		// this.addProcess({
-		// 	name: "TestText",
-		// 	process: async () => TestText.update(),
-		// });
+		// await TestText.setSprite();
 
 		SceneManager.completeLoading();
 	}
@@ -151,7 +166,6 @@ export default class Scene_Dungeon extends Scene_Base {
 		let y = 0;
 
 		// TODO: ローグライクで斜め移動ってだめでは・・・？
-		// TODO: 通路に入り込む際に上手く斜め移動を行うと、描画が1マスずれる
 		// 方向キーの処理
 		if (GameManager.input.isPushedKey(KeyCode.Up)) y -= speed;
 		if (GameManager.input.isPushedKey(KeyCode.Down)) y += speed;
@@ -160,7 +174,6 @@ export default class Scene_Dungeon extends Scene_Base {
 
 		// 移動量に合わせてキャラを移動
 		const flag = GameManager.player.move(x, y);
-		console.log(flag);
 		if (flag) {
 			// 移動できたならマップをずらす
 			MapRender.move(x, y);
@@ -175,13 +188,8 @@ export default class Scene_Dungeon extends Scene_Base {
 			const eventChip = GameManager.map.getEventMapChip(position.x, position.y);
 			if (eventChip) {
 				// 存在した場合は処理を行う
-				// TODO: イベントタイルの処理
 				console.log(eventChip.name, eventChip.event);
 				if (eventChip.event) {
-					//TODO: イベントクラス内で行う
-					PlayerRender.destroy();
-					MapRender.destroy();
-
 					eventChip.event.execute();
 				}
 			}

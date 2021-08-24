@@ -1,6 +1,7 @@
 import { AbstractRenderer, Renderer } from "pixi.js";
 import Canvas from "../modules/Canvas/Canvas";
 import { CommonConstruct } from "./Construct/CommonConstruct";
+import { Game_Dungeon } from "./Game/Game_Dungeon";
 import Game_Input from "./Game/Game_Input";
 import { Game_Loop } from "./Game/Game_Loop";
 import { Game_Map } from "./Game/Game_Map";
@@ -21,6 +22,7 @@ export default class GameManager {
 	public static loop: Game_Loop = new Game_Loop();
 	public static input: Game_Input = new Game_Input();
 	public static player: Game_Player = new Game_Player();
+	public static dungeon: Game_Dungeon = new Game_Dungeon();
 
 	/**
 	 * 初期化処理
