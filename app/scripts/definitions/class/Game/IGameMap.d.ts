@@ -1,5 +1,5 @@
 import { MapChip } from "../../../class/Construct/CommonConstruct";
-import { Event_Base } from "../../../class/Event/Event_Base";
+import { EventCode } from "../../../class/EventManager";
 
 /** マップチップの情報 */
 export interface IGameMapData {
@@ -11,5 +11,5 @@ export interface IGameMapData {
 /** イベントタイルの情報 */
 export interface IGameEventMapData extends IGameMapData {
 	name: string;
-	event?: Event_Base;
+	event?: EventCode;
 }

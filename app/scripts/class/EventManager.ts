@@ -17,12 +17,14 @@ export class EventManager {
 	/**
 	 * イベント内容を取得
 	 */
-	public static getEvent(eventCode: EventCode): Event_Base {
+	public static getEvent(eventCode: EventCode | undefined): Event_Base {
 		switch (eventCode) {
 			case EventCode.Stairs:
 				return new Event_0001();
 			case EventCode.InvasionDungeon:
 				return new Event_0002();
+			default:
+				throw new Error("no event");
 		}
 	}
 }

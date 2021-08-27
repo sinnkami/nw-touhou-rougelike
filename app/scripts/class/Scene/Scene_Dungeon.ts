@@ -188,10 +188,8 @@ export default class Scene_Dungeon extends Scene_Base {
 			const eventChip = GameManager.map.getEventMapChip(position.x, position.y);
 			if (eventChip) {
 				// 存在した場合は処理を行う
-				console.log(eventChip.name, eventChip.event);
-				if (eventChip.event) {
-					eventChip.event.execute();
-				}
+				const event = EventManager.getEvent(eventChip.event);
+				event.execute();
 			}
 		}
 	}

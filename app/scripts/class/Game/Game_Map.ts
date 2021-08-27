@@ -164,7 +164,7 @@ export class Game_Map extends Game_Base {
 
 		const eventMapChip: IGameEventMapData = Object.assign({ name: EventName.Stairs }, mapChip);
 
-		eventMapChip.event = EventManager.getEvent(EventCode.Stairs);
+		eventMapChip.event = EventCode.Stairs;
 		eventMapChip.chip = MapChip.Stairs;
 
 		this.getEventMapData().push(eventMapChip);
