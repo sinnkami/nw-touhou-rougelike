@@ -19,7 +19,7 @@ export class Event_0002 extends Event_Base {
 		const CHARACTER_PATH = "assets/images/character/ReimuHakurei.png";
 
 		// TODO: マップ情報から取得する
-		GameManager.dungeon.invadeDungeon("テストダンジョン");
+		GameManager.map.setName("テストダンジョン");
 
 		return ResourceManager.loadResources([MAP_PATH, CHARACTER_PATH])
 			.then(() =>

@@ -106,7 +106,7 @@ export default class Scene_Dungeon extends Scene_Base {
 
 		const StairsText = this.processInfo[ProcessName.StairsText].class;
 		await StairsText.init({
-			text: `${GameManager.dungeon.getName()}: ${GameManager.dungeon.getCurrentHierarchy()}F`,
+			text: `${GameManager.map.getName()}: ${GameManager.dungeon.getCurrentHierarchy()}F`,
 			x: 10,
 			y: 10,
 			width: 300,

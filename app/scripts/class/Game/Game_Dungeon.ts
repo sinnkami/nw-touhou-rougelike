@@ -4,9 +4,6 @@ import { Game_Base } from "./Game_Base";
  * 突入中のダンジョンの情報を保持するクラス
  */
 export class Game_Dungeon extends Game_Base {
-	// ダンジョン名
-	private name: string;
-
 	// 現在の階層
 	private currentHierarchy: number;
 
@@ -14,14 +11,12 @@ export class Game_Dungeon extends Game_Base {
 		super();
 
 		this.currentHierarchy = 0;
-		this.name = "";
 	}
 
 	/**
 	 * ダンジョンに侵入した際の必要な情報を設定する
 	 */
-	public invadeDungeon(name: string): void {
-		this.setName(name);
+	public invadeDungeon(): void {
 		this.setCurrentHierarchy(1);
 	}
 
@@ -30,24 +25,7 @@ export class Game_Dungeon extends Game_Base {
 	 * @returns
 	 */
 	public returnFromDungeon(): void {
-		this.setName("");
 		this.setCurrentHierarchy(0);
-	}
-
-	/**
-	 * ダンジョン名を取得
-	 * @returns ダンジョン名
-	 */
-	public getName(): string {
-		return this.name;
-	}
-
-	/**
-	 * ダンジョン名を設定
-	 * @param name
-	 */
-	public setName(name: string): void {
-		this.name = name;
 	}
 
 	/**
