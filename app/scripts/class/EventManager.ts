@@ -1,5 +1,6 @@
 import { Event_0001 } from "./Event/Event_0001";
 import { Event_0002 } from "./Event/Event_0002";
+import { Event_0003 } from "./Event/Event_0003";
 import { Event_Base } from "./Event/Event_Base";
 
 /**
@@ -23,6 +24,8 @@ export class EventManager {
 				return new Event_0001();
 			case EventCode.InvasionDungeon:
 				return new Event_0002();
+			case EventCode.Title:
+				return new Event_0003();
 			default:
 				throw new Error("no event");
 		}
@@ -32,4 +35,5 @@ export class EventManager {
 export enum EventCode {
 	Stairs = "1",
 	InvasionDungeon = "2",
+	Title = "3",
 }

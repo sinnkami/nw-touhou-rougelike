@@ -24,7 +24,8 @@ export default class SceneManager {
 	 */
 	public static init(): Promise<void> {
 		// TODO: Scene_Bootを作成し、設定
-		const event = EventManager.getEvent(EventCode.InvasionDungeon);
+		// MEMO: Boot要らない気がしてきた
+		const event = EventManager.getEvent(EventCode.Title);
 		return event.execute();
 	}
 
