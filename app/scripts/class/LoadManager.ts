@@ -1,9 +1,8 @@
 import { Graphics } from "@pixi/graphics";
 import { Sprite } from "@pixi/sprite";
+import sleep from "../modules/utils/sleep";
 import { CommonConstruct } from "./Construct/CommonConstruct";
 import GameManager from "./GameManager";
-
-const sleep = (msec: number) => new Promise(resolve => setTimeout(resolve, msec));
 
 export default class LoadManager {
 	private static loadingList: string[] = [];
@@ -15,6 +14,7 @@ export default class LoadManager {
 	}
 
 	public static init(): Promise<void> {
+		// ローディング中に表示する内容
 		this.loadingSprite.name = "loading";
 		this.loadingSprite.zIndex = 9999;
 		this.loadingSprite.beginFill(0x000000);
