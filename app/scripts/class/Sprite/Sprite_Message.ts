@@ -1,7 +1,7 @@
 import { Graphics, Text } from "pixi.js";
 import { ISpriteMessageOption } from "../../definitions/class/Sprite/ISpriteMessage";
 
-import GameManager from "../GameManager";
+import GameManager from "../manager/GameManager";
 import Sprite_Base from "./Sprite_Base";
 
 const SPRITE_NAME = "message";

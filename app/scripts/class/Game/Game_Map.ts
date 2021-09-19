@@ -3,7 +3,7 @@ import Uniform from "rot-js/lib/map/uniform";
 import { ICharacterPosition } from "../../definitions/class/Game/IGameCharacter";
 import { IGameEventMapData, IGameMapData } from "../../definitions/class/Game/IGameMap";
 import { CommonConstruct, EventName, MapChip } from "../Construct/CommonConstruct";
-import { EventCode, EventManager } from "../EventManager";
+import { EventCode } from "../manager/EventManager";
 import { Game_Base } from "./Game_Base";
 
 /** 画面外を表示しないための壁サイズ */

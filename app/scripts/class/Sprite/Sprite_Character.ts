@@ -1,8 +1,8 @@
-import { AnimatedSprite, Container, Sprite, Spritesheet } from "pixi.js";
+import { AnimatedSprite, Spritesheet } from "pixi.js";
 import Sprite_Base from "./Sprite_Base";
 import json from "../../../spritesheet/character.json";
-import GameManager from "../GameManager";
-import ResourceManager from "../ResourceManager";
+import GameManager from "../manager/GameManager";
+import ResourceManager from "../manager/ResourceManager";
 import { KeyCode } from "../Construct/CommonConstruct";
 import { IKeyInfo } from "../../definitions/class/Game/IGameInput";
 import { ISpriteCharacterOption } from "../../definitions/class/Sprite/ISpriteCharacter";

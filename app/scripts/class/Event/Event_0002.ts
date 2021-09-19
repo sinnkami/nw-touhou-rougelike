@@ -1,11 +1,10 @@
-import ResourceManager from "../ResourceManager";
+import ResourceManager from "../manager/ResourceManager";
 import Scene_Dungeon from "../Scene/Scene_Dungeon";
-import SceneManager from "../SceneManager";
+import SceneManager from "../manager/SceneManager";
 import { Event_Base } from "./Event_Base";
 import { ResourceName } from "../Scene/Scene_Dungeon";
-import GameManager from "../GameManager";
-import { EventManager } from "../EventManager";
-import LoadManager from "../LoadManager";
+import GameManager from "../manager/GameManager";
+import LoadManager from "../manager/LoadManager";
 
 /**
  * 0002: ダンジョン突入イベント

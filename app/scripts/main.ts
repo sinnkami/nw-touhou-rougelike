@@ -1,13 +1,13 @@
 import "babel-polyfill";
-import DataManager from "./class/DataManager";
+import DataManager from "./class/manager/DataManager";
 
-import DebugManager from "./class/DebugManager";
-import ErrorManager from "./class/ErrorManager";
-import { EventManager } from "./class/EventManager";
-import GameManager from "./class/GameManager";
-import LoadManager from "./class/LoadManager";
-import ResourceManager from "./class/ResourceManager";
-import SceneManager from "./class/SceneManager";
+import DebugManager from "./class/manager/DebugManager";
+import ErrorManager from "./class/manager/ErrorManager";
+import { EventManager } from "./class/manager/EventManager";
+import GameManager from "./class/manager/GameManager";
+import LoadManager from "./class/manager/LoadManager";
+import ResourceManager from "./class/manager/ResourceManager";
+import SceneManager from "./class/manager/SceneManager";
 /**
  * 初期動作
  * TODO: Scene_Boot 作成予定

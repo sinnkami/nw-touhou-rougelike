@@ -1,11 +1,10 @@
-import { AbstractRenderer, Renderer } from "pixi.js";
-import Canvas from "../modules/Canvas/Canvas";
-import { CommonConstruct } from "./Construct/CommonConstruct";
-import { Game_Dungeon } from "./Game/Game_Dungeon";
-import Game_Input from "./Game/Game_Input";
-import { Game_Loop } from "./Game/Game_Loop";
-import { Game_Map } from "./Game/Game_Map";
-import Game_Player from "./Game/Game_Player";
+import Canvas from "../../modules/Canvas/Canvas";
+import { CommonConstruct } from "../Construct/CommonConstruct";
+import { Game_Dungeon } from "../Game/Game_Dungeon";
+import Game_Input from "../Game/Game_Input";
+import { Game_Loop } from "../Game/Game_Loop";
+import { Game_Map } from "../Game/Game_Map";
+import Game_Player from "../Game/Game_Player";
 
 // 解像度
 const SIZE = CommonConstruct.size;

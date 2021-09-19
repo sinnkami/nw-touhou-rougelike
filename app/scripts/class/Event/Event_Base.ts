@@ -1,5 +1,4 @@
-import { EventManager } from "../EventManager";
-import LoadManager from "../LoadManager";
+import LoadManager from "../manager/LoadManager";
 
 /**
  * イベント汎用クラス

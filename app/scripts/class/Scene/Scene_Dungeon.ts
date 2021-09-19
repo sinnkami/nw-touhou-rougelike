@@ -1,13 +1,9 @@
-import { IGameMapData } from "../../definitions/class/Game/IGameMap";
 import { IProcessInfo, IResourceInfo } from "../../definitions/class/Scene/ISceneDungeon";
-import { CommonConstruct, EventName, KeyCode } from "../Construct/CommonConstruct";
-import { EventCode, EventManager } from "../EventManager";
-import GameManager from "../GameManager";
-import ResourceManager from "../ResourceManager";
-import SceneManager from "../SceneManager";
+import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
+import { EventManager } from "../manager/EventManager";
+import GameManager from "../manager/GameManager";
 import Sprite_Character from "../Sprite/Sprite_Character";
 import Sprite_Map from "../Sprite/Sprite_Map";
-import { Sprite_Message } from "../Sprite/Sprite_Message";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
 import Scene_Base from "./Scene_Base";
 

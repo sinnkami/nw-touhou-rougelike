@@ -1,8 +1,8 @@
-import { Container, Sprite, Spritesheet } from "pixi.js";
+import { Sprite, Spritesheet } from "pixi.js";
 import Sprite_Base from "./Sprite_Base";
 import json from "../../../spritesheet/mapChip.json";
-import GameManager from "../GameManager";
-import ResourceManager from "../ResourceManager";
+import GameManager from "../manager/GameManager";
+import ResourceManager from "../manager/ResourceManager";
 import { ISpriteMapOption } from "../../definitions/class/Sprite/ISpriteMap";
 
 const SPRITE_NAME = "map";

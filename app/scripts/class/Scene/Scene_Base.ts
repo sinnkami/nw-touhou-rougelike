@@ -1,5 +1,5 @@
-import GameManager from "../GameManager";
-import LoadManager from "../LoadManager";
+import GameManager from "../manager/GameManager";
+import LoadManager from "../manager/LoadManager";
 
 /**
  * シーン汎用クラス

@@ -1,7 +1,7 @@
 import { Container, Spritesheet } from "pixi.js";
 import { ISpriteBaseOption } from "../../definitions/class/Sprite/ISpriteBase";
-import GameManager from "../GameManager";
-import LoadManager from "../LoadManager";
+import GameManager from "../manager/GameManager";
+import LoadManager from "../manager/LoadManager";
 
 // スプライトのデフォルト名
 export const DEFAULT_NAME = "sprite";

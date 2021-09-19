@@ -1,6 +1,6 @@
 import { Sprite } from "pixi.js";
 import { ISpriteBackgroundOption } from "../../definitions/class/Sprite/ISpriteBackGround";
-import ResourceManager from "../ResourceManager";
+import ResourceManager from "../manager/ResourceManager";
 import Sprite_Base from "./Sprite_Base";
 
 const SPRITE_NAME = "background";

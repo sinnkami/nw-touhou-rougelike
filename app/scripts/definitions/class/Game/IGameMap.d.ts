@@ -1,5 +1,5 @@
 import { MapChip } from "../../../class/Construct/CommonConstruct";
-import { EventCode } from "../../../class/EventManager";
+import { EventCode } from "../../../class/manager/EventManager";
 
 /** マップチップの情報 */
 export interface IGameMapData {

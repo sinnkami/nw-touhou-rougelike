@@ -1,7 +1,6 @@
 import { Graphics } from "@pixi/graphics";
-import { Sprite } from "@pixi/sprite";
-import sleep from "../modules/utils/sleep";
-import { CommonConstruct } from "./Construct/CommonConstruct";
+import sleep from "../../modules/utils/sleep";
+import { CommonConstruct } from "../Construct/CommonConstruct";
 import GameManager from "./GameManager";
 
 export default class LoadManager {

@@ -1,8 +1,8 @@
-import { Event_0001 } from "./Event/Event_0001";
-import { Event_0002 } from "./Event/Event_0002";
-import { Event_0003 } from "./Event/Event_0003";
-import { Event_0004 } from "./Event/Event_0004";
-import { Event_Base } from "./Event/Event_Base";
+import { Event_0001 } from "../Event/Event_0001";
+import { Event_0002 } from "../Event/Event_0002";
+import { Event_0003 } from "../Event/Event_0003";
+import { Event_0004 } from "../Event/Event_0004";
+import { Event_Base } from "../Event/Event_Base";
 
 /**
  * ゲーム内イベントを管理するクラス

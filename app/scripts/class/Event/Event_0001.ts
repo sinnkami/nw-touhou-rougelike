@@ -1,9 +1,6 @@
-import { EventManager } from "../EventManager";
-import GameManager from "../GameManager";
-import LoadManager from "../LoadManager";
-import Scene_Dungeon from "../Scene/Scene_Dungeon";
-import SceneManager from "../SceneManager";
-import Sprite_Base from "../Sprite/Sprite_Base";
+import GameManager from "../manager/GameManager";
+import LoadManager from "../manager/LoadManager";
+import SceneManager from "../manager/SceneManager";
 import { Event_Base } from "./Event_Base";
 
 /**

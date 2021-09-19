@@ -1,11 +1,8 @@
-import ResourceManager from "../ResourceManager";
-import Scene_Title from "../Scene/Scene_Title";
-import SceneManager from "../SceneManager";
+import ResourceManager from "../manager/ResourceManager";
+import SceneManager from "../manager/SceneManager";
 import { Event_Base } from "./Event_Base";
 import { ResourceName } from "../Scene/Scene_Title";
-import GameManager from "../GameManager";
-import { EventManager } from "../EventManager";
-import LoadManager from "../LoadManager";
+import LoadManager from "../manager/LoadManager";
 import Scene_Lobby from "../Scene/Scene_Lobby";
 
 /**

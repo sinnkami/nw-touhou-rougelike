@@ -1,7 +1,6 @@
 import ErrorManager, { ErrorCode } from "./ErrorManager";
 import { EventCode, EventManager } from "./EventManager";
-import LoadManager from "./LoadManager";
-import Scene_Base from "./Scene/Scene_Base";
+import Scene_Base from "../Scene/Scene_Base";
 
 /**
  * シーンを管理するクラス
