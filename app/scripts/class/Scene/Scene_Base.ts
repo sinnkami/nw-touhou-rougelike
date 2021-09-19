@@ -1,3 +1,4 @@
+import GameManager from "../GameManager";
 import LoadManager from "../LoadManager";
 
 /**
@@ -14,6 +15,8 @@ export default class Scene_Base {
 	 * @returns
 	 */
 	public async startScene(): Promise<any> {
+		// キー情報を初期化
+		GameManager.input.init();
 		return true;
 	}
 

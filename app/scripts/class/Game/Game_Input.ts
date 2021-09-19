@@ -16,6 +16,14 @@ export default class Game_Input extends Game_Base {
 	}
 
 	/**
+	 * 初期化処理
+	 * @returns
+	 */
+	public init(): void {
+		this.input = {};
+	}
+
+	/**
 	 * 指定されたキーを取得
 	 * @param keyCode
 	 * @returns IKeyInfo
@@ -102,6 +110,8 @@ export default class Game_Input extends Game_Base {
 
 	/**
 	 * イベントリスナーを設定する
+	 * TODO: 長押しによりシーンをまたいで連続実行されたりする
+	 * ex) タイトル->ロビーへ移動->そのままダンジョン侵入
 	 */
 	private setListener(): void {
 		document.addEventListener("keydown", ev => {

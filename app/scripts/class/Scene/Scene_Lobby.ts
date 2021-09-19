@@ -1,5 +1,5 @@
 import { IGameMapData } from "../../definitions/class/Game/IGameMap";
-import { IProcessInfo, IResourceInfo } from "../../definitions/class/Scene/ISceneTitle";
+import { IProcessInfo, IResourceInfo } from "../../definitions/class/Scene/ISceneLobby";
 import { CommonConstruct, EventName, KeyCode } from "../Construct/CommonConstruct";
 import { EventCode, EventManager } from "../EventManager";
 import GameManager from "../GameManager";
@@ -17,6 +17,7 @@ import Scene_Base from "./Scene_Base";
 export enum ProcessName {
 	InputProcess = "InputProcess",
 	BackgroundImage = "BackgroundImage",
+	LobbyText = "LobbyText",
 }
 
 /** 画像パスを取得する際の名前 */
@@ -30,13 +31,17 @@ const SIZE = CommonConstruct.size;
 /**
  * タイトル画面のシーン
  */
-export default class Scene_Title extends Scene_Base {
+export default class Scene_Lobby extends Scene_Base {
 	// TODO: この2種Baseに移動したいけど、取得が・・・・
 	// プロセス情報
 	public readonly processInfo: IProcessInfo = {
 		[ProcessName.BackgroundImage]: {
 			process: () => Promise.resolve(),
 			class: new Sprite_Background(),
+		},
+		[ProcessName.LobbyText]: {
+			process: () => Promise.resolve(),
+			class: new Sprite_Text(),
 		},
 		[ProcessName.InputProcess]: {
 			class: undefined,
@@ -75,6 +80,17 @@ export default class Scene_Title extends Scene_Base {
 			height: SIZE.height,
 		});
 		await BackgroundImageRender.setSprite();
+
+		const LobbyText = this.processInfo[ProcessName.LobbyText].class;
+		await LobbyText.init({
+			text: "ロビー画面",
+			x: 10,
+			y: 10,
+			width: 300,
+			height: 30,
+			fontSize: 25,
+		});
+		await LobbyText.setSprite();
 	}
 
 	/**
@@ -111,8 +127,8 @@ export default class Scene_Title extends Scene_Base {
 		if (GameManager.input.isPushedKey(KeyCode.Select)) {
 			const key = GameManager.input.getKey(KeyCode.Select);
 
-			// ロビー画面表示イベントを取得
-			const event = EventManager.getEvent(EventCode.Lobby);
+			// ダンジョン突入イベントを取得
+			const event = EventManager.getEvent(EventCode.InvasionDungeon);
 			event.execute();
 		}
 	}
