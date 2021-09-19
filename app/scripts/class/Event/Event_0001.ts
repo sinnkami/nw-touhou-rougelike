@@ -1,4 +1,6 @@
+import { EventManager } from "../EventManager";
 import GameManager from "../GameManager";
+import LoadManager from "../LoadManager";
 import Scene_Dungeon from "../Scene/Scene_Dungeon";
 import SceneManager from "../SceneManager";
 import Sprite_Base from "../Sprite/Sprite_Base";
@@ -13,7 +15,14 @@ export class Event_0001 extends Event_Base {
 	 * @override
 	 */
 	public async execute(): Promise<void> {
-		SceneManager.stopScene();
+		if (EventManager.isProgress) {
+			console.log("イベントスキップ");
+			return;
+		}
+
+		await super.execute();
+
+		await SceneManager.stopScene();
 		GameManager.map.initMapData();
 
 		// スプライトの削除
@@ -29,6 +38,9 @@ export class Event_0001 extends Event_Base {
 		GameManager.dungeon.setCurrentHierarchy(hierarchy + 1);
 
 		// 再実行することでダンジョン階層を変更
-		return SceneManager.startScene();
+		await SceneManager.startScene();
+
+		EventManager.completeEvent();
+		await LoadManager.complete("test");
 	}
 }

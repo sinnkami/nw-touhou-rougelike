@@ -1,5 +1,6 @@
 import DebugManager from "../DebugManager";
 import GameManager from "../GameManager";
+import LoadManager from "../LoadManager";
 import SceneManager from "../SceneManager";
 import { Game_Base } from "./Game_Base";
 
@@ -56,12 +57,10 @@ export class Game_Loop extends Game_Base {
 		GameManager.getCanvas().update();
 
 		// ロード中は暗転した状態でループする
-		if (SceneManager.IsLoading) {
-			// TODO: ロード中の処理
-			console.log("now loading");
-			requestAnimationFrame(this.gameLoop.bind(this));
-			return;
-		}
+		// if (LoadManager.isLoading) {
+		// 	requestAnimationFrame(this.gameLoop.bind(this));
+		// 	return;
+		// }
 
 		// キー入力の更新
 		GameManager.input.update();

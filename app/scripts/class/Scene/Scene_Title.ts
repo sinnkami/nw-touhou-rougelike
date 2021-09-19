@@ -3,6 +3,7 @@ import { IProcessInfo, IResourceInfo } from "../../definitions/class/Scene/IScen
 import { CommonConstruct, EventName, KeyCode } from "../Construct/CommonConstruct";
 import { EventCode, EventManager } from "../EventManager";
 import GameManager from "../GameManager";
+import LoadManager from "../LoadManager";
 import ResourceManager from "../ResourceManager";
 import SceneManager from "../SceneManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
@@ -73,8 +74,6 @@ export default class Scene_Title extends Scene_Base {
 			height: SIZE.height,
 		});
 		await BackgroundImageRender.setSprite();
-
-		SceneManager.completeLoading();
 	}
 
 	/**

@@ -4,6 +4,8 @@ import SceneManager from "../SceneManager";
 import { Event_Base } from "./Event_Base";
 import { ResourceName } from "../Scene/Scene_Dungeon";
 import GameManager from "../GameManager";
+import { EventManager } from "../EventManager";
+import LoadManager from "../LoadManager";
 
 /**
  * 0002: ダンジョン突入イベント
@@ -14,12 +16,20 @@ export class Event_0002 extends Event_Base {
 	 * @override
 	 */
 	public async execute(): Promise<void> {
+		if (EventManager.isProgress) {
+			console.log("イベントスキップ");
+			return;
+		}
+
+		await super.execute();
+
 		// TODO: いずれ Data_Hoge から取得するように書き換える
 		const MAP_PATH = "assets/images/map/chip.png";
 		const CHARACTER_PATH = "assets/images/character/ReimuHakurei.png";
 
 		// TODO: マップ情報から取得する
 		GameManager.map.setName("テストダンジョン");
+		GameManager.dungeon.invadeDungeon();
 
 		return ResourceManager.loadResources([MAP_PATH, CHARACTER_PATH])
 			.then(() =>
@@ -30,6 +40,8 @@ export class Event_0002 extends Event_Base {
 					})
 				)
 			)
-			.then(() => SceneManager.startScene());
+			.then(() => SceneManager.startScene())
+			.then(() => LoadManager.complete("test"))
+			.then(() => EventManager.completeEvent());
 	}
 }

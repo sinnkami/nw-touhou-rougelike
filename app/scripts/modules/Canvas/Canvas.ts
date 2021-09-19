@@ -18,6 +18,9 @@ export default class Canvas {
 			//  transparent:      true,     // 背景を透過にしたい場合はこちらを指定
 		});
 		document.body.appendChild(app.view);
+
+		app.stage.sortableChildren = true;
+
 		this.app = app;
 	}
 
@@ -66,6 +69,7 @@ export default class Canvas {
 	 * @returns
 	 */
 	public update(): void {
+		console.log(this.app.stage.children.length);
 		return this.app.render();
 	}
 }
