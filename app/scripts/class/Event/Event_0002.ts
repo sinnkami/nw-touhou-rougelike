@@ -16,7 +16,7 @@ export class Event_0002 extends Event_Base {
 	 * @override
 	 */
 	public async execute(): Promise<void> {
-		if (EventManager.isProgress) {
+		if (LoadManager.isLoading) {
 			console.log("イベントスキップ");
 			return;
 		}
@@ -41,7 +41,6 @@ export class Event_0002 extends Event_Base {
 				)
 			)
 			.then(() => SceneManager.startScene())
-			.then(() => LoadManager.complete("test"))
-			.then(() => EventManager.completeEvent());
+			.then(() => LoadManager.complete("test"));
 	}
 }

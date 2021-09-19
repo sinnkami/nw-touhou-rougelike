@@ -15,7 +15,7 @@ export class Event_0001 extends Event_Base {
 	 * @override
 	 */
 	public async execute(): Promise<void> {
-		if (EventManager.isProgress) {
+		if (LoadManager.isLoading) {
 			console.log("イベントスキップ");
 			return;
 		}
@@ -40,7 +40,6 @@ export class Event_0001 extends Event_Base {
 		// 再実行することでダンジョン階層を変更
 		await SceneManager.startScene();
 
-		EventManager.completeEvent();
 		await LoadManager.complete("test");
 	}
 }

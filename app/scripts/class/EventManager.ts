@@ -7,13 +7,6 @@ import { Event_Base } from "./Event/Event_Base";
  * ゲーム内イベントを管理するクラス
  */
 export class EventManager {
-	// 実行中かどうか
-	private static progress: boolean = false;
-
-	public static get isProgress(): boolean {
-		return this.progress;
-	}
-
 	/**
 	 * 初期化処理
 	 * @returns Promise<void>
@@ -36,14 +29,6 @@ export class EventManager {
 			default:
 				throw new Error("no event");
 		}
-	}
-
-	public static executeEvent(): void {
-		this.progress = true;
-	}
-
-	public static completeEvent(): void {
-		this.progress = false;
 	}
 }
 

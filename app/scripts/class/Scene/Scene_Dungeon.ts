@@ -126,8 +126,6 @@ export default class Scene_Dungeon extends Scene_Base {
 		// 	fontSize: 25,
 		// });
 		// await TestText.setSprite();
-
-		SceneManager.completeLoading();
 	}
 
 	/**

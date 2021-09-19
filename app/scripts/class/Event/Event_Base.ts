@@ -10,7 +10,6 @@ export class Event_Base {
 	 * @returns
 	 */
 	public async execute(): Promise<void> {
-		EventManager.executeEvent();
 		await LoadManager.start("test");
 		return Promise.resolve();
 	}
