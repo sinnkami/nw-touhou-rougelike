@@ -9,13 +9,21 @@ const db = new loki(path.resolve(__dirname, FILE_NAME));
 const collections = requireDir("./collections");
 console.log(collections);
 
-const inserts = requireDir("./insert");
+const inserts = requireDir("./insert", { recurse: true });
 console.log(inserts);
 
 Promise.all(
 	new Array().concat(
 		Object.values(collections).map((collection) => collection(db)),
-		Object.values(inserts).map((insert) => insert(db)),
+		...Object.values(inserts).map((insertDict) => {
+			const func = (insert) => {
+				if (typeof insert === "function") return insert(db);
+				if (typeof insert === "object") {
+					return Object.values(insert).map(v => func(v));
+				}
+			};
+			return func(insertDict);
+		}),
 	)
 ).then((results) => {
 	const test = db.getCollection("test");
