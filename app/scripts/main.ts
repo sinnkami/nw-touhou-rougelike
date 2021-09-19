@@ -1,4 +1,5 @@
 import "babel-polyfill";
+import DataManager from "./class/DataManager";
 
 import DebugManager from "./class/DebugManager";
 import ErrorManager from "./class/ErrorManager";
@@ -20,6 +21,7 @@ window.onload = () => {
 		ErrorManager.init(),
 		EventManager.init(),
 		LoadManager.init(),
+		DataManager.init(),
 	]).then(() => {
 		GameManager.loop.gameLoopStart();
 	});
