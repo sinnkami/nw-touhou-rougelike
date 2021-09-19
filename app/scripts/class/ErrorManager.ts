@@ -19,18 +19,22 @@ export default class ErrorManager {
 	 */
 	public static getError(code: number, ...messages: any[]): Error {
 		const error = new Error();
+		console.log(code);
 		switch (code) {
 			case ErrorCode.CanvasNotFound: {
 				error.name = "ReferenceError";
 				error.message = "canvas not found";
+				return error;
 			}
 			case ErrorCode.CollectionNotFound: {
 				error.name = "ReferenceError";
 				error.message = `${messages[0]} is not found in collection name`;
+				return error;
 			}
 			case ErrorCode.NotLoadScene: {
 				error.name = "ReferenceError";
 				error.message = "not loading scene";
+				return error;
 			}
 		}
 		return error;
