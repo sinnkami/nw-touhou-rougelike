@@ -15,13 +15,9 @@ export class Event_0002 extends Event_Base {
 	 * イベントを実行
 	 * @override
 	 */
-	public async execute(): Promise<void> {
-		if (LoadManager.isLoading) {
-			console.log("イベントスキップ");
-			return;
-		}
-
-		await super.execute();
+	public async execute(): Promise<boolean> {
+		const executed = await super.execute();
+		if (!executed) return false;
 
 		// TODO: いずれ Data_Hoge から取得するように書き換える
 		const MAP_PATH = "assets/images/map/chip.png";
@@ -41,6 +37,6 @@ export class Event_0002 extends Event_Base {
 				)
 			)
 			.then(() => SceneManager.startScene())
-			.then(() => LoadManager.complete("test"));
+			.then(() => LoadManager.complete(this.name));
 	}
 }

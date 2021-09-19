@@ -14,24 +14,12 @@ export class Event_0001 extends Event_Base {
 	 * イベントを実行
 	 * @override
 	 */
-	public async execute(): Promise<void> {
-		if (LoadManager.isLoading) {
-			console.log("イベントスキップ");
-			return;
-		}
-
-		await super.execute();
+	public async execute(): Promise<boolean> {
+		const executed = await super.execute();
+		if (!executed) return false;
 
 		await SceneManager.stopScene();
 		GameManager.map.initMapData();
-
-		// スプライトの削除
-		const scene = SceneManager.getScene() as Scene_Dungeon;
-		Object.values(scene.processInfo).forEach((info: { class: Sprite_Base | undefined }) => {
-			if (info.class) {
-				info.class.destroy();
-			}
-		});
 
 		// 階層を増やす
 		const hierarchy = GameManager.dungeon.getCurrentHierarchy();
@@ -40,6 +28,8 @@ export class Event_0001 extends Event_Base {
 		// 再実行することでダンジョン階層を変更
 		await SceneManager.startScene();
 
-		await LoadManager.complete("test");
+		await LoadManager.complete(this.name);
+
+		return true;
 	}
 }

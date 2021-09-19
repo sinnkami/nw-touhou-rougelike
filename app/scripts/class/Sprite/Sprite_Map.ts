@@ -87,6 +87,7 @@ export default class Sprite_Map extends Sprite_Base {
 		this.nextUpdateFrame = GameManager.loop.frameCount + this.delay;
 
 		// 更新処理を設定
+		// TODO: 実害出てないけれど、階段イベント時にエラーになる
 		this.setUpdateFunc((frame: number) => {
 			container.x -= x * (32 / this.delay);
 			container.y -= y * (32 / this.delay);

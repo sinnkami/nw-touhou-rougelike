@@ -15,13 +15,9 @@ export class Event_0003 extends Event_Base {
 	 * イベントを実行
 	 * @override
 	 */
-	public async execute(): Promise<void> {
-		if (LoadManager.isLoading) {
-			console.log("イベントスキップ");
-			return;
-		}
-
-		await super.execute();
+	public async execute(): Promise<boolean> {
+		const executed = await super.execute();
+		if (!executed) return false;
 
 		const BACKGROUND_IMAGE = "assets/images/background/title.jpg";
 
@@ -34,6 +30,6 @@ export class Event_0003 extends Event_Base {
 				)
 			)
 			.then(() => SceneManager.startScene())
-			.then(() => LoadManager.complete("test"));
+			.then(() => LoadManager.complete(this.name));
 	}
 }

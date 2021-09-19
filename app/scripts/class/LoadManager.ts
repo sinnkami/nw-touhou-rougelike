@@ -28,15 +28,17 @@ export default class LoadManager {
 		return Promise.resolve();
 	}
 
-	public static async start(name: string): Promise<void> {
+	public static async start(name: string): Promise<boolean> {
 		this.loadingList.push(name);
 		this.loadingSprite.visible = true;
 		await sleep(1);
+		return true;
 	}
 
-	public static async complete(name: string): Promise<void> {
+	public static async complete(name: string): Promise<boolean> {
 		this.loadingList = this.loadingList.filter(v => v !== name);
 		this.loadingSprite.visible = false;
 		await sleep(1);
+		return true;
 	}
 }

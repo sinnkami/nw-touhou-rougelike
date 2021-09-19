@@ -1,3 +1,5 @@
+import LoadManager from "../LoadManager";
+
 /**
  * シーン汎用クラス
  */
@@ -11,23 +13,24 @@ export default class Scene_Base {
 	 * シーンを開始する際の処理
 	 * @returns
 	 */
-	public async startScene(): Promise<void> {
-		return Promise.resolve();
+	public async startScene(): Promise<any> {
+		return true;
 	}
 
 	/**
 	 * シーンを更新する際の処理
 	 * @returns
 	 */
-	public async updateScene(): Promise<void> {
-		return Promise.resolve();
+	public async updateScene(): Promise<any> {
+		if (LoadManager.isLoading) return false;
+		return true;
 	}
 
 	/**
 	 * シーンを停止する際の処理
 	 * @returns
 	 */
-	public async stopScene(): Promise<void> {
-		return Promise.resolve();
+	public async stopScene(): Promise<any> {
+		return true;
 	}
 }

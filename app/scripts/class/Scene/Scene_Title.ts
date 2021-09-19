@@ -62,7 +62,8 @@ export default class Scene_Title extends Scene_Base {
 	 * @override
 	 */
 	public async startScene(): Promise<void> {
-		await super.startScene();
+		const executed = await super.startScene();
+		if (!executed) return;
 
 		// 描画する背景画像を設定
 		const BackgroundImageRender = this.processInfo[ProcessName.BackgroundImage].class;
@@ -82,7 +83,9 @@ export default class Scene_Title extends Scene_Base {
 	 * @returns
 	 */
 	public async updateScene(): Promise<void> {
-		await super.updateScene();
+		const executed = await super.updateScene();
+		if (!executed) return;
+
 		this.processList.forEach(process => process(GameManager.loop.frameCount));
 	}
 
@@ -92,7 +95,11 @@ export default class Scene_Title extends Scene_Base {
 	 * @returns
 	 */
 	public async stopScene(): Promise<void> {
-		return;
+		const executed = await super.stopScene();
+		if (!executed) return;
+
+		const BackgroundImageRender = this.processInfo[ProcessName.BackgroundImage].class;
+		BackgroundImageRender.destroy();
 	}
 
 	/**

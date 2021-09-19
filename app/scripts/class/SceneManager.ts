@@ -17,11 +17,11 @@ export default class SceneManager {
 	 * 初期化処理
 	 * @returns Promise<void>
 	 */
-	public static init(): Promise<void> {
+	public static async init(): Promise<void> {
 		// TODO: Scene_Bootを作成し、設定
 		// MEMO: Boot要らない気がしてきた
 		const event = EventManager.getEvent(EventCode.Title);
-		return event.execute();
+		await event.execute();
 	}
 
 	/**

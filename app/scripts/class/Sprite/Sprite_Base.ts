@@ -1,6 +1,7 @@
 import { Container, Spritesheet } from "pixi.js";
 import { ISpriteBaseOption } from "../../definitions/class/Sprite/ISpriteBase";
 import GameManager from "../GameManager";
+import LoadManager from "../LoadManager";
 
 // スプライトのデフォルト名
 export const DEFAULT_NAME = "sprite";
@@ -90,6 +91,8 @@ export default class Sprite_Base {
 	 * @returns
 	 */
 	public update(): void {
+		if (LoadManager.isLoading) return;
+
 		const func = this.getUpdateFunc();
 		func(GameManager.loop.frameCount);
 		return;

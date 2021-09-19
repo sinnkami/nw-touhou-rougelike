@@ -73,7 +73,9 @@ export default class Scene_Dungeon extends Scene_Base {
 	 * @override
 	 */
 	public async startScene(): Promise<void> {
-		await super.startScene();
+		const executed = await super.startScene();
+		if (!executed) return;
+
 		// ダンジョンを生成する
 		// TODO: 場所によってサイズとか変えたい
 		GameManager.map.createMapData();
@@ -134,7 +136,8 @@ export default class Scene_Dungeon extends Scene_Base {
 	 * @returns
 	 */
 	public async updateScene(): Promise<void> {
-		await super.updateScene();
+		const executed = await super.updateScene();
+		if (!executed) return;
 		this.processList.forEach(process => process(GameManager.loop.frameCount));
 	}
 
@@ -144,7 +147,17 @@ export default class Scene_Dungeon extends Scene_Base {
 	 * @returns
 	 */
 	public async stopScene(): Promise<void> {
-		return;
+		const executed = await super.stopScene();
+		if (!executed) return;
+
+		const MapRender = this.processInfo[ProcessName.MapRender].class;
+		MapRender.destroy();
+
+		const PlayerRender = this.processInfo[ProcessName.PlayerRender].class;
+		PlayerRender.destroy();
+
+		const StairsText = this.processInfo[ProcessName.StairsText].class;
+		StairsText.destroy();
 	}
 
 	/**
