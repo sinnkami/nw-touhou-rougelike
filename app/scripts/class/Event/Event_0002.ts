@@ -26,16 +26,19 @@ export class Event_0002 extends Event_Base {
 		GameManager.map.setName("テストダンジョン");
 		GameManager.dungeon.invadeDungeon();
 
-		return ResourceManager.loadResources([MAP_PATH, CHARACTER_PATH])
-			.then(() =>
-				SceneManager.setScene(
-					new Scene_Dungeon({
-						[ResourceName.Map]: MAP_PATH,
-						[ResourceName.Character]: CHARACTER_PATH,
-					})
-				)
-			)
-			.then(() => SceneManager.startScene())
-			.then(() => LoadManager.complete(this.name));
+		await ResourceManager.loadResources([MAP_PATH, CHARACTER_PATH]);
+
+		await SceneManager.stopScene();
+
+		await SceneManager.setScene(
+			new Scene_Dungeon({
+				[ResourceName.Map]: MAP_PATH,
+				[ResourceName.Character]: CHARACTER_PATH,
+			})
+		);
+
+		await SceneManager.startScene();
+
+		return LoadManager.complete(this.name);
 	}
 }

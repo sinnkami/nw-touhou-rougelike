@@ -25,8 +25,6 @@ export class Event_0001 extends Event_Base {
 		// 再実行することでダンジョン階層を変更
 		await SceneManager.startScene();
 
-		await LoadManager.complete(this.name);
-
-		return true;
+		return LoadManager.complete(this.name);
 	}
 }

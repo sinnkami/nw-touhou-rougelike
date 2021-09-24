@@ -19,15 +19,18 @@ export class Event_0004 extends Event_Base {
 
 		const BACKGROUND_IMAGE = "assets/images/background/title.jpg";
 
-		return ResourceManager.loadResources([BACKGROUND_IMAGE])
-			.then(() =>
-				SceneManager.setScene(
-					new Scene_Lobby({
-						[ResourceName.BackgroundImage]: BACKGROUND_IMAGE,
-					})
-				)
-			)
-			.then(() => SceneManager.startScene())
-			.then(() => LoadManager.complete(this.name));
+		await ResourceManager.loadResources([BACKGROUND_IMAGE]);
+
+		await SceneManager.stopScene();
+
+		await SceneManager.setScene(
+			new Scene_Lobby({
+				[ResourceName.BackgroundImage]: BACKGROUND_IMAGE,
+			})
+		);
+
+		await SceneManager.startScene();
+
+		return LoadManager.complete(this.name);
 	}
 }

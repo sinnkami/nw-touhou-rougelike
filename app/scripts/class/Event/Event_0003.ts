@@ -19,15 +19,21 @@ export class Event_0003 extends Event_Base {
 
 		const BACKGROUND_IMAGE = "assets/images/background/title.jpg";
 
-		return ResourceManager.loadResources([BACKGROUND_IMAGE])
-			.then(() =>
-				SceneManager.setScene(
-					new Scene_Title({
-						[ResourceName.BackgroundImage]: BACKGROUND_IMAGE,
-					})
-				)
-			)
-			.then(() => SceneManager.startScene())
-			.then(() => LoadManager.complete(this.name));
+		await ResourceManager.loadResources([BACKGROUND_IMAGE]);
+
+		// MEMO: 最初以外に呼ぶことあると思うから条件分岐
+		if (SceneManager.getScene()) {
+			await SceneManager.stopScene();
+		}
+
+		await SceneManager.setScene(
+			new Scene_Title({
+				[ResourceName.BackgroundImage]: BACKGROUND_IMAGE,
+			})
+		);
+
+		await SceneManager.startScene();
+
+		return LoadManager.complete(this.name);
 	}
 }

@@ -109,6 +109,9 @@ export default class Scene_Lobby extends Scene_Base {
 
 		const BackgroundImageRender = this.processInfo[ProcessName.BackgroundImage].class;
 		BackgroundImageRender.destroy();
+
+		const LobbyText = this.processInfo[ProcessName.LobbyText].class;
+		LobbyText.destroy();
 	}
 
 	/**
