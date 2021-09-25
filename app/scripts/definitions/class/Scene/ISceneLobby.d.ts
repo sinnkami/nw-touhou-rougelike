@@ -16,6 +16,10 @@ export interface IProcessInfo {
 		process: (time: number) => Promise<void>;
 		class: Sprite_Text;
 	};
+	[ProcessName.LobbyMenuSelection]: {
+		process: (time: number) => Promise<void>;
+		class: Sprite_Text;
+	};
 }
 
 // Resourceの情報（パス）

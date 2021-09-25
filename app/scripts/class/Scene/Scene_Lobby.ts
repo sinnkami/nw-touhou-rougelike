@@ -11,6 +11,7 @@ export enum ProcessName {
 	InputProcess = "InputProcess",
 	BackgroundImage = "BackgroundImage",
 	LobbyText = "LobbyText",
+	LobbyMenuSelection = "LobbyMenuSelection",
 }
 
 /** 画像パスを取得する際の名前 */
@@ -31,6 +32,10 @@ export default class Scene_Lobby extends Scene_Base {
 		[ProcessName.BackgroundImage]: {
 			process: () => Promise.resolve(),
 			class: new Sprite_Background(),
+		},
+		[ProcessName.LobbyText]: {
+			process: () => Promise.resolve(),
+			class: new Sprite_Text(),
 		},
 		[ProcessName.LobbyText]: {
 			process: () => Promise.resolve(),
