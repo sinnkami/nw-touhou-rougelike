@@ -11,5 +11,5 @@ export interface IGameMapData {
 /** イベントタイルの情報 */
 export interface IGameEventMapData extends IGameMapData {
 	name: string;
-	event?: EventCode;
+	event: EventCode;
 }
