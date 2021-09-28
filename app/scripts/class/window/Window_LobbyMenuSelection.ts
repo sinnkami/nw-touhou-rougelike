@@ -71,15 +71,17 @@ export default class Window_LobbyMenuSelection extends Window_Base {
 		container.y = 40 - this.menuIndex * (30 + 30);
 	}
 
-	public selectMenu(): void {
+	public excuteSelectMenu(): void {
 		const menuInfo = this.lobbyMenuList[this.menuIndex];
 		switch (menuInfo.menuId) {
+			// タイトルへ戻る
 			case LobbyMenuId.ReturnTitle: {
 				const event = EventManager.getEvent(EventCode.Title);
 				event.execute();
 				return;
 			}
 
+			// ダンジョンへ突入
 			case LobbyMenuId.Dungeon: {
 				const event = EventManager.getEvent(EventCode.InvasionDungeon);
 				const dungeonId = menuInfo.dungeonId;
@@ -87,8 +89,5 @@ export default class Window_LobbyMenuSelection extends Window_Base {
 				return;
 			}
 		}
-		// // ダンジョン突入イベントを取得
-		// const event = EventManager.getEvent(EventCode.InvasionDungeon);
-		// event.execute(menuInfo.menuId);
 	}
 }

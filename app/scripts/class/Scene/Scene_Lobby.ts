@@ -141,7 +141,7 @@ export default class Scene_Lobby extends Scene_Base {
 
 		// 決定キーの処理
 		if (GameManager.input.isPushedKey(KeyCode.Select)) {
-			LobbyMenuSelection.selectMenu();
+			LobbyMenuSelection.excuteSelectMenu();
 		}
 	}
 }
