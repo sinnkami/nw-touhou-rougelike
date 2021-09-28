@@ -12,7 +12,8 @@ export default class Data_Base {
 		return LokiJs.getAll(collectionName);
 	}
 
-	public async get(id: string): Promise<any> {
-		return;
-	}
+	// TODO: 方だけ定義したい
+	// public async get(id: string): Promise<any> {
+	// 	return;
+	// }
 }

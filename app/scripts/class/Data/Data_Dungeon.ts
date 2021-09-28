@@ -23,4 +23,8 @@ export default class Data_Dungeon extends Data_Base {
 	public getAll(): IDataDungeon[] {
 		return this.dungeonInfoList;
 	}
+
+	public get(id: string): IDataDungeon | undefined {
+		return this.dungeonInfoList.find(v => v.dungeonId === id);
+	}
 }
