@@ -6,6 +6,7 @@ import { ResourceName } from "../Scene/Scene_Dungeon";
 import GameManager from "../manager/GameManager";
 import LoadManager from "../manager/LoadManager";
 import DataManager from "../manager/DataManager";
+import sleep from "../../modules/utils/sleep";
 
 /**
  * 0002: ダンジョン突入イベント
@@ -18,6 +19,9 @@ export class Event_0002 extends Event_Base {
 	public async execute(dungeonId: string): Promise<boolean> {
 		const executed = await super.execute();
 		if (!executed) return false;
+
+		// TODO: またないと何故かロード中の画面が遅延して表示される
+		await sleep(100);
 
 		// TODO: いずれ Data_Hoge から取得するように書き換える
 		const dataDungeon = DataManager.dungeon.get(dungeonId);
