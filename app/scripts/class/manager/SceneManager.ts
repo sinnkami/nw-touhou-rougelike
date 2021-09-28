@@ -7,8 +7,12 @@ import Scene_Base from "../Scene/Scene_Base";
  */
 export default class SceneManager {
 	// 現在処理中ののシーン
-	// TODO: currentSceneでは？
-	private static scene?: Scene_Base;
+	private static get currentScene(): Scene_Base | undefined {
+		return this.sceneList[0];
+	}
+
+	// 現在実行中のシーンリスト
+	private static sceneList: Scene_Base[] = [];
 
 	// TODO: 処理中のシーンリストを作成して、そこにメニューが開いた場合は追加していくような形の方が良さそう
 
@@ -28,18 +32,26 @@ export default class SceneManager {
 	 * @returns Scene
 	 */
 	public static getScene(): Scene_Base | undefined {
-		return this.scene;
+		return this.currentScene;
 	}
 
 	/**
-	 * シーンを設定
+	 * 実行するシーンを追加
 	 * @param scene
 	 * @returns Promise<void>
 	 */
-	public static setScene(scene: Scene_Base): Promise<void> {
-		console.info(`シーン設定: ${this.scene ? this.scene.name : "null"} → ${scene.name}`);
-		this.scene = scene;
+	public static addScene(scene: Scene_Base): Promise<void> {
+		console.info(`シーン設定: ${this.currentScene ? this.currentScene.name : "null"} → ${scene.name}`);
+		this.sceneList.push(scene);
 
+		return Promise.resolve();
+	}
+
+	/**
+	 * 実行中のシーンを削除
+	 */
+	public static removeScene(name: string): Promise<void> {
+		this.sceneList = this.sceneList.filter(v => v.name !== name);
 		return Promise.resolve();
 	}
 
@@ -70,6 +82,7 @@ export default class SceneManager {
 	public static stopScene(): Promise<void> {
 		const scene = this.getScene();
 		if (!scene) throw ErrorManager.getError(ErrorCode.NotLoadScene);
+
 		return scene.stopScene();
 	}
 }

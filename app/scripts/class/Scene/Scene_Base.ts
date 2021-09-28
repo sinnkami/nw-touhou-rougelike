@@ -1,5 +1,6 @@
 import GameManager from "../manager/GameManager";
 import LoadManager from "../manager/LoadManager";
+import SceneManager from "../manager/SceneManager";
 
 /**
  * シーン汎用クラス
@@ -34,6 +35,7 @@ export default class Scene_Base {
 	 * @returns
 	 */
 	public async stopScene(): Promise<any> {
+		await SceneManager.removeScene(this.name);
 		return true;
 	}
 }

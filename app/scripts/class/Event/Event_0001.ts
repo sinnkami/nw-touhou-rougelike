@@ -15,7 +15,6 @@ export class Event_0001 extends Event_Base {
 		const executed = await super.execute();
 		if (!executed) return false;
 
-		await SceneManager.stopScene();
 		GameManager.map.initMapData();
 
 		// 階層を増やす

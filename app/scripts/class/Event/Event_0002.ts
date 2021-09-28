@@ -37,7 +37,7 @@ export class Event_0002 extends Event_Base {
 
 		await SceneManager.stopScene();
 
-		await SceneManager.setScene(
+		await SceneManager.addScene(
 			new Scene_Dungeon({
 				[ResourceName.Map]: MAP_PATH,
 				[ResourceName.Character]: CHARACTER_PATH,

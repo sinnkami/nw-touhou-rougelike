@@ -26,7 +26,7 @@ export class Event_0003 extends Event_Base {
 			await SceneManager.stopScene();
 		}
 
-		await SceneManager.setScene(
+		await SceneManager.addScene(
 			new Scene_Title({
 				[ResourceName.BackgroundImage]: BACKGROUND_IMAGE,
 			})
