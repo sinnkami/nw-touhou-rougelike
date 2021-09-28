@@ -180,7 +180,7 @@ export class Game_Map extends Game_Base {
 			return this.setStairs();
 		}
 
-		const eventMapChip: IGameEventMapData = Object.assign(mapChip, {
+		const eventMapChip: IGameEventMapData = Object.assign({}, mapChip, {
 			name: "stairs",
 			event: EventCode.Stairs,
 			chip: MapChip.Stairs,
