@@ -22,6 +22,9 @@ export class Event_0001 extends Event_Base {
 		const hierarchy = GameManager.dungeon.getCurrentHierarchy();
 		GameManager.dungeon.setCurrentHierarchy(hierarchy + 1);
 
+		// ダンジョンの再生成
+		GameManager.dungeon.createDungeon();
+
 		// 再実行することでダンジョン階層を変更
 		await SceneManager.startScene();
 

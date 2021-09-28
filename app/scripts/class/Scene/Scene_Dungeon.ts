@@ -72,19 +72,10 @@ export default class Scene_Dungeon extends Scene_Base {
 		const executed = await super.startScene();
 		if (!executed) return;
 
-		// ダンジョンを生成する
-		// TODO: 場所によってサイズとか変えたい
-		GameManager.map.createMapData();
-
-		// 操作キャラをダンジョン内に配置
-		const position = GameManager.map.getRandomPosition();
-		GameManager.player.setPosition(position.x, position.y);
-
 		// 描画するマップを設定
 		// MEMO: 現在地と中心点の差分を見て調節を行う
 		// TODO: この意味わからん数値を良い感じにわかりやすくしたい
 		const MapRender = this.processInfo[ProcessName.MapRender].class;
-		console.log(this.resourceInfo);
 		await MapRender.init({
 			path: this.resourceInfo[ResourceName.Map],
 			x: SIZE.width / 32 / 2 - GameManager.player.getPosition().x - 1,

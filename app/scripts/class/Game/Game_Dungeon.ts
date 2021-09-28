@@ -1,3 +1,4 @@
+import GameManager from "../manager/GameManager";
 import { Game_Base } from "./Game_Base";
 
 /**
@@ -18,6 +19,22 @@ export class Game_Dungeon extends Game_Base {
 	 */
 	public invadeDungeon(): void {
 		this.setCurrentHierarchy(1);
+
+		// ダンジョンを生成
+		this.createDungeon();
+	}
+
+	/**
+	 * ダンジョンを生成する
+	 */
+	public createDungeon(): void {
+		// ダンジョンを生成する
+		// TODO: 場所によってサイズとか変えたい
+		GameManager.map.createMapData();
+
+		// 操作キャラをダンジョン内に配置
+		const position = GameManager.map.getRandomPosition();
+		GameManager.player.setPosition(position.x, position.y);
 	}
 
 	/**
