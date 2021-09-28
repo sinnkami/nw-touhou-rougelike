@@ -19,7 +19,7 @@ export default class EventManager {
 	/**
 	 * イベント内容を取得
 	 */
-	public static getEvent(eventCode: EventCode | undefined): Event_Base {
+	public static getEvent(eventCode: EventCode): Event_Base {
 		switch (eventCode) {
 			case EventCode.Stairs:
 				return new Event_0001();
