@@ -51,8 +51,3 @@ export enum MapChip {
 	Wall = "wall",
 	Stairs = "stairs",
 }
-
-// イベント名
-export enum EventName {
-	Stairs = "stairs",
-}

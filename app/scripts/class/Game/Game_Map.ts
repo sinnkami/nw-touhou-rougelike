@@ -2,7 +2,7 @@ import { Room } from "rot-js/lib/map/features";
 import Uniform from "rot-js/lib/map/uniform";
 import { ICharacterPosition } from "../../definitions/class/Game/IGameCharacter";
 import { IGameEventMapData, IGameMapData } from "../../definitions/class/Game/IGameMap";
-import { CommonConstruct, EventName, MapChip } from "../Construct/CommonConstruct";
+import { CommonConstruct, MapChip } from "../Construct/CommonConstruct";
 import { EventCode } from "../manager/EventManager";
 import { Game_Base } from "./Game_Base";
 
@@ -180,7 +180,7 @@ export class Game_Map extends Game_Base {
 			return this.setStairs();
 		}
 
-		const eventMapChip: IGameEventMapData = Object.assign({ name: EventName.Stairs }, mapChip);
+		const eventMapChip: IGameEventMapData = Object.assign({ name: "stairs" }, mapChip);
 
 		eventMapChip.event = EventCode.Stairs;
 		eventMapChip.chip = MapChip.Stairs;
