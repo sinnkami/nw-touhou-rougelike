@@ -11,7 +11,7 @@ export class Event_Base {
 	 * イベントを実行
 	 * @returns
 	 */
-	public async execute(): Promise<boolean> {
+	public async execute(...values: any[]): Promise<boolean> {
 		if (LoadManager.isLoading) {
 			return false;
 		}

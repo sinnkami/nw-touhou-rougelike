@@ -1,9 +1,9 @@
 import { IProcessInfo, IResourceInfo } from "../../definitions/class/Scene/ISceneLobby";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
-import { EventCode, EventManager } from "../manager/EventManager";
 import GameManager from "../manager/GameManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
+import Window_LobbyMenuSelection from "../window/Window_LobbyMenuSelection";
 import Scene_Base from "./Scene_Base";
 
 /** プロセス名 */
@@ -37,9 +37,9 @@ export default class Scene_Lobby extends Scene_Base {
 			process: () => Promise.resolve(),
 			class: new Sprite_Text(),
 		},
-		[ProcessName.LobbyText]: {
+		[ProcessName.LobbyMenuSelection]: {
 			process: () => Promise.resolve(),
-			class: new Sprite_Text(),
+			class: new Window_LobbyMenuSelection(),
 		},
 		[ProcessName.InputProcess]: {
 			class: undefined,
@@ -89,6 +89,10 @@ export default class Scene_Lobby extends Scene_Base {
 			fontSize: 25,
 		});
 		await LobbyText.setSprite();
+
+		const LobbyMenuSelection = this.processInfo[ProcessName.LobbyMenuSelection].class;
+		await LobbyMenuSelection.init();
+		await LobbyMenuSelection.setSprite();
 	}
 
 	/**
@@ -117,6 +121,9 @@ export default class Scene_Lobby extends Scene_Base {
 
 		const LobbyText = this.processInfo[ProcessName.LobbyText].class;
 		LobbyText.destroy();
+
+		const LobbyMenuSelection = this.processInfo[ProcessName.LobbyMenuSelection].class;
+		LobbyMenuSelection.destroy();
 	}
 
 	/**
@@ -124,13 +131,17 @@ export default class Scene_Lobby extends Scene_Base {
 	 * @returns
 	 */
 	private async inputProcess(): Promise<void> {
+		const LobbyMenuSelection = this.processInfo[ProcessName.LobbyMenuSelection].class;
+		if (GameManager.input.isPushedKey(KeyCode.Up)) {
+			LobbyMenuSelection.backMenu();
+		}
+		if (GameManager.input.isPushedKey(KeyCode.Down)) {
+			LobbyMenuSelection.nextMenu();
+		}
+
 		// 決定キーの処理
 		if (GameManager.input.isPushedKey(KeyCode.Select)) {
-			const key = GameManager.input.getKey(KeyCode.Select);
-
-			// ダンジョン突入イベントを取得
-			const event = EventManager.getEvent(EventCode.InvasionDungeon);
-			event.execute();
+			LobbyMenuSelection.selectMenu();
 		}
 	}
 }

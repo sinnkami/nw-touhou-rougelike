@@ -7,10 +7,10 @@ module.exports = function (db) {
 	return new Promise((resolve) => {
 		const DB = db.getCollection("dungeon");
 
-		DB.findAndRemove({ mapId: { '$eq': ID } });
+		DB.findAndRemove({ dungeonId: { '$eq': ID } });
 
 		const value = {
-			mapId: ID,
+			dungeonId: ID,
 			name: "テストダンジョン",
 		};
 

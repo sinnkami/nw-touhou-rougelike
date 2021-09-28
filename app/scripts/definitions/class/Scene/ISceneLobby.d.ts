@@ -1,6 +1,7 @@
 import { ProcessName, ResourceName } from "../../../class/Scene/Scene_Lobby";
 import { Sprite_Background } from "../../../class/Sprite/Sprite_Background";
 import { Sprite_Text } from "../../../class/Sprite/Sprite_Text";
+import Window_LobbyMenuSelection from "../../../class/window/Window_LobbyMenuSelection";
 
 // プロセス情報
 export interface IProcessInfo {
@@ -18,7 +19,7 @@ export interface IProcessInfo {
 	};
 	[ProcessName.LobbyMenuSelection]: {
 		process: (time: number) => Promise<void>;
-		class: Sprite_Text;
+		class: Window_LobbyMenuSelection;
 	};
 }
 

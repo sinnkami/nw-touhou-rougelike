@@ -1,4 +1,4 @@
 export interface IDataDungeon {
-	mapId: string;
+	dungeonId: string;
 	name: string;
 }
