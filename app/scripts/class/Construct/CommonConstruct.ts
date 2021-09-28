@@ -17,8 +17,8 @@ export class CommonConstruct {
 	/** マップの最大サイズ */
 	// TODO: 場所によって変えれるようにする
 	public static readonly mapSize: ISize = {
-		width: 100,
-		height: 100,
+		width: 50,
+		height: 50,
 	};
 
 	/** マップの部屋サイズ */
