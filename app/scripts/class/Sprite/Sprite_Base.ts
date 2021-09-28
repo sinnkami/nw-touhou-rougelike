@@ -73,6 +73,8 @@ export default class Sprite_Base {
 	 */
 	protected async setContainer(): Promise<void> {
 		// スプライトの入れ物を設定
+		this.container.destroy();
+		this.container = new Container();
 		this.container.name = this.name;
 
 		// 描画を行うクラスに登録
