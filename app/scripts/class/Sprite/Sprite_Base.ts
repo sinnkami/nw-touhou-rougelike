@@ -11,7 +11,7 @@ export const DEFAULT_NAME = "sprite";
  */
 export default class Sprite_Base {
 	// コンテナ
-	private container?: Container;
+	private container: Container = new Container();
 
 	// スプライトシート
 	private sheet?: Spritesheet;
@@ -73,13 +73,11 @@ export default class Sprite_Base {
 	 */
 	protected async setContainer(): Promise<void> {
 		// スプライトの入れ物を設定
-		const container = new Container();
-		container.name = this.name;
-		this.container = container;
+		this.container.name = this.name;
 
 		// 描画を行うクラスに登録
 		const canvas = GameManager.getCanvas();
-		canvas.addRender(container);
+		canvas.addRender(this.container);
 
 		// TODO: スプライトシートの処理まで入れて良いかもしれない
 
@@ -113,9 +111,9 @@ export default class Sprite_Base {
 
 	/**
 	 * コンテナを取得
-	 * @returns container | undefined
+	 * @returns container
 	 */
-	protected getContainer(): Container | undefined {
+	public getContainer(): Container {
 		return this.container;
 	}
 

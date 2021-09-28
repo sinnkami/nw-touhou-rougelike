@@ -42,7 +42,6 @@ export class Sprite_Message extends Sprite_Base {
 		// コンテナを設定し、取得
 		await super.setContainer();
 		const container = super.getContainer();
-		if (!container) throw new Error("not container");
 
 		// コンテナの初期位置を設定
 		container.setTransform(this.x, this.y);

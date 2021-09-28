@@ -28,7 +28,6 @@ export default class Sprite_Map extends Sprite_Base {
 		// コンテナを設定し、取得
 		await super.setContainer();
 		const container = super.getContainer();
-		if (!container) throw new Error("not container");
 
 		// スプライトシートを取得し、設定
 		const texture = await ResourceManager.getTexture(this.path);
