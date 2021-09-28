@@ -3,7 +3,7 @@ import DataManager from "./class/manager/DataManager";
 
 import DebugManager from "./class/manager/DebugManager";
 import ErrorManager from "./class/manager/ErrorManager";
-import { EventManager } from "./class/manager/EventManager";
+import EventManager from "./class/manager/EventManager";
 import GameManager from "./class/manager/GameManager";
 import LoadManager from "./class/manager/LoadManager";
 import ResourceManager from "./class/manager/ResourceManager";

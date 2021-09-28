@@ -1,5 +1,5 @@
 import ErrorManager, { ErrorCode } from "./ErrorManager";
-import { EventCode, EventManager } from "./EventManager";
+import EventManager, { EventCode } from "./EventManager";
 import Scene_Base from "../Scene/Scene_Base";
 
 /**

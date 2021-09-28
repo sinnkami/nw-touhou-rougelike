@@ -7,7 +7,7 @@ import { Event_Base } from "../Event/Event_Base";
 /**
  * ゲーム内イベントを管理するクラス
  */
-export class EventManager {
+export default class EventManager {
 	/**
 	 * 初期化処理
 	 * @returns Promise<void>

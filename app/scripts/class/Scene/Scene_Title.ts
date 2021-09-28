@@ -1,6 +1,6 @@
 import { IProcessInfo, IResourceInfo } from "../../definitions/class/Scene/ISceneTitle";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
-import { EventCode, EventManager } from "../manager/EventManager";
+import EventManager, { EventCode } from "../manager/EventManager";
 import GameManager from "../manager/GameManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
 import Scene_Base from "./Scene_Base";

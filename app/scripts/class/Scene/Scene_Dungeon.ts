@@ -1,6 +1,6 @@
 import { IProcessInfo, IResourceInfo } from "../../definitions/class/Scene/ISceneDungeon";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
-import { EventManager } from "../manager/EventManager";
+import EventManager from "../manager/EventManager";
 import GameManager from "../manager/GameManager";
 import Sprite_Character from "../Sprite/Sprite_Character";
 import Sprite_Map from "../Sprite/Sprite_Map";
