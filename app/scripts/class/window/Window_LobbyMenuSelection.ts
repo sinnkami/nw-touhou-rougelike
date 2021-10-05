@@ -3,6 +3,7 @@ import { IMenuInfo } from "../../definitions/class/Construct/IMenu";
 import { LobbyMenuId, LobbyMenuList } from "../Construct/MenuConstruct";
 import EventManager, { EventCode } from "../manager/EventManager";
 import GameManager from "../manager/GameManager";
+import ResourceManager from "../manager/ResourceManager";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
 import Window_Base from "./Window_Base";
 
@@ -11,8 +12,10 @@ export default class Window_LobbyMenuSelection extends Window_Base {
 
 	private menuIndex: number = 0;
 
-	public async init(): Promise<void> {
-		return;
+	private backgroundImagePath: string = "";
+
+	public init(option: { backgroundImagePath: string }): void {
+		this.backgroundImagePath = option.backgroundImagePath;
 	}
 
 	public async setSprite(): Promise<void> {
@@ -30,10 +33,12 @@ export default class Window_LobbyMenuSelection extends Window_Base {
 			await sprite.init({
 				text: `${menu.menuId} - ${menu.name}`,
 				x: 10 * (index + 1),
-				y: (index + 1) * 30,
+				y: (index + 1) * 55,
 				width: 300,
 				height: 30,
 				fontSize: 25,
+				isBackground: true,
+				backgroundImagePath: this.backgroundImagePath,
 			});
 			await sprite.setSprite();
 
@@ -65,10 +70,10 @@ export default class Window_LobbyMenuSelection extends Window_Base {
 		}
 
 		const container = this.getContainer();
-		// (x軸*2) * index
-		container.x = -(10 * 2) * this.menuIndex;
-		// 初期値 - index * (y + height)
-		container.y = 40 - this.menuIndex * (30 + 30);
+		// 初期値 - x軸 * index
+		container.x = 0 - 10 * this.menuIndex;
+		// 初期値 - y軸 * index
+		container.y = 40 - 55 * this.menuIndex;
 	}
 
 	public excuteSelectMenu(): void {

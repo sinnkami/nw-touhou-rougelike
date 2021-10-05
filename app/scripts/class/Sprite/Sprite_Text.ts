@@ -1,5 +1,7 @@
-import { Graphics, Text } from "pixi.js";
+import { Graphics, Sprite, Text } from "pixi.js";
 import { ISpriteMessageOption } from "../../definitions/class/Sprite/ISpriteMessage";
+import { ISpriteTextOption } from "../../definitions/class/Sprite/ISpriteText";
+import ResourceManager from "../manager/ResourceManager";
 import Sprite_Base from "./Sprite_Base";
 
 const SPRITE_NAME = "text";
@@ -14,12 +16,23 @@ export class Sprite_Text extends Sprite_Base {
 	// 表示する際のフォントサイズ
 	protected fontSize: number = 0;
 
-	public init(option: ISpriteMessageOption): void {
+	// 背景画像を表示するか
+	protected isBackground: boolean = false;
+
+	// 背景画像のパス
+	protected backgroundImagePath: string = "";
+
+	public init(option: ISpriteTextOption): void {
 		if (option.name === undefined) option.name = SPRITE_NAME;
 
 		super.init(option);
 		this.text = option.text;
 		this.fontSize = option.fontSize;
+
+		this.isBackground = option.isBackground || false;
+		if (this.isBackground) {
+			this.backgroundImagePath = option.backgroundImagePath || "";
+		}
 	}
 
 	/**
@@ -35,7 +48,6 @@ export class Sprite_Text extends Sprite_Base {
 		container.setTransform(this.x, this.y);
 
 		// TODO: 背景画像を仮の物ではなくちゃんとした物へ
-		container.addChild(new Graphics().beginFill(0x008000).drawRect(this.x, this.y, this.width, this.height));
 
 		const text = new Text(this.text, {
 			fontSize: this.fontSize,
@@ -43,7 +55,20 @@ export class Sprite_Text extends Sprite_Base {
 			align: "left",
 		});
 
-		text.setTransform(this.x, this.y);
+		text.setTransform(0, 0);
+
+		if (this.isBackground) {
+			const texture = await ResourceManager.getTexture(this.backgroundImagePath);
+			const background = new Sprite(texture);
+
+			background.setTransform(0, 0);
+			background.width = this.width;
+			background.height = this.height + this.fontSize;
+
+			text.setTransform(background.width / 32, background.height / 4);
+
+			container.addChild(background);
+		}
 
 		container.addChild(text);
 

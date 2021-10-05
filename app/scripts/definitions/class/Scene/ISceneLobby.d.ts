@@ -26,4 +26,5 @@ export interface IProcessInfo {
 // Resourceの情報（パス）
 export interface IResourceInfo {
 	[ResourceName.BackgroundImage]: string;
+	[ResourceName.MessageBackgroundImage]: string;
 }

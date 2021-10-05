@@ -17,6 +17,7 @@ export enum ProcessName {
 /** 画像パスを取得する際の名前 */
 export enum ResourceName {
 	BackgroundImage = "BackgroundImage",
+	MessageBackgroundImage = "MessageBackgroundImage",
 }
 
 /** 解像度 */
@@ -70,7 +71,7 @@ export default class Scene_Lobby extends Scene_Base {
 
 		// 描画する背景画像を設定
 		const BackgroundImageRender = this.processInfo[ProcessName.BackgroundImage].class;
-		await BackgroundImageRender.init({
+		BackgroundImageRender.init({
 			path: this.resourceInfo[ResourceName.BackgroundImage],
 			x: 0,
 			y: 0,
@@ -80,18 +81,22 @@ export default class Scene_Lobby extends Scene_Base {
 		await BackgroundImageRender.setSprite();
 
 		const LobbyText = this.processInfo[ProcessName.LobbyText].class;
-		await LobbyText.init({
+		LobbyText.init({
 			text: "ロビー画面",
 			x: 10,
 			y: 10,
 			width: 300,
 			height: 30,
 			fontSize: 25,
+			isBackground: true,
+			backgroundImagePath: this.resourceInfo[ResourceName.MessageBackgroundImage],
 		});
 		await LobbyText.setSprite();
 
 		const LobbyMenuSelection = this.processInfo[ProcessName.LobbyMenuSelection].class;
-		await LobbyMenuSelection.init();
+		LobbyMenuSelection.init({
+			backgroundImagePath: this.resourceInfo[ResourceName.MessageBackgroundImage],
+		});
 		await LobbyMenuSelection.setSprite();
 	}
 
