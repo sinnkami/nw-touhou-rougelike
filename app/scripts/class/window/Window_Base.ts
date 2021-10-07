@@ -1,7 +1,7 @@
 import { Container } from "@pixi/display";
 import { Spritesheet } from "@pixi/spritesheet";
-import GameManager from "../manager/GameManager";
-import LoadManager from "../manager/LoadManager";
+import GameManager from "../Manager/GameManager";
+import LoadManager from "../Manager/LoadManager";
 
 export default class Window_Base {
 	// コンテナ

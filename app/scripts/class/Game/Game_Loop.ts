@@ -1,6 +1,6 @@
-import DebugManager from "../manager/DebugManager";
-import GameManager from "../manager/GameManager";
-import SceneManager from "../manager/SceneManager";
+import DebugManager from "../Manager/DebugManager";
+import GameManager from "../Manager/GameManager";
+import SceneManager from "../Manager/SceneManager";
 import { Game_Base } from "./Game_Base";
 
 /**

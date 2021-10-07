@@ -1,4 +1,4 @@
-import GameManager from "../manager/GameManager";
+import GameManager from "../Manager/GameManager";
 import { Game_Base } from "./Game_Base";
 
 /**

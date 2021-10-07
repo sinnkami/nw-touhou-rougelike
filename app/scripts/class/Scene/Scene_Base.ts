@@ -1,9 +1,9 @@
 import { IProcessInfo, IResourcePathDict } from "../../definitions/class/Scene/ISceneBase";
-import GameManager from "../manager/GameManager";
-import LoadManager from "../manager/LoadManager";
-import SceneManager from "../manager/SceneManager";
+import GameManager from "../Manager/GameManager";
+import LoadManager from "../Manager/LoadManager";
+import SceneManager from "../Manager/SceneManager";
 import Sprite_Base from "../Sprite/Sprite_Base";
-import Window_Base from "../window/Window_Base";
+import Window_Base from "../Window/Window_Base";
 
 /**
  * シーン汎用クラス

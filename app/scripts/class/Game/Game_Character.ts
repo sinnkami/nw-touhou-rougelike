@@ -1,6 +1,6 @@
 import { ICharacterPosition } from "../../definitions/class/Game/IGameCharacter";
 import { MapChip } from "../Construct/CommonConstruct";
-import GameManager from "../manager/GameManager";
+import GameManager from "../Manager/GameManager";
 import { Game_Base } from "./Game_Base";
 /**
  * ゲーム内に登場するキャラの現在情報を保持するクラス

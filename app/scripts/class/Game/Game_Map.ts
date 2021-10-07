@@ -4,7 +4,7 @@ import { ICharacterPosition } from "../../definitions/class/Game/IGameCharacter"
 import { IGameEventMapData, IGameMapData } from "../../definitions/class/Game/IGameMap";
 import { CommonConstruct, MapChip } from "../Construct/CommonConstruct";
 import EventChipName from "../Construct/EventChipName";
-import { EventCode } from "../manager/EventManager";
+import { EventCode } from "../Manager/EventManager";
 import { Game_Base } from "./Game_Base";
 
 /** 画面外を表示しないための壁サイズ */

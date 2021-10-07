@@ -1,8 +1,8 @@
 import { IResourcePathDict } from "../../definitions/class/Scene/ISceneBase";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import EventChipName from "../Construct/EventChipName";
-import EventManager from "../manager/EventManager";
-import GameManager from "../manager/GameManager";
+import EventManager from "../Manager/EventManager";
+import GameManager from "../Manager/GameManager";
 import Sprite_Character from "../Sprite/Sprite_Character";
 import Sprite_Map from "../Sprite/Sprite_Map";
 import { Sprite_Text } from "../Sprite/Sprite_Text";

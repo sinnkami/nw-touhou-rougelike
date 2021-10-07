@@ -1,5 +1,5 @@
 import Sprite_Base from "../../../class/Sprite/Sprite_Base";
-import Window_Base from "../../../class/window/Window_Base";
+import Window_Base from "../../../class/Window/Window_Base";
 
 // プロセス情報
 export interface IProcessInfo {

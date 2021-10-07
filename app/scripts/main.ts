@@ -1,13 +1,24 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import "babel-polyfill";
-import DataManager from "./class/manager/DataManager";
+import DataManager from "./class/Manager/DataManager";
 
-import DebugManager from "./class/manager/DebugManager";
-import ErrorManager from "./class/manager/ErrorManager";
-import EventManager from "./class/manager/EventManager";
-import GameManager from "./class/manager/GameManager";
-import LoadManager from "./class/manager/LoadManager";
-import ResourceManager from "./class/manager/ResourceManager";
-import SceneManager from "./class/manager/SceneManager";
+import DebugManager from "./class/Manager/DebugManager";
+import ErrorManager from "./class/Manager/ErrorManager";
+import EventManager from "./class/Manager/EventManager";
+import GameManager from "./class/Manager/GameManager";
+import LoadManager from "./class/Manager/LoadManager";
+import ResourceManager from "./class/Manager/ResourceManager";
+import SceneManager from "./class/Manager/SceneManager";
+
+(window as any).DebugManager = DebugManager;
+(window as any).ErrorManager = ErrorManager;
+(window as any).EventManager = EventManager;
+(window as any).GameManager = GameManager;
+(window as any).LoadManager = LoadManager;
+(window as any).ResourceManager = ResourceManager;
+(window as any).SceneManager = SceneManager;
+(window as any).DataManager = DataManager;
+
 /**
  * 初期動作
  * TODO: Scene_Boot 作成予定

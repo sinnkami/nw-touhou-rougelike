@@ -2,7 +2,7 @@ import { Graphics } from "@pixi/graphics";
 import { Sprite } from "@pixi/sprite";
 import { ISpriteMaskOption } from "../../definitions/class/Sprite/ISpriteMask";
 import { CommonConstruct } from "../Construct/CommonConstruct";
-import ResourceManager from "../manager/ResourceManager";
+import ResourceManager from "../Manager/ResourceManager";
 import Sprite_Base from "./Sprite_Base";
 
 const SPRITE_NAME = "mask";

@@ -1,9 +1,9 @@
 import { Container } from "@pixi/display";
 import { IMenuInfo } from "../../definitions/class/Construct/IMenu";
 import { LobbyMenuId, LobbyMenuList } from "../Construct/MenuConstruct";
-import EventManager, { EventCode } from "../manager/EventManager";
-import GameManager from "../manager/GameManager";
-import ResourceManager from "../manager/ResourceManager";
+import EventManager, { EventCode } from "../Manager/EventManager";
+import GameManager from "../Manager/GameManager";
+import ResourceManager from "../Manager/ResourceManager";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
 import Window_Base from "./Window_Base";
 

@@ -1,11 +1,11 @@
-import ResourceManager from "../manager/ResourceManager";
+import ResourceManager from "../Manager/ResourceManager";
 import Scene_Dungeon from "../Scene/Scene_Dungeon";
-import SceneManager from "../manager/SceneManager";
+import SceneManager from "../Manager/SceneManager";
 import { Event_Base } from "./Event_Base";
 import { ResourceName } from "../Scene/Scene_Dungeon";
-import GameManager from "../manager/GameManager";
-import LoadManager from "../manager/LoadManager";
-import DataManager from "../manager/DataManager";
+import GameManager from "../Manager/GameManager";
+import LoadManager from "../Manager/LoadManager";
+import DataManager from "../Manager/DataManager";
 import sleep from "../../modules/utils/sleep";
 
 /**

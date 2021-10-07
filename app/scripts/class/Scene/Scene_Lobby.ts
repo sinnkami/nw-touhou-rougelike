@@ -1,8 +1,8 @@
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
-import GameManager from "../manager/GameManager";
+import GameManager from "../Manager/GameManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
-import Window_LobbyMenuSelection from "../window/Window_LobbyMenuSelection";
+import Window_LobbyMenuSelection from "../Window/Window_LobbyMenuSelection";
 import Scene_Base from "./Scene_Base";
 
 /** プロセス名 */

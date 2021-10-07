@@ -1,9 +1,9 @@
-import ResourceManager from "../manager/ResourceManager";
+import ResourceManager from "../Manager/ResourceManager";
 import Scene_Title from "../Scene/Scene_Title";
-import SceneManager from "../manager/SceneManager";
+import SceneManager from "../Manager/SceneManager";
 import { Event_Base } from "./Event_Base";
 import { ResourceName } from "../Scene/Scene_Title";
-import LoadManager from "../manager/LoadManager";
+import LoadManager from "../Manager/LoadManager";
 
 /**
  * 0003: タイトル表示

@@ -1,6 +1,6 @@
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
-import EventManager, { EventCode } from "../manager/EventManager";
-import GameManager from "../manager/GameManager";
+import EventManager, { EventCode } from "../Manager/EventManager";
+import GameManager from "../Manager/GameManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
 import Scene_Base from "./Scene_Base";
 

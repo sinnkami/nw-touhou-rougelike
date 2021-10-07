@@ -1,6 +1,6 @@
 import loki from "lokijs";
 import dbJson from "../../database/db.json";
-import ErrorManager, { ErrorCode } from "../class/manager/ErrorManager";
+import ErrorManager, { ErrorCode } from "../class/Manager/ErrorManager";
 
 const db = new loki("");
 db.loadJSON(JSON.stringify(dbJson));

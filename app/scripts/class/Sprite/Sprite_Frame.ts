@@ -1,6 +1,6 @@
 import { Sprite } from "@pixi/sprite";
 import { ISpriteFrameOption } from "../../definitions/class/Sprite/ISpruteFrame";
-import ResourceManager from "../manager/ResourceManager";
+import ResourceManager from "../Manager/ResourceManager";
 import Sprite_Base from "./Sprite_Base";
 
 const SPRITE_NAME = "frame";
