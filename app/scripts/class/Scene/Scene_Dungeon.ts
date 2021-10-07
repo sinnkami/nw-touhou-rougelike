@@ -1,5 +1,6 @@
 import { IResourcePathDict } from "../../definitions/class/Scene/ISceneBase";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
+import EventChipName from "../Construct/EventChipName";
 import EventManager from "../manager/EventManager";
 import GameManager from "../manager/GameManager";
 import Sprite_Character from "../Sprite/Sprite_Character";
@@ -153,7 +154,7 @@ export default class Scene_Dungeon extends Scene_Base {
 					// 現在地にあるイベントタイルを取得
 					const position = GameManager.player.getPosition();
 					const eventChip = GameManager.map.getEventMapChip(position.x, position.y);
-					if (eventChip && eventChip.name === "stairs") {
+					if (eventChip && eventChip.name === EventChipName.Stairs) {
 						// 階段の場合は処理を行う
 						const event = EventManager.getEvent(eventChip.event);
 						event.execute();

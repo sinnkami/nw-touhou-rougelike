@@ -3,6 +3,7 @@ import Uniform from "rot-js/lib/map/uniform";
 import { ICharacterPosition } from "../../definitions/class/Game/IGameCharacter";
 import { IGameEventMapData, IGameMapData } from "../../definitions/class/Game/IGameMap";
 import { CommonConstruct, MapChip } from "../Construct/CommonConstruct";
+import EventChipName from "../Construct/EventChipName";
 import { EventCode } from "../manager/EventManager";
 import { Game_Base } from "./Game_Base";
 
@@ -181,7 +182,7 @@ export class Game_Map extends Game_Base {
 		}
 
 		const eventMapChip: IGameEventMapData = Object.assign({}, mapChip, {
-			name: "stairs",
+			name: EventChipName.Stairs,
 			event: EventCode.Stairs,
 			chip: MapChip.Stairs,
 		});
