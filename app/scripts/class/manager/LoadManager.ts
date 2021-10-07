@@ -1,42 +1,43 @@
-import { Graphics } from "@pixi/graphics";
 import sleep from "../../modules/utils/sleep";
-import { CommonConstruct } from "../Construct/CommonConstruct";
-import GameManager from "./GameManager";
+import Sprite_Mask from "../Sprite/Sprite_Mask";
 
 export default class LoadManager {
 	private static loadingList: string[] = [];
 
-	private static loadingSprite: Graphics = new Graphics();
+	private static mask: Sprite_Mask = new Sprite_Mask();
 
 	public static get isLoading(): boolean {
 		return !!this.loadingList.length;
 	}
 
-	public static init(): Promise<void> {
+	public static async init(): Promise<void> {
 		// ローディング中に表示する内容
-		this.loadingSprite.name = "loading";
-		this.loadingSprite.zIndex = 9999;
-		this.loadingSprite.beginFill(0x000000);
-		this.loadingSprite.drawRect(0, 0, CommonConstruct.size.width, CommonConstruct.size.height);
-		this.loadingSprite.endFill();
-		this.loadingSprite.alpha = 0.8;
-		this.loadingSprite.visible = false;
+		this.mask.init({
+			name: "loading",
+			x: 0,
+			y: 0,
+		});
 
-		GameManager.getCanvas().addRender(this.loadingSprite);
+		await this.mask.setSprite();
+
+		this.mask.setZIndex(9999);
+
+		this.mask.hide();
 
 		return Promise.resolve();
 	}
 
 	public static async start(name: string): Promise<boolean> {
+		console.log(this.mask);
 		this.loadingList.push(name);
-		this.loadingSprite.visible = true;
+		this.mask.show();
 		await sleep(1);
 		return true;
 	}
 
 	public static async complete(name: string): Promise<boolean> {
 		this.loadingList = this.loadingList.filter(v => v !== name);
-		this.loadingSprite.visible = false;
+		this.mask.hide();
 		await sleep(1);
 		return true;
 	}

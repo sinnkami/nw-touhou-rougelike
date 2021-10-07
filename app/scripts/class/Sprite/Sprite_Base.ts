@@ -167,6 +167,33 @@ export default class Sprite_Base {
 	}
 
 	/**
+	 * zindexを設定する
+	 * @returns
+	 */
+	public setZIndex(zIndex: number): void {
+		const container = this.getContainer();
+		container.zIndex = zIndex;
+	}
+
+	/**
+	 * 表示する
+	 * @returns
+	 */
+	public show(): void {
+		const container = this.getContainer();
+		container.visible = true;
+	}
+
+	/**
+	 * 非表示にする
+	 * @returns
+	 */
+	public hide(): void {
+		const container = this.getContainer();
+		container.visible = false;
+	}
+
+	/**
 	 * スプライトの現在地を初期化
 	 * @returns
 	 */
