@@ -65,7 +65,6 @@ export default class Scene_Dungeon extends Scene_Base {
 
 	/**
 	 * シーンを開始する
-	 * TODO: いい感じに切り分けたい
 	 * @override
 	 */
 	public async startScene(): Promise<void> {
