@@ -3,6 +3,7 @@ import { ISpriteMessageOption } from "../../definitions/class/Sprite/ISpriteMess
 import { ISpriteTextOption } from "../../definitions/class/Sprite/ISpriteText";
 import ResourceManager from "../manager/ResourceManager";
 import Sprite_Base from "./Sprite_Base";
+import Sprite_Frame from "./Sprite_Frame";
 
 const SPRITE_NAME = "text";
 
@@ -58,16 +59,21 @@ export class Sprite_Text extends Sprite_Base {
 		text.setTransform(0, 0);
 
 		if (this.isBackground) {
-			const texture = await ResourceManager.getTexture(this.backgroundImagePath);
-			const background = new Sprite(texture);
+			const spriteFrame = new Sprite_Frame();
+			spriteFrame.init({
+				x: 0,
+				y: 0,
+				width: this.width,
+				height: this.height + this.fontSize,
+				path: this.backgroundImagePath,
+			});
+			await spriteFrame.setSprite();
 
-			background.setTransform(0, 0);
-			background.width = this.width;
-			background.height = this.height + this.fontSize;
+			const backgroundContainer = spriteFrame.getContainer();
 
-			text.setTransform(background.width / 32, background.height / 4);
+			text.setTransform(backgroundContainer.width / 32, backgroundContainer.height / 4);
 
-			container.addChild(background);
+			container.addChild(backgroundContainer);
 		}
 
 		container.addChild(text);
