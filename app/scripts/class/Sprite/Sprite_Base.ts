@@ -194,6 +194,16 @@ export default class Sprite_Base {
 	}
 
 	/**
+	 * スプライトの位置を移動
+	 * @param x
+	 * @param y
+	 */
+	public move(x: number, y: number): void {
+		// MEMO: オーバーライドして使用する
+		return;
+	}
+
+	/**
 	 * スプライトの現在地を初期化
 	 * @returns
 	 */

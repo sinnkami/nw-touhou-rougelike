@@ -40,13 +40,4 @@ export class Sprite_Background extends Sprite_Base {
 
 		container.addChild(backgroundImage);
 	}
-
-	/**
-	 * スプライトの更新処理
-	 * @override
-	 */
-	public update(): void {
-		super.update();
-		// MEMO: 特段処理する必要はなし
-	}
 }

@@ -1,4 +1,3 @@
-import { IProcessInfo, IResourceInfo } from "../../definitions/class/Scene/ISceneLobby";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import GameManager from "../manager/GameManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
@@ -27,40 +26,6 @@ const SIZE = CommonConstruct.size;
  * タイトル画面のシーン
  */
 export default class Scene_Lobby extends Scene_Base {
-	// TODO: この2種Baseに移動したいけど、取得が・・・・
-	// プロセス情報
-	public readonly processInfo: IProcessInfo = {
-		[ProcessName.BackgroundImage]: {
-			process: () => Promise.resolve(),
-			class: new Sprite_Background(),
-		},
-		[ProcessName.LobbyText]: {
-			process: () => Promise.resolve(),
-			class: new Sprite_Text(),
-		},
-		[ProcessName.LobbyMenuSelection]: {
-			process: () => Promise.resolve(),
-			class: new Window_LobbyMenuSelection(),
-		},
-		[ProcessName.InputProcess]: {
-			class: undefined,
-			process: async (time: number) => this.inputProcess(),
-		},
-	};
-	private get processList(): ((time: number) => Promise<void>)[] {
-		return Object.values(this.processInfo).map((info: { process: (time: number) => Promise<void> }) => {
-			return info.process;
-		});
-	}
-
-	// リソース情報
-	public readonly resourceInfo: IResourceInfo;
-
-	public constructor(resourceInfo: IResourceInfo) {
-		super();
-		this.resourceInfo = resourceInfo;
-	}
-
 	/**
 	 * シーンを開始する
 	 * @override
@@ -69,10 +34,19 @@ export default class Scene_Lobby extends Scene_Base {
 		const executed = await super.startScene();
 		if (!executed) return;
 
+		await this.setProcessBackImage();
+		await this.setProcessLobbyText();
+		await this.setProcessLobbyMenu();
+	}
+
+	/**
+	 * 背景画像に関するプロセスの設定
+	 */
+	private async setProcessBackImage(): Promise<void> {
 		// 描画する背景画像を設定
-		const BackgroundImageRender = this.processInfo[ProcessName.BackgroundImage].class;
+		const BackgroundImageRender = new Sprite_Background();
 		BackgroundImageRender.init({
-			path: this.resourceInfo[ResourceName.BackgroundImage],
+			path: this.getResourcePath(ResourceName.BackgroundImage),
 			x: 0,
 			y: 0,
 			width: SIZE.width,
@@ -80,7 +54,20 @@ export default class Scene_Lobby extends Scene_Base {
 		});
 		await BackgroundImageRender.setSprite();
 
-		const LobbyText = this.processInfo[ProcessName.LobbyText].class;
+		this.addProcess({
+			name: ProcessName.BackgroundImage,
+			class: BackgroundImageRender,
+			process: async (time: number) => {
+				BackgroundImageRender.update();
+			},
+		});
+	}
+
+	/**
+	 * 左上のテキストに関するプロセスを設定
+	 */
+	private async setProcessLobbyText(): Promise<void> {
+		const LobbyText = new Sprite_Text();
 		LobbyText.init({
 			text: "ロビー画面",
 			x: 10,
@@ -89,64 +76,46 @@ export default class Scene_Lobby extends Scene_Base {
 			height: 30,
 			fontSize: 25,
 			isBackground: true,
-			backgroundImagePath: this.resourceInfo[ResourceName.MessageBackgroundImage],
+			backgroundImagePath: this.getResourcePath(ResourceName.MessageBackgroundImage),
 		});
 		await LobbyText.setSprite();
 
-		const LobbyMenuSelection = this.processInfo[ProcessName.LobbyMenuSelection].class;
+		this.addProcess({
+			name: ProcessName.LobbyText,
+			class: LobbyText,
+			process: async (time: number) => {
+				LobbyText.update();
+			},
+		});
+	}
+
+	/**
+	 * ロビーメニュー関連のプロセスを設定
+	 * @returns
+	 */
+	private async setProcessLobbyMenu(): Promise<void> {
+		const LobbyMenuSelection = new Window_LobbyMenuSelection();
 		LobbyMenuSelection.init({
-			backgroundImagePath: this.resourceInfo[ResourceName.MessageBackgroundImage],
+			backgroundImagePath: this.getResourcePath(ResourceName.MessageBackgroundImage),
 		});
 		await LobbyMenuSelection.setSprite();
-	}
 
-	/**
-	 * シーンを更新する
-	 * @override
-	 * @returns
-	 */
-	public async updateScene(): Promise<void> {
-		const executed = await super.updateScene();
-		if (!executed) return;
+		this.addProcess({
+			name: ProcessName.LobbyMenuSelection,
+			class: LobbyMenuSelection,
+			process: async (time: number) => {
+				if (GameManager.input.isPushedKey(KeyCode.Up)) {
+					LobbyMenuSelection.backMenu();
+				}
+				if (GameManager.input.isPushedKey(KeyCode.Down)) {
+					LobbyMenuSelection.nextMenu();
+				}
 
-		this.processList.forEach(process => process(GameManager.loop.frameCount));
-	}
-
-	/**
-	 * シーンを停止する
-	 * @override
-	 * @returns
-	 */
-	public async stopScene(): Promise<void> {
-		const executed = await super.stopScene();
-		if (!executed) return;
-
-		const BackgroundImageRender = this.processInfo[ProcessName.BackgroundImage].class;
-		BackgroundImageRender.destroy();
-
-		const LobbyText = this.processInfo[ProcessName.LobbyText].class;
-		LobbyText.destroy();
-
-		const LobbyMenuSelection = this.processInfo[ProcessName.LobbyMenuSelection].class;
-		LobbyMenuSelection.destroy();
-	}
-
-	/**
-	 * キー入力の処理を行う
-	 * @returns
-	 */
-	private async inputProcess(): Promise<void> {
-		const LobbyMenuSelection = this.processInfo[ProcessName.LobbyMenuSelection].class;
-		if (GameManager.input.isPushedKey(KeyCode.Up)) {
-			LobbyMenuSelection.backMenu();
-		}
-		if (GameManager.input.isPushedKey(KeyCode.Down)) {
-			LobbyMenuSelection.nextMenu();
-		}
-
-		// 決定キーの処理
-		if (GameManager.input.isPushedKey(KeyCode.Select)) {
-			LobbyMenuSelection.excuteSelectMenu();
-		}
+				// 決定キーの処理
+				if (GameManager.input.isPushedKey(KeyCode.Select)) {
+					LobbyMenuSelection.excuteSelectMenu();
+				}
+			},
+		});
 	}
 }

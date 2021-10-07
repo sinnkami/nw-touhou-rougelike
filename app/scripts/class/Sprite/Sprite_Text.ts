@@ -48,8 +48,6 @@ export class Sprite_Text extends Sprite_Base {
 		// コンテナの初期位置を設定
 		container.setTransform(this.x, this.y);
 
-		// TODO: 背景画像を仮の物ではなくちゃんとした物へ
-
 		const text = new Text(this.text, {
 			fontSize: this.fontSize,
 			fill: "#FFFFFF",
@@ -77,16 +75,5 @@ export class Sprite_Text extends Sprite_Base {
 		}
 
 		container.addChild(text);
-
-		// MEMO: テキストの場合、後から追加なので初期化処理では特に何もしない
-	}
-
-	/**
-	 * スプライトの更新処理
-	 * @override
-	 */
-	public update(): void {
-		super.update();
-		// MEMO: 特段処理する必要はなし
 	}
 }

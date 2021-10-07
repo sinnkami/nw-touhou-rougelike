@@ -1,4 +1,4 @@
-import { IProcessInfo, IResourceInfo } from "../../definitions/class/Scene/ISceneDungeon";
+import { IResourcePathDict } from "../../definitions/class/Scene/ISceneBase";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import EventManager from "../manager/EventManager";
 import GameManager from "../manager/GameManager";
@@ -11,9 +11,9 @@ import Scene_Base from "./Scene_Base";
 export enum ProcessName {
 	MapRender = "MapRender",
 	PlayerRender = "PlayerRender",
-	InputProcess = "InputProcess",
 	StairsText = "StairsText",
 	TestProcess = "TestProcess",
+	Select = "Select",
 }
 
 /** 画像パスを取得する際の名前 */
@@ -29,40 +29,6 @@ const SIZE = CommonConstruct.size;
  * ダンジョン内シーン
  */
 export default class Scene_Dungeon extends Scene_Base {
-	// TODO: この2種Baseに移動したいけど、取得が・・・・
-	// プロセス情報
-	public readonly processInfo: IProcessInfo = {
-		[ProcessName.MapRender]: {
-			class: new Sprite_Map(),
-			process: async (time: number) => this.processInfo[ProcessName.MapRender].class.update(),
-		},
-		[ProcessName.PlayerRender]: {
-			class: new Sprite_Character(),
-			process: async (time: number) => this.processInfo[ProcessName.PlayerRender].class.update(),
-		},
-		[ProcessName.InputProcess]: {
-			class: undefined,
-			process: async (time: number) => this.inputProcess(),
-		},
-		[ProcessName.StairsText]: {
-			class: new Sprite_Text(),
-			process: async (time: number) => this.processInfo[ProcessName.StairsText].class.update(),
-		},
-	};
-	private get processList(): ((time: number) => Promise<void>)[] {
-		return Object.values(this.processInfo).map((info: { process: (time: number) => Promise<void> }) => {
-			return info.process;
-		});
-	}
-
-	// リソース情報
-	public readonly resourceInfo: IResourceInfo;
-
-	public constructor(resourceInfo: IResourceInfo) {
-		super();
-		this.resourceInfo = resourceInfo;
-	}
-
 	/**
 	 * シーンを開始する
 	 * @override
@@ -71,37 +37,9 @@ export default class Scene_Dungeon extends Scene_Base {
 		const executed = await super.startScene();
 		if (!executed) return;
 
-		// 描画するマップを設定
-		// MEMO: 現在地と中心点の差分を見て調節を行う
-		// TODO: この意味わからん数値を良い感じにわかりやすくしたい
-		const MapRender = this.processInfo[ProcessName.MapRender].class;
-		await MapRender.init({
-			path: this.resourceInfo[ResourceName.Map],
-			x: SIZE.width / 32 / 2 - GameManager.player.getPosition().x - 1,
-			y: SIZE.height / 32 / 2 - GameManager.player.getPosition().y,
-		});
-		await MapRender.setSprite();
-
-		// 描画する操作キャラを設定
-		// MEMO: キャラを画面中心に表示する
-		const PlayerRender = this.processInfo[ProcessName.PlayerRender].class;
-		await PlayerRender.init({
-			path: this.resourceInfo[ResourceName.Character],
-			x: SIZE.width / 32 / 2 - 1,
-			y: SIZE.height / 32 / 2,
-		});
-		await PlayerRender.setSprite();
-
-		const StairsText = this.processInfo[ProcessName.StairsText].class;
-		await StairsText.init({
-			text: `${GameManager.map.getName()}: ${GameManager.dungeon.getCurrentHierarchy()}F`,
-			x: 10,
-			y: 10,
-			width: 300,
-			height: 30,
-			fontSize: 25,
-		});
-		await StairsText.setSprite();
+		await this.setProcessMap();
+		await this.setProcessPlayer();
+		await this.setProcessStairs();
 
 		// const TestText = this.processInfo[ProcessName.TestProcess].class;
 		// await TestText.init({
@@ -117,77 +55,111 @@ export default class Scene_Dungeon extends Scene_Base {
 	}
 
 	/**
-	 * シーンを更新する
-	 * @override
+	 * マップ関連のプロセスを設定
+	 * @param mapRender
 	 * @returns
 	 */
-	public async updateScene(): Promise<void> {
-		const executed = await super.updateScene();
-		if (!executed) return;
-		this.processList.forEach(process => process(GameManager.loop.frameCount));
+	private async setProcessMap(): Promise<void> {
+		// 描画するマップを設定
+		// MEMO: 現在地と中心点の差分を見て調節を行う
+		// TODO: この意味わからん数値を良い感じにわかりやすくしたい
+		const MapRender = new Sprite_Map();
+		await MapRender.init({
+			path: this.getResourcePath(ResourceName.Map),
+			x: SIZE.width / 32 / 2 - GameManager.player.getPosition().x - 1,
+			y: SIZE.height / 32 / 2 - GameManager.player.getPosition().y,
+		});
+		await MapRender.setSprite();
+
+		this.addProcess({
+			name: ProcessName.MapRender,
+			class: MapRender,
+			process: async (time: number) => {
+				MapRender.update();
+
+				// 移動アニメーション中は移動不可
+				if (MapRender.isAnimation) return;
+
+				// 移動マス
+				const speed = 1;
+				let x = 0;
+				let y = 0;
+
+				// TODO: ローグライクで斜め移動ってだめでは・・・？
+				// 方向キーの処理
+				if (GameManager.input.isPushedKey(KeyCode.Up)) y -= speed;
+				if (GameManager.input.isPushedKey(KeyCode.Down)) y += speed;
+				if (GameManager.input.isPushedKey(KeyCode.Right)) x += speed;
+				if (GameManager.input.isPushedKey(KeyCode.Left)) x -= speed;
+
+				// 移動量に合わせてキャラを移動
+				const flag = GameManager.player.move(x, y);
+				if (flag) {
+					// 移動できたならマップをずらす
+					MapRender.move(x, y);
+				}
+			},
+		});
 	}
 
 	/**
-	 * シーンを停止する
-	 * @override
-	 * @returns
+	 * 操作プレイヤーに関するプロセスを設定
 	 */
-	public async stopScene(): Promise<void> {
-		const executed = await super.stopScene();
-		if (!executed) return;
-
-		const MapRender = this.processInfo[ProcessName.MapRender].class;
-		MapRender.destroy();
-
-		const PlayerRender = this.processInfo[ProcessName.PlayerRender].class;
-		PlayerRender.destroy();
-
-		const StairsText = this.processInfo[ProcessName.StairsText].class;
-		StairsText.destroy();
+	private async setProcessPlayer(): Promise<void> {
+		// 描画する操作キャラを設定
+		// MEMO: キャラを画面中心に表示する
+		const PlayerRender = new Sprite_Character();
+		await PlayerRender.init({
+			path: this.getResourcePath(ResourceName.Character),
+			x: SIZE.width / 32 / 2 - 1,
+			y: SIZE.height / 32 / 2,
+		});
+		await PlayerRender.setSprite();
+		this.addProcess({
+			name: ProcessName.PlayerRender,
+			class: PlayerRender,
+			process: async () => {
+				PlayerRender.update();
+			},
+		});
 	}
 
 	/**
-	 * キー入力の処理を行う
+	 * 階段関連のプロセスを設定
 	 * @returns
 	 */
-	private async inputProcess(): Promise<void> {
-		const MapRender = this.processInfo[ProcessName.MapRender].class;
-		const PlayerRender = this.processInfo[ProcessName.PlayerRender].class;
+	private async setProcessStairs(): Promise<void> {
+		const StairsText = new Sprite_Text();
+		await StairsText.init({
+			text: `${GameManager.map.getName()}: ${GameManager.dungeon.getCurrentHierarchy()}F`,
+			x: 10,
+			y: 10,
+			width: 300,
+			height: 30,
+			fontSize: 25,
+		});
+		await StairsText.setSprite();
 
-		// 移動アニメーション中は移動不可
-		if (MapRender.isAnimation) return;
+		this.addProcess({
+			name: ProcessName.StairsText,
+			class: StairsText,
+			process: async () => {
+				StairsText.update();
 
-		// 移動マス
-		const speed = 1;
-		let x = 0;
-		let y = 0;
+				// 決定キーの処理
+				if (GameManager.input.isPushedKey(KeyCode.Select)) {
+					const key = GameManager.input.getKey(KeyCode.Select);
 
-		// TODO: ローグライクで斜め移動ってだめでは・・・？
-		// 方向キーの処理
-		if (GameManager.input.isPushedKey(KeyCode.Up)) y -= speed;
-		if (GameManager.input.isPushedKey(KeyCode.Down)) y += speed;
-		if (GameManager.input.isPushedKey(KeyCode.Right)) x += speed;
-		if (GameManager.input.isPushedKey(KeyCode.Left)) x -= speed;
-
-		// 移動量に合わせてキャラを移動
-		const flag = GameManager.player.move(x, y);
-		if (flag) {
-			// 移動できたならマップをずらす
-			MapRender.move(x, y);
-		}
-
-		// 決定キーの処理
-		if (GameManager.input.isPushedKey(KeyCode.Select)) {
-			const key = GameManager.input.getKey(KeyCode.Select);
-
-			// 現在地にあるイベントタイルを取得
-			const position = GameManager.player.getPosition();
-			const eventChip = GameManager.map.getEventMapChip(position.x, position.y);
-			if (eventChip) {
-				// 存在した場合は処理を行う
-				const event = EventManager.getEvent(eventChip.event);
-				event.execute();
-			}
-		}
+					// 現在地にあるイベントタイルを取得
+					const position = GameManager.player.getPosition();
+					const eventChip = GameManager.map.getEventMapChip(position.x, position.y);
+					if (eventChip && eventChip.name === "stairs") {
+						// 階段の場合は処理を行う
+						const event = EventManager.getEvent(eventChip.event);
+						event.execute();
+					}
+				}
+			},
+		});
 	}
 }

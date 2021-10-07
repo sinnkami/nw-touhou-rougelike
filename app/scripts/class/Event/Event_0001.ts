@@ -25,7 +25,7 @@ export class Event_0001 extends Event_Base {
 		GameManager.dungeon.createDungeon();
 
 		// 再実行することでダンジョン階層を変更
-		await SceneManager.startScene();
+		await SceneManager.startScene(true);
 
 		return LoadManager.complete(this.name);
 	}

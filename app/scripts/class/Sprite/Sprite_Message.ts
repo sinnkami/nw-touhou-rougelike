@@ -82,6 +82,10 @@ export class Sprite_Message extends Sprite_Base {
 		}
 	}
 
+	/**
+	 * テキストを1文字ずつアニメーション付きで追加する
+	 * @returns
+	 */
 	private appendText(): void {
 		const container = super.getContainer();
 		if (!container) return;

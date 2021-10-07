@@ -8,7 +8,7 @@ import Scene_Base from "../Scene/Scene_Base";
 export default class SceneManager {
 	// 現在処理中ののシーン
 	private static get currentScene(): Scene_Base | undefined {
-		return this.sceneList[0];
+		return this.sceneList[this.sceneList.length - 1];
 	}
 
 	// 現在実行中のシーンリスト
@@ -50,18 +50,28 @@ export default class SceneManager {
 	/**
 	 * 実行中のシーンを削除
 	 */
-	public static removeScene(name: string): Promise<void> {
-		this.sceneList = this.sceneList.filter(v => v.name !== name);
+	public static removeScene(name?: string): Promise<void> {
+		if (name) {
+			this.sceneList = this.sceneList.filter(v => v.name !== name);
+		} else {
+			this.sceneList.pop();
+		}
 		return Promise.resolve();
 	}
 
 	/**
 	 * シーンの開始処理
+	 * @param isReset 初期化フラグ
 	 * @returns
 	 */
-	public static startScene(): Promise<void> {
+	public static startScene(isReset?: boolean): Promise<void> {
 		const scene = this.getScene();
 		if (!scene) throw ErrorManager.getError(ErrorCode.NotLoadScene);
+
+		if (isReset) {
+			scene.init();
+		}
+
 		return scene.startScene();
 	}
 

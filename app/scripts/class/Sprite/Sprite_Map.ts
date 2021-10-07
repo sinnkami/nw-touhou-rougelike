@@ -14,6 +14,7 @@ export default class Sprite_Map extends Sprite_Base {
 	protected path: string = "";
 
 	public init(option: ISpriteMapOption): void {
+		if (option.name === undefined) option.name = SPRITE_NAME;
 		if (option.delay === undefined) option.delay = 8;
 
 		super.init(option);
@@ -65,16 +66,8 @@ export default class Sprite_Map extends Sprite_Base {
 	}
 
 	/**
-	 * スプライトの更新処理
-	 * @override
-	 */
-	public update(): void {
-		super.update();
-		return;
-	}
-
-	/**
 	 * スプライトを移動
+	 * @override
 	 * @param x
 	 * @param y
 	 */

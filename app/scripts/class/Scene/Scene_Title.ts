@@ -1,4 +1,3 @@
-import { IProcessInfo, IResourceInfo } from "../../definitions/class/Scene/ISceneTitle";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import EventManager, { EventCode } from "../manager/EventManager";
 import GameManager from "../manager/GameManager";
@@ -7,7 +6,7 @@ import Scene_Base from "./Scene_Base";
 
 /** プロセス名 */
 export enum ProcessName {
-	InputProcess = "InputProcess",
+	InputSelect = "InputSelect",
 	BackgroundImage = "BackgroundImage",
 }
 
@@ -23,32 +22,6 @@ const SIZE = CommonConstruct.size;
  * タイトル画面のシーン
  */
 export default class Scene_Title extends Scene_Base {
-	// TODO: この2種Baseに移動したいけど、取得が・・・・
-	// プロセス情報
-	public readonly processInfo: IProcessInfo = {
-		[ProcessName.BackgroundImage]: {
-			process: () => Promise.resolve(),
-			class: new Sprite_Background(),
-		},
-		[ProcessName.InputProcess]: {
-			class: undefined,
-			process: async (time: number) => this.inputProcess(),
-		},
-	};
-	private get processList(): ((time: number) => Promise<void>)[] {
-		return Object.values(this.processInfo).map((info: { process: (time: number) => Promise<void> }) => {
-			return info.process;
-		});
-	}
-
-	// リソース情報
-	public readonly resourceInfo: IResourceInfo;
-
-	public constructor(resourceInfo: IResourceInfo) {
-		super();
-		this.resourceInfo = resourceInfo;
-	}
-
 	/**
 	 * シーンを開始する
 	 * @override
@@ -57,55 +30,51 @@ export default class Scene_Title extends Scene_Base {
 		const executed = await super.startScene();
 		if (!executed) return;
 
+		await this.setProcessBackImage();
+		await this.setProcessInputSelect();
+	}
+
+	/**
+	 * 背景画像に関するプロセスの設定
+	 */
+	private async setProcessBackImage(): Promise<void> {
 		// 描画する背景画像を設定
-		const BackgroundImageRender = this.processInfo[ProcessName.BackgroundImage].class;
-		await BackgroundImageRender.init({
-			path: this.resourceInfo[ResourceName.BackgroundImage],
+		const BackgroundImageRender = new Sprite_Background();
+		BackgroundImageRender.init({
+			path: this.getResourcePath(ResourceName.BackgroundImage),
 			x: 0,
 			y: 0,
 			width: SIZE.width,
 			height: SIZE.height,
 		});
 		await BackgroundImageRender.setSprite();
+
+		this.addProcess({
+			name: ProcessName.BackgroundImage,
+			class: BackgroundImageRender,
+			process: async (time: number) => {
+				BackgroundImageRender.update();
+			},
+		});
 	}
 
 	/**
-	 * シーンを更新する
-	 * @override
+	 * 決定キーに関するプロセスを設定
+	 * TODO: そのうちタイトルに関する処理に代わると思う
 	 * @returns
 	 */
-	public async updateScene(): Promise<void> {
-		const executed = await super.updateScene();
-		if (!executed) return;
+	private async setProcessInputSelect(): Promise<void> {
+		this.addProcess({
+			name: ProcessName.InputSelect,
+			process: async (time: number) => {
+				if (GameManager.input.isPushedKey(KeyCode.Select)) {
+					const key = GameManager.input.getKey(KeyCode.Select);
 
-		this.processList.forEach(process => process(GameManager.loop.frameCount));
-	}
-
-	/**
-	 * シーンを停止する
-	 * @override
-	 * @returns
-	 */
-	public async stopScene(): Promise<void> {
-		const executed = await super.stopScene();
-		if (!executed) return;
-
-		const BackgroundImageRender = this.processInfo[ProcessName.BackgroundImage].class;
-		BackgroundImageRender.destroy();
-	}
-
-	/**
-	 * キー入力の処理を行う
-	 * @returns
-	 */
-	private async inputProcess(): Promise<void> {
-		// 決定キーの処理
-		if (GameManager.input.isPushedKey(KeyCode.Select)) {
-			const key = GameManager.input.getKey(KeyCode.Select);
-
-			// ロビー画面表示イベントを取得
-			const event = EventManager.getEvent(EventCode.Lobby);
-			event.execute();
-		}
+					// ロビー画面表示イベントを取得
+					const event = EventManager.getEvent(EventCode.Lobby);
+					event.execute();
+				}
+			},
+		});
 	}
 }

@@ -70,8 +70,8 @@ export default class Sprite_Character extends Sprite_Base {
 	 * @override
 	 */
 	public update(): void {
-		// MEMO: 一応呼んでるけど要らんはず
-		super.update();
+		// MEMO: 不要なのでコメントアウト
+		// super.update();
 
 		// キー情報を取得
 		const keyInfo = {
@@ -95,7 +95,7 @@ export default class Sprite_Character extends Sprite_Base {
 	 * @param key
 	 * @returns
 	 */
-	public animation(key: IKeyInfo | undefined): void {
+	private animation(key: IKeyInfo | undefined): void {
 		const sprite = this.getSprite();
 		if (!sprite) return;
 
@@ -126,7 +126,7 @@ export default class Sprite_Character extends Sprite_Base {
 	 * 現在実行中のアニメーションを一時停止
 	 * @returns
 	 */
-	public stopAnimation(): void {
+	private stopAnimation(): void {
 		const sprite = this.getSprite();
 		if (!sprite) return;
 
@@ -139,7 +139,7 @@ export default class Sprite_Character extends Sprite_Base {
 	 * @param animation
 	 * @returns
 	 */
-	public setTextures(animation: CharacterAnimation): void {
+	private setTextures(animation: CharacterAnimation): void {
 		const sheet = this.getSheet();
 		if (!sheet) return;
 
@@ -154,19 +154,6 @@ export default class Sprite_Character extends Sprite_Base {
 		this.runingAnimation = animation;
 
 		return;
-	}
-
-	/**
-	 * スプライトの位置を移動
-	 * @param x
-	 * @param y
-	 */
-	public move(x: number, y: number): void {
-		const sprite = super.getContainer();
-		if (!sprite) throw new Error("no sprite");
-
-		// 移動出来ないようにする時間
-		this.nextUpdateFrame = GameManager.loop.frameCount + this.delay;
 	}
 
 	/**
