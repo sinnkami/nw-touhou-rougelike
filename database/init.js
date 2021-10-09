@@ -26,8 +26,6 @@ Promise.all(
 		}),
 	)
 ).then((results) => {
-	const test = db.getCollection("test");
-	test.insert({ "aaaa": 1234 });
 	db.save((err) => {
 		if (err) return console.error(err);
 		results.forEach((result) => console.log(result));
