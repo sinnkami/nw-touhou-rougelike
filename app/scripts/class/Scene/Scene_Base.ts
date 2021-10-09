@@ -32,6 +32,12 @@ export default class Scene_Base {
 	 * MEMO: シーンを再利用する際に実行する
 	 */
 	public init(): void {
+		this.processInfoList.forEach(processInfo => {
+			if (processInfo.class) {
+				processInfo.class.destroy();
+			}
+		});
+
 		this.processInfoList = [];
 	}
 
@@ -60,13 +66,7 @@ export default class Scene_Base {
 	 * @returns
 	 */
 	public async stopScene(): Promise<any> {
-		this.processInfoList.forEach(processInfo => {
-			console.log(processInfo);
-			if (processInfo.class) {
-				processInfo.class.destroy();
-			}
-		});
-
+		this.init();
 		await SceneManager.removeScene(this.name);
 		return true;
 	}
