@@ -35,6 +35,15 @@ export default class Game_Party extends Game_Base {
 	}
 
 	/**
+	 * 先頭のメンバーを取得
+	 * @returns
+	 */
+	public getFirstMenber(): IStoreParty {
+		// TODO: 先頭の番号、固定値か何かにしたい
+		return this.getMenber(1);
+	}
+
+	/**
 	 * 指定されたメンバーのキャラ情報を取得
 	 * @param order
 	 */

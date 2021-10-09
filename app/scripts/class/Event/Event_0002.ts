@@ -7,6 +7,7 @@ import GameManager from "../Manager/GameManager";
 import LoadManager from "../Manager/LoadManager";
 import DataManager from "../Manager/DataManager";
 import sleep from "../../modules/utils/sleep";
+import StoreManager from "../Manager/StoreManager";
 
 /**
  * 0002: ダンジョン突入イベント
@@ -28,7 +29,12 @@ export class Event_0002 extends Event_Base {
 		if (!dataDungeon) throw new Error(`no select dungeon on dungeonId: ${dungeonId}`);
 
 		const MAP_PATH = "assets/images/map/chip.png";
-		const CHARACTER_PATH = "assets/images/charaChip/reimu.png";
+
+		// パーティ内の先頭のキャラを取得
+		const firstCharacter = GameManager.party.getFirstMenber();
+		const characterData = DataManager.character.get(firstCharacter.characterId);
+		if (!characterData) throw new Error("データベース内に存在しないキャラがパーティに存在します");
+		const CHARACTER_PATH = characterData.charaChipPath;
 
 		GameManager.map.setName(dataDungeon.name);
 		GameManager.dungeon.invadeDungeon();
