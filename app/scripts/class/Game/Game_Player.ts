@@ -4,7 +4,7 @@ import GameManager from "../Manager/GameManager";
 import { Game_Base } from "./Game_Base";
 
 /**
- * 操作するキャラを操作するクラス
+ * 操作するキャラの座標を操作するクラス
  */
 export default class Game_Player extends Game_Base {
 	// 座標
