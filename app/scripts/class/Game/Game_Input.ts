@@ -2,7 +2,7 @@ import { IKeyInfo, IKeyInfoDict } from "../../definitions/class/Game/IGameInput"
 import { Game_Base } from "./Game_Base";
 
 /**
- * ゲーム内での入力値を保持するクラス
+ * ゲーム内での入力値を操作するクラス
  */
 export default class Game_Input extends Game_Base {
 	// キー操作の辞書

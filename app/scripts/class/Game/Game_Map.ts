@@ -15,7 +15,7 @@ const MAP_SIZE = CommonConstruct.mapSize;
 const ROOM_SIZE = CommonConstruct.roomSize;
 
 /**
- * ゲーム内マップに関する情報を保持するクラス
+ * ゲーム内マップに関する情報を操作するクラス
  */
 export class Game_Map extends Game_Base {
 	// マップ名

@@ -2,7 +2,7 @@ import GameManager from "../Manager/GameManager";
 import { Game_Base } from "./Game_Base";
 
 /**
- * 突入中のダンジョンの情報を保持するクラス
+ * 突入中のダンジョンの情報を操作するクラス
  */
 export class Game_Dungeon extends Game_Base {
 	// 現在の階層
