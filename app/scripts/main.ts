@@ -9,6 +9,7 @@ import GameManager from "./class/Manager/GameManager";
 import LoadManager from "./class/Manager/LoadManager";
 import ResourceManager from "./class/Manager/ResourceManager";
 import SceneManager from "./class/Manager/SceneManager";
+import StoreManager from "./class/Manager/StoreManager";
 
 (window as any).DebugManager = DebugManager;
 (window as any).ErrorManager = ErrorManager;
@@ -18,10 +19,11 @@ import SceneManager from "./class/Manager/SceneManager";
 (window as any).ResourceManager = ResourceManager;
 (window as any).SceneManager = SceneManager;
 (window as any).DataManager = DataManager;
+(window as any).StoreManager = StoreManager;
 
 /**
  * 初期動作
- * TODO: Scene_Boot 作成予定
+ * TODO: Scene_Boot 作成予定 <- いらないかも
  */
 window.onload = () => {
 	Promise.all([
@@ -33,6 +35,7 @@ window.onload = () => {
 		EventManager.init(),
 		LoadManager.init(),
 		DataManager.init(),
+		StoreManager.init(),
 	]).then(() => {
 		GameManager.loop.gameLoopStart();
 	});
