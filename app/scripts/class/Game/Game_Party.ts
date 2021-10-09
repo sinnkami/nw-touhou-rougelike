@@ -17,7 +17,7 @@ export default class Game_Party extends Game_Base {
 	 * @param order
 	 * @returns
 	 */
-	private getMenber(order: number): IStoreParty {
+	public getMenber(order: number): IStoreParty {
 		const menber = this.menberList.find(v => v.order === order);
 
 		if (!menber) throw new Error("指定された並び位置にメンバーはいません");
@@ -30,7 +30,7 @@ export default class Game_Party extends Game_Base {
 	 * @param order
 	 * @returns
 	 */
-	private getMenberList(): IStoreParty[] {
+	public getMenberList(): IStoreParty[] {
 		return this.menberList;
 	}
 
@@ -38,7 +38,7 @@ export default class Game_Party extends Game_Base {
 	 * 指定されたメンバーのキャラ情報を取得
 	 * @param order
 	 */
-	private getMenberInCharacterInfo(order: number): IStoreCharacter {
+	public getMenberInCharacterInfo(order: number): IStoreCharacter {
 		const menber = this.getMenber(order);
 		const character = GameManager.character.getCharacter(menber.characterId);
 		return character;
