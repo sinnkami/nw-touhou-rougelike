@@ -28,7 +28,7 @@ export class Event_0002 extends Event_Base {
 		if (!dataDungeon) throw new Error(`no select dungeon on dungeonId: ${dungeonId}`);
 
 		const MAP_PATH = "assets/images/map/chip.png";
-		const CHARACTER_PATH = "assets/images/character/ReimuHakurei.png";
+		const CHARACTER_PATH = "assets/images/charaChip/reimu.png";
 
 		GameManager.map.setName(dataDungeon.name);
 		GameManager.dungeon.invadeDungeon();
