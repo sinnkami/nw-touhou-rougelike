@@ -33,7 +33,8 @@ export default class Store_Party extends Store_Base {
 	public add(...partys: IStoreParty[]): void {
 		// TODO: エラーにするかは悩みどころ
 		// MEMO: キャッチさせてしょりったほうがよいかなぁ・・・？
-		if (partys.length + this.menberList.length >= LIMIT_MENBER) return;
+		if (partys.length + this.menberList.length > LIMIT_MENBER)
+			throw new Error("パーティ上限を超えて追加しようとしました");
 		this.menberList = this.menberList.concat(partys);
 	}
 }
