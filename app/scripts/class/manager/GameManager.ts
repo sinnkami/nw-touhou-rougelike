@@ -5,6 +5,7 @@ import { Game_Dungeon } from "../Game/Game_Dungeon";
 import Game_Input from "../Game/Game_Input";
 import { Game_Loop } from "../Game/Game_Loop";
 import { Game_Map } from "../Game/Game_Map";
+import Game_Party from "../Game/Game_Party";
 import Game_Player from "../Game/Game_Player";
 
 // 解像度
@@ -24,6 +25,7 @@ export default class GameManager {
 	public static player: Game_Player = new Game_Player();
 	public static dungeon: Game_Dungeon = new Game_Dungeon();
 	public static character: Game_Character = new Game_Character();
+	public static party: Game_Party = new Game_Party();
 
 	/**
 	 * 初期化処理
