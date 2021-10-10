@@ -43,6 +43,8 @@ export enum KeyCode {
 	Left = "ArrowLeft",
 	Right = "ArrowRight",
 	Select = "Enter",
+	Space = " ",
+	Escape = "Escape",
 }
 
 // マップチップ

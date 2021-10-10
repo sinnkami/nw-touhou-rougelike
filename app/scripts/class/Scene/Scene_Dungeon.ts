@@ -1,7 +1,7 @@
 import { IResourcePathDict } from "../../definitions/class/Scene/ISceneBase";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import EventChipName from "../Construct/EventChipName";
-import EventManager from "../Manager/EventManager";
+import EventManager, { EventCode } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import Sprite_Character from "../Sprite/Sprite_Character";
 import Sprite_Map from "../Sprite/Sprite_Map";
@@ -41,6 +41,18 @@ export default class Scene_Dungeon extends Scene_Base {
 		await this.setProcessMap();
 		await this.setProcessPlayer();
 		await this.setProcessStairs();
+
+		// TODO: テスト用コード
+		this.addProcess({
+			name: "テスト",
+			process: async (time: number) => {
+				// スペースキーの処理
+				if (GameManager.input.isPushedKey(KeyCode.Space)) {
+					const event = EventManager.getEvent(EventCode.OpenMenu);
+					event.execute();
+				}
+			},
+		});
 
 		// const TestText = this.processInfo[ProcessName.TestProcess].class;
 		// await TestText.init({

@@ -2,6 +2,8 @@ import { Event_0001 } from "../Event/Event_0001";
 import { Event_0002 } from "../Event/Event_0002";
 import { Event_0003 } from "../Event/Event_0003";
 import { Event_0004 } from "../Event/Event_0004";
+import { Event_0005 } from "../Event/Event_0005";
+import { Event_0006 } from "../Event/Event_0006";
 import { Event_Base } from "../Event/Event_Base";
 
 /**
@@ -29,6 +31,10 @@ export default class EventManager {
 				return new Event_0003();
 			case EventCode.Lobby:
 				return new Event_0004();
+			case EventCode.OpenMenu:
+				return new Event_0005();
+			case EventCode.CloseMenu:
+				return new Event_0006();
 			default:
 				throw new Error("no event");
 		}
@@ -40,4 +46,6 @@ export enum EventCode {
 	InvasionDungeon = "2",
 	Title = "3",
 	Lobby = "4",
+	OpenMenu = "5",
+	CloseMenu = "6",
 }
