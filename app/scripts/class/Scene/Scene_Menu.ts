@@ -7,6 +7,7 @@ import { Sprite_Background } from "../Sprite/Sprite_Background";
 import Sprite_Mask from "../Sprite/Sprite_Mask";
 import Sprite_Portrait from "../Sprite/Sprite_Portrait";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
+import Window_Menu from "../Window/Window_Menu";
 import Scene_Base from "./Scene_Base";
 
 /** プロセス名 */
@@ -61,6 +62,23 @@ export default class Scene_Menu extends Scene_Base {
 			},
 		});
 
+		// TODO: テスト
+		const MenuWindow = new Window_Menu();
+		MenuWindow.init();
+		await MenuWindow.setSprite();
+		this.addProcess({
+			name: "menu",
+			class: MenuWindow,
+			process: async (time: number) => {
+				MenuWindow.update();
+
+				if (GameManager.input.isPushedKey(KeyCode.Up)) return MenuWindow.changeMenu(0, -1);
+				if (GameManager.input.isPushedKey(KeyCode.Down)) return MenuWindow.changeMenu(0, 1);
+				if (GameManager.input.isPushedKey(KeyCode.Right)) return MenuWindow.changeMenu(1, 0);
+				if (GameManager.input.isPushedKey(KeyCode.Left)) return MenuWindow.changeMenu(-1, 0);
+			},
+		});
+
 		// パーティ周りの描画を設定
 		for (const partyInfo of GameManager.party.getMenberList()) {
 			const characterData = DataManager.character.get(partyInfo.characterId);
@@ -74,7 +92,7 @@ export default class Scene_Menu extends Scene_Base {
 			PortraitRender.init({
 				x: 260 * (partyInfo.order - 1),
 				y: 200,
-				path: characterData.portraitPath,
+				path: `character-portrait-${characterData.characterId}`,
 			});
 			await PortraitRender.setSprite();
 			PortraitRender.setZIndex(partyInfo.order);
@@ -97,7 +115,7 @@ export default class Scene_Menu extends Scene_Base {
 				height: 30,
 				fontSize: 25,
 				isBackground: true,
-				backgroundImagePath: "assets/images/window/menu/red.png",
+				backgroundImagePath: "menu-background",
 			});
 			await CharacterName.setSprite();
 			CharacterName.setZIndex(partyInfo.order + 1);
@@ -120,7 +138,7 @@ export default class Scene_Menu extends Scene_Base {
 				height: 30,
 				fontSize: 25,
 				isBackground: true,
-				backgroundImagePath: "assets/images/window/menu/red.png",
+				backgroundImagePath: "menu-background",
 			});
 			await CharacterHp.setSprite();
 			CharacterHp.setZIndex(partyInfo.order + 1);
@@ -143,7 +161,7 @@ export default class Scene_Menu extends Scene_Base {
 				height: 30,
 				fontSize: 25,
 				isBackground: true,
-				backgroundImagePath: "assets/images/window/menu/red.png",
+				backgroundImagePath: "menu-background",
 			});
 			await CharacterMp.setSprite();
 			CharacterMp.setZIndex(partyInfo.order + 1);
@@ -167,7 +185,7 @@ export default class Scene_Menu extends Scene_Base {
 				height: 30,
 				fontSize: 25,
 				isBackground: true,
-				backgroundImagePath: "assets/images/window/menu/red.png",
+				backgroundImagePath: "menu-background",
 			});
 			await CharacterLevel.setSprite();
 			CharacterLevel.setZIndex(partyInfo.order + 1);

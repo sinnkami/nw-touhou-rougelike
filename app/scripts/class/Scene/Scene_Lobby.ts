@@ -1,8 +1,11 @@
+import { ISelectionInfo } from "../../definitions/class/Window/IWindowSelection";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
+import { LobbyMenuId } from "../Construct/MenuConstruct";
+import EventManager, { EventCode } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
-import Window_LobbyMenuSelection from "../Window/Window_LobbyMenuSelection";
+import Window_Selection from "../Window/Window_Selection";
 import Scene_Base from "./Scene_Base";
 
 /** プロセス名 */
@@ -46,7 +49,7 @@ export default class Scene_Lobby extends Scene_Base {
 		// 描画する背景画像を設定
 		const BackgroundImageRender = new Sprite_Background();
 		BackgroundImageRender.init({
-			path: this.getResourcePath(ResourceName.BackgroundImage),
+			path: "title-background",
 			x: 0,
 			y: 0,
 			width: SIZE.width,
@@ -76,7 +79,7 @@ export default class Scene_Lobby extends Scene_Base {
 			height: 30,
 			fontSize: 25,
 			isBackground: true,
-			backgroundImagePath: this.getResourcePath(ResourceName.MessageBackgroundImage),
+			backgroundImagePath: "message-background",
 		});
 		await LobbyText.setSprite();
 
@@ -94,9 +97,12 @@ export default class Scene_Lobby extends Scene_Base {
 	 * @returns
 	 */
 	private async setProcessLobbyMenu(): Promise<void> {
-		const LobbyMenuSelection = new Window_LobbyMenuSelection();
+		const LobbyMenuSelection = new Window_Selection();
 		LobbyMenuSelection.init({
-			backgroundImagePath: this.getResourcePath(ResourceName.MessageBackgroundImage),
+			x: 10,
+			y: 40,
+			width: 300,
+			height: 30,
 		});
 		await LobbyMenuSelection.setSprite();
 
@@ -105,17 +111,43 @@ export default class Scene_Lobby extends Scene_Base {
 			class: LobbyMenuSelection,
 			process: async (time: number) => {
 				if (GameManager.input.isPushedKey(KeyCode.Up)) {
-					LobbyMenuSelection.backMenu();
+					LobbyMenuSelection.changeMenu(-1);
 				}
 				if (GameManager.input.isPushedKey(KeyCode.Down)) {
-					LobbyMenuSelection.nextMenu();
+					LobbyMenuSelection.changeMenu(1);
 				}
 
 				// 決定キーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
-					LobbyMenuSelection.excuteSelectMenu();
+					this.excuteSelectMenu(LobbyMenuSelection.getCurrentSelection());
+					return;
 				}
 			},
 		});
+	}
+
+	private excuteSelectMenu(info: ISelectionInfo): void {
+		switch (info.selectionId) {
+			// タイトルへ戻る
+			case LobbyMenuId.ReturnTitle: {
+				const event = EventManager.getEvent(EventCode.Title);
+				event.execute();
+				return;
+			}
+
+			// ダンジョンへ突入
+			case LobbyMenuId.Dungeon + 1: {
+				const event = EventManager.getEvent(EventCode.InvasionDungeon);
+				const dungeonId = "0001";
+				event.execute(dungeonId);
+				return;
+			}
+			case LobbyMenuId.Dungeon + 2: {
+				const event = EventManager.getEvent(EventCode.InvasionDungeon);
+				const dungeonId = "0002";
+				event.execute(dungeonId);
+				return;
+			}
+		}
 	}
 }

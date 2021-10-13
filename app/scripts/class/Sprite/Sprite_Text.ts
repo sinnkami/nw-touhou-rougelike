@@ -54,8 +54,6 @@ export class Sprite_Text extends Sprite_Base {
 			align: "left",
 		});
 
-		text.setTransform(0, 0);
-
 		if (this.isBackground) {
 			const spriteFrame = new Sprite_Frame();
 			spriteFrame.init({

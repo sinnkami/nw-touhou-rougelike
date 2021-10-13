@@ -1,33 +1,24 @@
 import { Container } from "@pixi/display";
 import { Graphics } from "@pixi/graphics";
+import { IMenuInfo } from "../../definitions/class/Window/IWindowMenu";
 import { CommonConstruct } from "../Construct/CommonConstruct";
-import { LobbyMenuId, LobbyMenuList } from "../Construct/MenuConstruct";
+import { LobbyMenuId } from "../Construct/MenuConstruct";
 import EventManager, { EventCode } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import ResourceManager from "../Manager/ResourceManager";
+import Sprite_Selected from "../Sprite/Sprite_Selected";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
 import Window_Base from "./Window_Base";
 
-interface IMenuInfo {
-	menuId: string;
-	x: number;
-	y: number;
-	name: string;
-}
-
 export default class Window_Menu extends Window_Base {
 	private menuList: IMenuInfo[] = [];
-
-	private get currentMenu(): IMenuInfo | undefined {
-		return this.menuList.find(v => v.menuId === this.menuId);
-	}
 
 	private maxX: number = 0;
 	private maxY: number = 0;
 
 	private menuId: string = "";
 
-	private selectSprite: Graphics = new Graphics();
+	private selectSprite: Sprite_Selected = new Sprite_Selected();
 
 	public init(): void {
 		return;
@@ -39,77 +30,80 @@ export default class Window_Menu extends Window_Base {
 
 		this.menuList.push({
 			menuId: "test1",
-			name: "テスト1",
+			text: "テスト1",
 			x: 0,
 			y: 0,
 		});
 		this.menuList.push({
 			menuId: "test2",
-			name: "テスト2",
+			text: "テスト2",
 			x: 1,
 			y: 0,
 		});
 		this.menuList.push({
 			menuId: "test3",
-			name: "テスト3",
+			text: "テスト3",
 			x: 2,
 			y: 0,
 		});
 		this.menuList.push({
 			menuId: "test4",
-			name: "テスト4",
+			text: "テスト4",
 			x: 3,
 			y: 0,
 		});
 		this.menuList.push({
 			menuId: "test5",
-			name: "テスト5",
+			text: "テスト5",
 			x: 0,
 			y: 1,
 		});
 		this.menuList.push({
 			menuId: "test6",
-			name: "テスト6",
+			text: "テスト6",
 			x: 1,
 			y: 1,
 		});
 		this.menuList.push({
 			menuId: "test7",
-			name: "テスト7",
+			text: "テスト7",
 			x: 2,
 			y: 1,
 		});
 		this.menuList.push({
 			menuId: "test8",
-			name: "テスト8",
+			text: "テスト8",
 			x: 3,
 			y: 1,
 		});
 
 		// 初期座標
-		container.x = 0;
-		container.y = 0;
+		container.setTransform(0, 0);
 
-		this.selectSprite.lineStyle(2, 0xfff, 1);
-		this.selectSprite.drawRect(0, 0, CommonConstruct.size.width / 4, 55);
-		this.selectSprite.endFill();
-		this.selectSprite.zIndex = 10;
-		GameManager.getCanvas().addRender(this.selectSprite);
+		this.selectSprite.init({
+			x: 0,
+			y: 0,
+			width: CommonConstruct.size.width / 4,
+			height: 30 + 25,
+		});
+		await this.selectSprite.setSprite();
+		this.selectSprite.setZIndex(10);
+		container.addChild(this.selectSprite.getContainer());
 
 		this.menuId = this.menuList[0].menuId;
 
 		for (const menu of this.menuList) {
 			const sprite = new Sprite_Text();
 			await sprite.init({
-				text: menu.name,
+				text: menu.text,
 				// x * (サイズ) + margin
 				x: menu.x * (CommonConstruct.size.width / 4 + 0),
 				y: menu.y * (55 + 0),
-				width: 200,
+				width: CommonConstruct.size.width / 4,
 				height: 30,
 				fontSize: 25,
 				isBackground: true,
-				backgroundImagePath: "assets/images/window/menu/red.png",
+				backgroundImagePath: "menu-background",
 			});
 			await sprite.setSprite();
 
@@ -121,14 +115,29 @@ export default class Window_Menu extends Window_Base {
 		}
 	}
 
+	/**
+	 * 更新処理
+	 * @override
+	 */
+	public update(): void {
+		// super.update();
+		this.selectSprite.update();
+	}
+
+	public getCurrentMenu(): IMenuInfo {
+		const info = this.menuList.find(v => v.menuId === this.menuId);
+		if (!info) throw new Error("存在しない項目です");
+		return info;
+	}
+
 	public changeMenu(x: number, y: number): void {
 		if (this.isAnimation) return;
 
 		// 移動出来ないようにする時間
 		this.nextUpdateFrame = GameManager.loop.frameCount + 10;
 
-		const currentMenu = this.currentMenu;
-		if (!currentMenu) return;
+		const currentMenu = this.getCurrentMenu();
+
 		let nextX = currentMenu.x + x;
 		let nextY = currentMenu.y + y;
 
@@ -145,13 +154,19 @@ export default class Window_Menu extends Window_Base {
 			nextY = 0;
 		}
 
-		const nextMenu = this.menuList.find(v => v.x === nextX && v.y === nextY);
-		if (!nextMenu) return;
+		const nextMenu = this.getMenu(nextX, nextY);
 
-		this.selectSprite.x = nextMenu.x * (CommonConstruct.size.width / 4 + 0);
-		this.selectSprite.y = nextMenu.y * (55 + 0);
-		console.log(this.selectSprite.x, this.selectSprite.y);
+		const selectSprite = this.selectSprite.getContainer();
+
+		selectSprite.x = nextMenu.x * (CommonConstruct.size.width / 4 + 0);
+		selectSprite.y = nextMenu.y * (55 + 0);
 		this.menuId = nextMenu.menuId;
+	}
+
+	private getMenu(x: number, y: number): IMenuInfo {
+		const info = this.menuList.find(v => v.x === x && v.y === y);
+		if (!info) throw new Error("存在しない項目です");
+		return info;
 	}
 
 	// public excuteSelectMenu(): void {
