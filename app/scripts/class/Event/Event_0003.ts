@@ -17,20 +17,17 @@ export class Event_0003 extends Event_Base {
 		const executed = await super.execute();
 		if (!executed) return false;
 
-		const BACKGROUND_IMAGE = "assets/images/background/title.jpg";
-
-		await ResourceManager.loadResources([BACKGROUND_IMAGE]);
+		await ResourceManager.loadResources({
+			name: "title-background",
+			path: "assets/images/background/title.jpg",
+		});
 
 		// MEMO: 最初以外に呼ぶことあると思うから条件分岐
 		if (SceneManager.getScene()) {
 			await SceneManager.stopScene();
 		}
 
-		await SceneManager.addScene(
-			new Scene_Title({
-				[ResourceName.BackgroundImage]: BACKGROUND_IMAGE,
-			})
-		);
+		await SceneManager.addScene(new Scene_Title());
 
 		await SceneManager.startScene();
 

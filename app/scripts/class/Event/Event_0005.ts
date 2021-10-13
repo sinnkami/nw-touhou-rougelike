@@ -1,3 +1,4 @@
+import { ILoadResourceInfo } from "../../definitions/class/Manager/IResourceManager";
 import DataManager from "../Manager/DataManager";
 import GameManager from "../Manager/GameManager";
 import LoadManager from "../Manager/LoadManager";
@@ -19,26 +20,25 @@ export class Event_0005 extends Event_Base {
 		if (!executed) return false;
 
 		// ロードするリソース一覧
-		const loadResources: string[] = [];
+		const loadResources: ILoadResourceInfo[] = [];
 
-		const BACKGROUND_IMAGE = "assets/images/background/title.jpg";
-		loadResources.push(BACKGROUND_IMAGE);
-
-		loadResources.push("assets/images/window/menu/red.png");
+		loadResources.push({
+			name: "menu-background",
+			path: "assets/images/window/menu/red.png",
+		});
 
 		for (const partyInfo of GameManager.party.getMenberList()) {
 			const characterData = DataManager.character.get(partyInfo.characterId);
 			if (!characterData) throw new Error("データベース内に存在しないキャラがパーティに存在します");
-			loadResources.push(characterData.portraitPath);
+			loadResources.push({
+				name: `character-portrait-${characterData.characterId}`,
+				path: characterData.portraitPath,
+			});
 		}
 
-		await ResourceManager.loadResources(loadResources);
+		await ResourceManager.loadResources(...loadResources);
 
-		await SceneManager.addScene(
-			new Scene_Menu({
-				[ResourceName.BackgroundImage]: BACKGROUND_IMAGE,
-			})
-		);
+		await SceneManager.addScene(new Scene_Menu());
 
 		await SceneManager.startScene();
 

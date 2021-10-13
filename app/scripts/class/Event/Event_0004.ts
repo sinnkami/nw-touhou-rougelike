@@ -17,19 +17,20 @@ export class Event_0004 extends Event_Base {
 		const executed = await super.execute();
 		if (!executed) return false;
 
-		const BACKGROUND_IMAGE = "assets/images/background/title.jpg";
-		const MESSAGE_BACKGROUND_IMAGHE = "assets/images/window/messages/red.png";
-
-		await ResourceManager.loadResources([BACKGROUND_IMAGE, MESSAGE_BACKGROUND_IMAGHE]);
+		await ResourceManager.loadResources(
+			{
+				name: "title-background",
+				path: "assets/images/background/title.jpg",
+			},
+			{
+				name: "message-background",
+				path: "assets/images/window/messages/red.png",
+			}
+		);
 
 		await SceneManager.stopScene();
 
-		await SceneManager.addScene(
-			new Scene_Lobby({
-				[ResourceName.BackgroundImage]: BACKGROUND_IMAGE,
-				[ResourceName.MessageBackgroundImage]: MESSAGE_BACKGROUND_IMAGHE,
-			})
-		);
+		await SceneManager.addScene(new Scene_Lobby());
 
 		await SceneManager.startScene();
 

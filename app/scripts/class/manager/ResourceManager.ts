@@ -1,9 +1,13 @@
 import { Loader, Texture } from "pixi.js";
+import { ILoadResourceInfo } from "../../definitions/class/Manager/IResourceManager";
 
 /**
  * Resourceを管理するクラス
  */
 export default class ResourceManager {
+	// 読み込まれているResource辞書
+	private static loadResourceDict: { [name: string]: string } = {};
+
 	/**
 	 * 初期化処理
 	 * @returns Promise<void>
@@ -14,17 +18,18 @@ export default class ResourceManager {
 
 	/**
 	 * 指定されたパスのテクスチャを取得
-	 * @param path
+	 * @param name
 	 * @returns Promise<Texture>
 	 */
-	public static getTexture(path: string): Promise<Texture> {
+	public static getTexture(name: string): Promise<Texture> {
 		const loader = this.getLoader();
 
+		const path = this.loadResourceDict[name];
 		const resources = loader.resources[path];
 
 		// TODO:あとでエラー内容設定
-		if (!resources) throw new Error("not load");
-		if (!resources.isComplete || !resources.texture) throw new Error("not load");
+		if (!resources) throw new Error(`not load (${name})`);
+		if (!resources.isComplete || !resources.texture) throw new Error(`not load (${name})`);
 
 		return Promise.resolve(resources.texture);
 	}
@@ -32,16 +37,20 @@ export default class ResourceManager {
 	/**
 	 * 指定されたパスのリソースを読み込み
 	 * TODO: 成功したかどうかぐらい入れた方が良い気がする
-	 * @param paths
+	 * @param ILoadResourceInfo
 	 * @returns Promise<boid>
 	 */
-	public static loadResources(paths: string[]): Promise<void> {
+	public static loadResources(...list: ILoadResourceInfo[]): Promise<void> {
 		return new Promise<void>(resolve => {
 			const loader = this.getLoader();
 
-			paths.forEach(path => {
-				if (!loader.resources[path]) {
-					loader.add(path);
+			list.forEach(resourceInfo => {
+				const path = resourceInfo.path;
+				const name = resourceInfo.name || resourceInfo.path;
+
+				if (!loader.resources[path]) loader.add(path);
+				if (!this.loadResourceDict[name] || (this.loadResourceDict[name] && resourceInfo.isOverwrite)) {
+					this.loadResourceDict[name] = path;
 				}
 			});
 

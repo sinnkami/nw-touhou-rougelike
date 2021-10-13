@@ -44,7 +44,7 @@ export default class Scene_Title extends Scene_Base {
 		// 描画する背景画像を設定
 		const BackgroundImageRender = new Sprite_Background();
 		BackgroundImageRender.init({
-			path: this.getResourcePath(ResourceName.BackgroundImage),
+			path: "title-background",
 			x: 0,
 			y: 0,
 			width: SIZE.width,

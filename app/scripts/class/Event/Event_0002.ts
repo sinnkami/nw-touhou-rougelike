@@ -28,27 +28,28 @@ export class Event_0002 extends Event_Base {
 		const dataDungeon = DataManager.dungeon.get(dungeonId);
 		if (!dataDungeon) throw new Error(`no select dungeon on dungeonId: ${dungeonId}`);
 
-		const MAP_PATH = "assets/images/map/chip.png";
-
 		// パーティ内の先頭のキャラを取得
 		const firstCharacter = GameManager.party.getFirstMenber();
 		const characterData = DataManager.character.get(firstCharacter.characterId);
 		if (!characterData) throw new Error("データベース内に存在しないキャラがパーティに存在します");
-		const CHARACTER_PATH = characterData.charaChipPath;
 
 		GameManager.map.setName(dataDungeon.name);
 		GameManager.dungeon.invadeDungeon();
 
-		await ResourceManager.loadResources([MAP_PATH, CHARACTER_PATH]);
+		await ResourceManager.loadResources(
+			{
+				name: "mapChip",
+				path: "assets/images/map/chip.png",
+			},
+			{
+				name: "charaChip",
+				path: characterData.charaChipPath,
+			}
+		);
 
 		await SceneManager.stopScene();
 
-		await SceneManager.addScene(
-			new Scene_Dungeon({
-				[ResourceName.Map]: MAP_PATH,
-				[ResourceName.Character]: CHARACTER_PATH,
-			})
-		);
+		await SceneManager.addScene(new Scene_Dungeon());
 
 		await SceneManager.startScene();
 

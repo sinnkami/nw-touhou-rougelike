@@ -9,9 +9,6 @@ import Window_Base from "../Window/Window_Base";
  * シーン汎用クラス
  */
 export default class Scene_Base {
-	// リソース情報
-	private readonly resourcePathDict: IResourcePathDict = {};
-
 	// プロセス情報リスト
 	private processInfoList: IProcessInfo[] = [];
 	protected get processList(): ((time: number) => Promise<void>)[] {
@@ -21,10 +18,6 @@ export default class Scene_Base {
 	/** シーンのクラス名 */
 	public get name(): string {
 		return this.constructor.name;
-	}
-
-	public constructor(resourcePathDict: IResourcePathDict) {
-		this.resourcePathDict = resourcePathDict;
 	}
 
 	/**
@@ -85,16 +78,5 @@ export default class Scene_Base {
 		if (!process) throw new Error("存在しないプロセス");
 		if (!process.class) throw new Error("クラスが設定されてないプロセス");
 		return process.class;
-	}
-
-	/**
-	 * リソースのパスを取得
-	 * @param key
-	 * @returns path
-	 */
-	protected getResourcePath(key: string): string {
-		const path = this.resourcePathDict[key];
-		if (!path) throw new Error("存在しないパス");
-		return path;
 	}
 }

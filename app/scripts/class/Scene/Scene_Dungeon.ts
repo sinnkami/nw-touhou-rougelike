@@ -78,7 +78,7 @@ export default class Scene_Dungeon extends Scene_Base {
 		// TODO: この意味わからん数値を良い感じにわかりやすくしたい
 		const MapRender = new Sprite_Map();
 		await MapRender.init({
-			path: this.getResourcePath(ResourceName.Map),
+			path: "mapChip",
 			x: SIZE.width / 32 / 2 - GameManager.player.getPosition().x - 1,
 			y: SIZE.height / 32 / 2 - GameManager.player.getPosition().y,
 		});
@@ -123,7 +123,7 @@ export default class Scene_Dungeon extends Scene_Base {
 		// MEMO: キャラを画面中心に表示する
 		const PlayerRender = new Sprite_Character();
 		await PlayerRender.init({
-			path: this.getResourcePath(ResourceName.Character),
+			path: "charaChip",
 			x: SIZE.width / 32 / 2 - 1,
 			y: SIZE.height / 32 / 2,
 		});
