@@ -103,6 +103,25 @@ export default class Scene_Lobby extends Scene_Base {
 			y: 40,
 			width: 300,
 			height: 30,
+			fontSize: 25,
+			list: [
+				// TODO: indexがずれると内容がずれる
+				{
+					selectionId: LobbyMenuId.Dungeon + 1,
+					index: 0,
+					text: "テストダンジョン",
+				},
+				{
+					selectionId: LobbyMenuId.Dungeon + 2,
+					index: 1,
+					text: "ほげ～ダンジョン",
+				},
+				{
+					selectionId: LobbyMenuId.ReturnTitle,
+					index: 2,
+					text: "タイトルへ戻る",
+				},
+			],
 		});
 		await LobbyMenuSelection.setSprite();
 

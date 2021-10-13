@@ -1,5 +1,4 @@
-import { ISelectionInfo } from "../../definitions/class/Window/IWindowSelection";
-import { LobbyMenuId } from "../Construct/MenuConstruct";
+import { IWindowSelectionOption, ISelectionInfo } from "../../definitions/class/Window/IWindowSelection";
 import GameManager from "../Manager/GameManager";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
 import Window_Base from "./Window_Base";
@@ -7,53 +6,39 @@ import Window_Base from "./Window_Base";
 export default class Window_Selection extends Window_Base {
 	private selectionList: ISelectionInfo[] = [];
 
+	private fontSize: number = 0;
+
 	private get maxIndex(): number {
 		return this.selectionList.reduce((num: number, info: ISelectionInfo) => Math.max(num, info.index), 0);
 	}
 
 	private selectionId: string = "";
 
-	// public init(option: { backgroundImagePath: string }): void {
-	// 	super.init({});
-	// 	this.backgroundImagePath = option.backgroundImagePath;
-	// }
+	public init(option: IWindowSelectionOption): void {
+		super.init(option);
+
+		this.fontSize = option.fontSize;
+
+		this.selectionList = option.list;
+		this.selectionId = this.selectionList[0].selectionId;
+	}
 
 	public async setSprite(): Promise<void> {
 		super.setContainer();
 		const container = this.getContainer();
 
-		// TODO: indexがずれると内容がずれる
-
-		this.selectionList.push({
-			selectionId: LobbyMenuId.Dungeon + 1,
-			index: 0,
-			text: "テストダンジョン",
-		});
-		this.selectionList.push({
-			selectionId: LobbyMenuId.Dungeon + 2,
-			index: 1,
-			text: "ほげ～ダンジョン",
-		});
-		this.selectionList.push({
-			selectionId: LobbyMenuId.ReturnTitle,
-			index: 2,
-			text: "タイトルへ戻る",
-		});
-
 		// 初期座標
 		container.setTransform(this.x, this.y);
-
-		this.selectionId = this.selectionList[0].selectionId;
 
 		for (const selection of this.selectionList) {
 			const sprite = new Sprite_Text();
 			await sprite.init({
 				text: selection.text,
-				x: this.x,
-				y: (this.y + 25) * selection.index,
+				x: 0,
+				y: (this.height + this.fontSize) * selection.index,
 				width: this.width,
 				height: this.height,
-				fontSize: 25,
+				fontSize: this.fontSize,
 				isBackground: true,
 				backgroundImagePath: "message-background",
 			});
@@ -92,9 +77,9 @@ export default class Window_Selection extends Window_Base {
 		const container = this.getContainer();
 		container.children.forEach((sprite, index) => {
 			// x軸
-			sprite.x = this.x;
+			sprite.x = 0;
 			// (y軸 + fontSize) * (index - 次のindex)
-			sprite.y = (this.y + 25) * (index - nextIndex);
+			sprite.y = (this.height + this.fontSize) * (index - nextIndex);
 		});
 
 		this.selectionId = nextSelection.selectionId;

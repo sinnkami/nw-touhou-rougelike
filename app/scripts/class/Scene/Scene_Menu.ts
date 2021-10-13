@@ -63,7 +63,63 @@ export default class Scene_Menu extends Scene_Base {
 
 		// TODO: テスト
 		const MenuWindow = new Window_Menu();
-		MenuWindow.init();
+		MenuWindow.init({
+			x: 0,
+			y: 0,
+			width: CommonConstruct.size.width / 4,
+			height: 30,
+			fontSize: 25,
+			list: [
+				{
+					menuId: "test1",
+					text: "テスト1",
+					x: 0,
+					y: 0,
+				},
+				{
+					menuId: "test2",
+					text: "テスト2",
+					x: 1,
+					y: 0,
+				},
+				{
+					menuId: "test3",
+					text: "テスト3",
+					x: 2,
+					y: 0,
+				},
+				{
+					menuId: "test4",
+					text: "テスト4",
+					x: 3,
+					y: 0,
+				},
+				{
+					menuId: "test5",
+					text: "テスト5",
+					x: 0,
+					y: 1,
+				},
+				{
+					menuId: "test6",
+					text: "テスト6",
+					x: 1,
+					y: 1,
+				},
+				{
+					menuId: "test7",
+					text: "テスト7",
+					x: 2,
+					y: 1,
+				},
+				{
+					menuId: "test8",
+					text: "テスト8",
+					x: 3,
+					y: 1,
+				},
+			],
+		});
 		await MenuWindow.setSprite();
 		this.addProcess({
 			name: "menu",

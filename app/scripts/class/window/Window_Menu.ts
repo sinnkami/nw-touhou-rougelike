@@ -1,5 +1,4 @@
-import { IMenuInfo } from "../../definitions/class/Window/IWindowMenu";
-import { CommonConstruct } from "../Construct/CommonConstruct";
+import { IIWindowMenuOption, IMenuInfo } from "../../definitions/class/Window/IWindowMenu";
 import GameManager from "../Manager/GameManager";
 import Sprite_Selected from "../Sprite/Sprite_Selected";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
@@ -13,9 +12,17 @@ export default class Window_Menu extends Window_Base {
 
 	private menuId: string = "";
 
+	private fontSize: number = 0;
+
 	private selectSprite: Sprite_Selected = new Sprite_Selected();
 
-	public init(): void {
+	public init(option: IIWindowMenuOption): void {
+		super.init(option);
+
+		this.menuList = option.list;
+		this.menuId = this.menuList[0].menuId;
+
+		this.fontSize = option.fontSize;
 		return;
 	}
 
@@ -23,80 +30,29 @@ export default class Window_Menu extends Window_Base {
 		super.setContainer();
 		const container = this.getContainer();
 
-		this.menuList.push({
-			menuId: "test1",
-			text: "テスト1",
-			x: 0,
-			y: 0,
-		});
-		this.menuList.push({
-			menuId: "test2",
-			text: "テスト2",
-			x: 1,
-			y: 0,
-		});
-		this.menuList.push({
-			menuId: "test3",
-			text: "テスト3",
-			x: 2,
-			y: 0,
-		});
-		this.menuList.push({
-			menuId: "test4",
-			text: "テスト4",
-			x: 3,
-			y: 0,
-		});
-		this.menuList.push({
-			menuId: "test5",
-			text: "テスト5",
-			x: 0,
-			y: 1,
-		});
-		this.menuList.push({
-			menuId: "test6",
-			text: "テスト6",
-			x: 1,
-			y: 1,
-		});
-		this.menuList.push({
-			menuId: "test7",
-			text: "テスト7",
-			x: 2,
-			y: 1,
-		});
-		this.menuList.push({
-			menuId: "test8",
-			text: "テスト8",
-			x: 3,
-			y: 1,
-		});
-
 		// 初期座標
-		container.setTransform(0, 0);
+		container.setTransform(this.x, this.y);
 
 		this.selectSprite.init({
-			x: 0,
-			y: 0,
-			width: CommonConstruct.size.width / 4,
-			height: 30 + 25,
+			x: this.x,
+			y: this.y,
+			width: this.width,
+			height: this.height + this.fontSize,
 		});
 		await this.selectSprite.setSprite();
 		this.selectSprite.setZIndex(10);
 		container.addChild(this.selectSprite.getContainer());
-
-		this.menuId = this.menuList[0].menuId;
 
 		for (const menu of this.menuList) {
 			const sprite = new Sprite_Text();
 			await sprite.init({
 				text: menu.text,
 				// x * (サイズ) + margin
-				x: menu.x * (CommonConstruct.size.width / 4 + 0),
-				y: menu.y * (55 + 0),
-				width: CommonConstruct.size.width / 4,
-				height: 30,
-				fontSize: 25,
+				x: menu.x * (this.width + 0),
+				y: menu.y * (this.height + this.fontSize + 0),
+				width: this.width,
+				height: this.height,
+				fontSize: this.fontSize,
 				isBackground: true,
 				backgroundImagePath: "menu-background",
 			});
@@ -153,8 +109,8 @@ export default class Window_Menu extends Window_Base {
 
 		const selectSprite = this.selectSprite.getContainer();
 
-		selectSprite.x = nextMenu.x * (CommonConstruct.size.width / 4 + 0);
-		selectSprite.y = nextMenu.y * (55 + 0);
+		selectSprite.x = nextMenu.x * (this.width + 0);
+		selectSprite.y = nextMenu.y * (this.height + this.fontSize + 0);
 		this.menuId = nextMenu.menuId;
 	}
 
@@ -163,24 +119,4 @@ export default class Window_Menu extends Window_Base {
 		if (!info) throw new Error("存在しない項目です");
 		return info;
 	}
-
-	// public excuteSelectMenu(): void {
-	// 	const menuInfo = this.lobbyMenuList[this.menuIndex];
-	// 	switch (menuInfo.menuId) {
-	// 		// タイトルへ戻る
-	// 		case LobbyMenuId.ReturnTitle: {
-	// 			const event = EventManager.getEvent(EventCode.Title);
-	// 			event.execute();
-	// 			return;
-	// 		}
-
-	// 		// ダンジョンへ突入
-	// 		case LobbyMenuId.Dungeon: {
-	// 			const event = EventManager.getEvent(EventCode.InvasionDungeon);
-	// 			const dungeonId = menuInfo.dungeonId;
-	// 			event.execute(dungeonId);
-	// 			return;
-	// 		}
-	// 	}
-	// }
 }
