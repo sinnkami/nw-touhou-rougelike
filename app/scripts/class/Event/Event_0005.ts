@@ -24,7 +24,7 @@ export class Event_0005 extends Event_Base {
 
 		loadResources.push({
 			name: "menu-background",
-			path: "assets/images/window/menu/red.png",
+			path: "assets/images/window/menu/normal.png",
 		});
 
 		for (const partyInfo of GameManager.party.getMenberList()) {
