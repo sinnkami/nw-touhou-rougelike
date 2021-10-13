@@ -21,6 +21,9 @@ import StoreManager from "./class/Manager/StoreManager";
 (window as any).DataManager = DataManager;
 (window as any).StoreManager = StoreManager;
 
+// MEMO: デバッグ用にdevtoolsを起動
+(window as any).nw.Window.get().showDevTools();
+
 /**
  * 初期動作
  * TODO: Scene_Boot 作成予定 <- いらないかも
