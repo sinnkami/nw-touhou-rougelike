@@ -34,8 +34,8 @@ export default class Window_Menu extends Window_Base {
 		container.setTransform(this.x, this.y);
 
 		this.selectSprite.init({
-			x: this.x,
-			y: this.y,
+			x: 0,
+			y: 0,
 			width: this.width,
 			height: this.height + this.fontSize,
 		});
