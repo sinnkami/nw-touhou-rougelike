@@ -33,6 +33,8 @@ export default class Scene_Title extends Scene_Base {
 		const executed = await super.startScene();
 		if (!executed) return;
 
+		StoreManager.init();
+
 		await this.setProcessBackImage();
 		await this.setProcessInputSelect();
 	}

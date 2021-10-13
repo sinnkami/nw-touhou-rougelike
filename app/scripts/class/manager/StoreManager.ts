@@ -16,7 +16,7 @@ export default class StoreManager {
 	 * @returns
 	 */
 	public static init(): Promise<void> {
-		return Promise.resolve();
+		return Promise.all([this.character.init(), this.party.init()]).then();
 	}
 	//TODO: セーブデータロード処理
 	// return Promise.all([this.character.load()]).then();
