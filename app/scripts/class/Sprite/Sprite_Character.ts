@@ -59,7 +59,7 @@ export default class Sprite_Character extends Sprite_Base {
 		sprite.animationSpeed = this.animationSpeed;
 
 		// コンテナの初期位置を設定
-		container.setTransform(this.x * 32, this.y * 32);
+		container.setTransform(this.x, this.y);
 
 		// コンテナに追加
 		container.addChild(sprite);

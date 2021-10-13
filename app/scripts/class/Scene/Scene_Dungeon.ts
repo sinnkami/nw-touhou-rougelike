@@ -123,8 +123,8 @@ export default class Scene_Dungeon extends Scene_Base {
 		const PlayerRender = new Sprite_Character();
 		await PlayerRender.init({
 			path: "charaChip",
-			x: SIZE.width / 32 / 2 - 1,
-			y: SIZE.height / 32 / 2,
+			x: (SIZE.width / 32 / 2 - 1) * 32,
+			y: (SIZE.height / 32 / 2) * 32,
 		});
 		await PlayerRender.setSprite();
 		this.addProcess({
