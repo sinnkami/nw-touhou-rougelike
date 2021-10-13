@@ -55,8 +55,10 @@ export default class DebugManager {
 			console.info("loading...", `[${resource.name}]`)
 		);
 		// Loader.shared.onLoad.add((loader, resource) => console.info("load"));
-		Loader.shared.onComplete.add((_loader: any, resources: any) => console.info("complete!!! for ", resources));
-		Loader.shared.onError.add((error: any, _loader: any, _resource: any) => {
+		Loader.shared.onComplete.add((_loader: any, resources: any): void => {
+			console.info("complete!!! for ", resources);
+		});
+		Loader.shared.onError.add((error: any, _loader: any, _resource: any): void => {
 			throw error;
 		});
 		return Promise.resolve();

@@ -1,7 +1,4 @@
-import { ICharacterPosition } from "../../definitions/class/Game/IGameCharacter";
 import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
-import { MapChip } from "../Construct/CommonConstruct";
-import GameManager from "../Manager/GameManager";
 import StoreManager from "../Manager/StoreManager";
 import { Game_Base } from "./Game_Base";
 /**

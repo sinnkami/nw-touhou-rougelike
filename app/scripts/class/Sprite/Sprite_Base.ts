@@ -198,6 +198,7 @@ export default class Sprite_Base {
 	 * @param x
 	 * @param y
 	 */
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	public move(x: number, y: number): void {
 		// MEMO: オーバーライドして使用する
 		return;

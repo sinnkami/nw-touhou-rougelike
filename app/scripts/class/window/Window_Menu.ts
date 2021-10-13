@@ -1,11 +1,6 @@
-import { Container } from "@pixi/display";
-import { Graphics } from "@pixi/graphics";
 import { IMenuInfo } from "../../definitions/class/Window/IWindowMenu";
 import { CommonConstruct } from "../Construct/CommonConstruct";
-import { LobbyMenuId } from "../Construct/MenuConstruct";
-import EventManager, { EventCode } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
-import ResourceManager from "../Manager/ResourceManager";
 import Sprite_Selected from "../Sprite/Sprite_Selected";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
 import Window_Base from "./Window_Base";

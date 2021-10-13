@@ -8,7 +8,7 @@ export default class Data_Base {
 		return;
 	}
 
-	public async load(collectionName: string): Promise<any> {
+	public async load(collectionName: string): Promise<unknown> {
 		return LokiJs.getAll(collectionName);
 	}
 

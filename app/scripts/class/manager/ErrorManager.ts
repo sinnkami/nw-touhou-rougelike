@@ -17,7 +17,7 @@ export default class ErrorManager {
 	 * @param messages
 	 * @returns Error
 	 */
-	public static getError(code: number, ...messages: any[]): Error {
+	public static getError(code: number, ...messages: unknown[]): Error {
 		const error = new Error();
 		console.log(code);
 		switch (code) {

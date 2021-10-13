@@ -11,7 +11,8 @@ export class Event_Base {
 	 * イベントを実行
 	 * @returns
 	 */
-	public async execute(...values: any[]): Promise<boolean> {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	public async execute(...values: unknown[]): Promise<boolean> {
 		if (LoadManager.isLoading) {
 			return false;
 		}

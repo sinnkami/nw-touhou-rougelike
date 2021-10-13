@@ -1,7 +1,5 @@
-import { Graphics, Sprite, Text } from "pixi.js";
-import { ISpriteMessageOption } from "../../definitions/class/Sprite/ISpriteMessage";
+import { Text } from "pixi.js";
 import { ISpriteTextOption } from "../../definitions/class/Sprite/ISpriteText";
-import ResourceManager from "../Manager/ResourceManager";
 import Sprite_Base from "./Sprite_Base";
 import Sprite_Frame from "./Sprite_Frame";
 

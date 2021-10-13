@@ -9,7 +9,7 @@ db.loadJSON(JSON.stringify(dbJson));
  * インメモリデータベースの処理を行うクラス
  */
 export default class LokiJs {
-	public static getAll(collectionName: string): Promise<any> {
+	public static getAll(collectionName: string): Promise<unknown> {
 		const collection = db.getCollection(collectionName);
 		if (!collection) {
 			return Promise.reject(ErrorManager.getError(ErrorCode.CollectionNotFound, collectionName));

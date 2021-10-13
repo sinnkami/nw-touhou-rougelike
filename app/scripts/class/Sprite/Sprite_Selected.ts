@@ -25,7 +25,7 @@ export default class Sprite_Selected extends Sprite_Base {
 		const sprite = new Graphics();
 
 		// TODO: colorとalphaの指定
-		this.updateFunc = (time: number) => {
+		this.updateFunc = () => {
 			if (this.subtractionAlpha) {
 				this.currentAlpha -= 0.01;
 			} else {

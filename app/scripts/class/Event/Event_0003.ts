@@ -2,7 +2,6 @@ import ResourceManager from "../Manager/ResourceManager";
 import Scene_Title from "../Scene/Scene_Title";
 import SceneManager from "../Manager/SceneManager";
 import { Event_Base } from "./Event_Base";
-import { ResourceName } from "../Scene/Scene_Title";
 import LoadManager from "../Manager/LoadManager";
 
 /**

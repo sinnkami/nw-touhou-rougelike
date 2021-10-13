@@ -3,7 +3,6 @@ import DataManager from "../Manager/DataManager";
 import EventManager, { EventCode } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import StoreManager from "../Manager/StoreManager";
-import { Sprite_Background } from "../Sprite/Sprite_Background";
 import Sprite_Mask from "../Sprite/Sprite_Mask";
 import Sprite_Portrait from "../Sprite/Sprite_Portrait";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
@@ -57,7 +56,7 @@ export default class Scene_Menu extends Scene_Base {
 		this.addProcess({
 			name: "background",
 			class: BackgroundImageRender,
-			process: async (time: number) => {
+			process: async () => {
 				BackgroundImageRender.update();
 			},
 		});
@@ -69,7 +68,7 @@ export default class Scene_Menu extends Scene_Base {
 		this.addProcess({
 			name: "menu",
 			class: MenuWindow,
-			process: async (time: number) => {
+			process: async () => {
 				MenuWindow.update();
 
 				if (GameManager.input.isPushedKey(KeyCode.Up)) return MenuWindow.changeMenu(0, -1);
@@ -100,7 +99,7 @@ export default class Scene_Menu extends Scene_Base {
 				// TODO: プロセス名
 				name: `${Sprite_Portrait.name} - ${characterData.characterId}`,
 				class: PortraitRender,
-				process: async (time: number) => {
+				process: async () => {
 					PortraitRender.update();
 				},
 			});
@@ -123,7 +122,7 @@ export default class Scene_Menu extends Scene_Base {
 				// TODO: プロセス名
 				name: "名前",
 				class: CharacterName,
-				process: async (time: number) => {
+				process: async () => {
 					CharacterName.update();
 				},
 			});
@@ -146,7 +145,7 @@ export default class Scene_Menu extends Scene_Base {
 				// TODO: プロセス名
 				name: "hp",
 				class: CharacterHp,
-				process: async (time: number) => {
+				process: async () => {
 					CharacterHp.update();
 				},
 			});
@@ -169,7 +168,7 @@ export default class Scene_Menu extends Scene_Base {
 				// TODO: プロセス名
 				name: "mp",
 				class: CharacterMp,
-				process: async (time: number) => {
+				process: async () => {
 					CharacterMp.update();
 				},
 			});
@@ -193,7 +192,7 @@ export default class Scene_Menu extends Scene_Base {
 				// TODO: プロセス名
 				name: "level",
 				class: CharacterLevel,
-				process: async (time: number) => {
+				process: async () => {
 					CharacterLevel.update();
 				},
 			});
@@ -204,8 +203,8 @@ export default class Scene_Menu extends Scene_Base {
 	 * キー入力の処理を行う
 	 * @returns
 	 */
-	private inputProcess(): (time: number) => Promise<void> {
-		return async (time: number) => {
+	private inputProcess(): () => Promise<void> {
+		return async () => {
 			// escキーの処理
 			if (GameManager.input.isPushedKey(KeyCode.Escape)) {
 				// メニューを閉じる

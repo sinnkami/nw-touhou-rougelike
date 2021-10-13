@@ -60,7 +60,7 @@ export default class Scene_Lobby extends Scene_Base {
 		this.addProcess({
 			name: ProcessName.BackgroundImage,
 			class: BackgroundImageRender,
-			process: async (time: number) => {
+			process: async () => {
 				BackgroundImageRender.update();
 			},
 		});
@@ -86,7 +86,7 @@ export default class Scene_Lobby extends Scene_Base {
 		this.addProcess({
 			name: ProcessName.LobbyText,
 			class: LobbyText,
-			process: async (time: number) => {
+			process: async () => {
 				LobbyText.update();
 			},
 		});
@@ -109,7 +109,7 @@ export default class Scene_Lobby extends Scene_Base {
 		this.addProcess({
 			name: ProcessName.LobbyMenuSelection,
 			class: LobbyMenuSelection,
-			process: async (time: number) => {
+			process: async () => {
 				if (GameManager.input.isPushedKey(KeyCode.Up)) {
 					LobbyMenuSelection.changeMenu(-1);
 				}

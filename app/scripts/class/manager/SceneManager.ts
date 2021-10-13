@@ -64,7 +64,7 @@ export default class SceneManager {
 	 * @param isReset 初期化フラグ
 	 * @returns
 	 */
-	public static startScene(isReset?: boolean): Promise<void> {
+	public static async startScene(isReset?: boolean): Promise<void> {
 		const scene = this.getScene();
 		if (!scene) throw ErrorManager.getError(ErrorCode.NotLoadScene);
 
@@ -72,27 +72,27 @@ export default class SceneManager {
 			scene.init();
 		}
 
-		return scene.startScene();
+		scene.startScene();
 	}
 
 	/**
 	 * シーンの更新処理
 	 * @returns
 	 */
-	public static updateScene(): Promise<void> {
+	public static async updateScene(): Promise<void> {
 		const scene = this.getScene();
 		if (!scene) throw ErrorManager.getError(ErrorCode.NotLoadScene);
-		return scene.updateScene();
+		scene.updateScene();
 	}
 
 	/**
 	 * シーンの停止処理
 	 * @returns
 	 */
-	public static stopScene(): Promise<void> {
+	public static async stopScene(): Promise<void> {
 		const scene = this.getScene();
 		if (!scene) throw ErrorManager.getError(ErrorCode.NotLoadScene);
 
-		return scene.stopScene();
+		scene.stopScene();
 	}
 }

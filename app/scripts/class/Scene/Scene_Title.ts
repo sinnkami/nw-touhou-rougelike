@@ -57,7 +57,7 @@ export default class Scene_Title extends Scene_Base {
 		this.addProcess({
 			name: ProcessName.BackgroundImage,
 			class: BackgroundImageRender,
-			process: async (time: number) => {
+			process: async () => {
 				BackgroundImageRender.update();
 			},
 		});
@@ -72,11 +72,10 @@ export default class Scene_Title extends Scene_Base {
 	private async setProcessInputSelect(): Promise<void> {
 		this.addProcess({
 			name: ProcessName.InputSelect,
-			process: async (time: number) => {
+			process: async () => {
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					// TODO: 強制初めから処理
 					await this.executeInitStart();
-					const key = GameManager.input.getKey(KeyCode.Select);
 
 					// ロビー画面表示イベントを取得
 					const event = EventManager.getEvent(EventCode.Lobby);

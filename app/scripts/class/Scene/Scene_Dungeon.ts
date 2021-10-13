@@ -1,4 +1,3 @@
-import { IResourcePathDict } from "../../definitions/class/Scene/ISceneBase";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import EventChipName from "../Construct/EventChipName";
 import EventManager, { EventCode } from "../Manager/EventManager";
@@ -45,7 +44,7 @@ export default class Scene_Dungeon extends Scene_Base {
 		// TODO: テスト用コード
 		this.addProcess({
 			name: "テスト",
-			process: async (time: number) => {
+			process: async () => {
 				// スペースキーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Space)) {
 					const event = EventManager.getEvent(EventCode.OpenMenu);
@@ -87,7 +86,7 @@ export default class Scene_Dungeon extends Scene_Base {
 		this.addProcess({
 			name: ProcessName.MapRender,
 			class: MapRender,
-			process: async (time: number) => {
+			process: async () => {
 				MapRender.update();
 
 				// 移動アニメーション中は移動不可
@@ -161,8 +160,6 @@ export default class Scene_Dungeon extends Scene_Base {
 
 				// 決定キーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
-					const key = GameManager.input.getKey(KeyCode.Select);
-
 					// 現在地にあるイベントタイルを取得
 					const position = GameManager.player.getPosition();
 					const eventChip = GameManager.map.getEventMapChip(position.x, position.y);

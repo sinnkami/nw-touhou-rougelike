@@ -1,5 +1,4 @@
 import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
-import DataManager from "../Manager/DataManager";
 import Store_Base from "./Store_Base";
 
 /**

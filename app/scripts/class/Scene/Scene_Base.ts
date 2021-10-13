@@ -1,4 +1,4 @@
-import { IProcessInfo, IResourcePathDict } from "../../definitions/class/Scene/ISceneBase";
+import { IProcessInfo } from "../../definitions/class/Scene/ISceneBase";
 import GameManager from "../Manager/GameManager";
 import LoadManager from "../Manager/LoadManager";
 import SceneManager from "../Manager/SceneManager";
@@ -38,7 +38,7 @@ export default class Scene_Base {
 	 * シーンを開始する際の処理
 	 * @returns
 	 */
-	public async startScene(): Promise<any> {
+	public async startScene(): Promise<unknown> {
 		// キー情報を初期化
 		GameManager.input.init();
 		return true;
@@ -48,7 +48,7 @@ export default class Scene_Base {
 	 * シーンを更新する際の処理
 	 * @returns
 	 */
-	public async updateScene(): Promise<any> {
+	public async updateScene(): Promise<unknown> {
 		if (LoadManager.isLoading) return false;
 		this.processList.forEach(process => process(GameManager.loop.frameCount));
 		return true;
@@ -58,7 +58,7 @@ export default class Scene_Base {
 	 * シーンを停止する際の処理
 	 * @returns
 	 */
-	public async stopScene(): Promise<any> {
+	public async stopScene(): Promise<unknown> {
 		this.init();
 		await SceneManager.removeScene(this.name);
 		return true;
