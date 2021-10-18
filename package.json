@@ -8,7 +8,8 @@
     "check-types": "tsc",
     "dev": "gulp",
     "watch": "gulp --watch",
-    "lint": "eslint --fix --ext .ts ./src"
+    "lint": "eslint --fix --ext .ts ./src",
+	"init-db": "node database/init.js"
   },
   "keywords": [],
   "author": "",

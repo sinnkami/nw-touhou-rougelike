@@ -3,18 +3,18 @@ const path = require("path")
 
 const FILE_NAME = "../app/database/db.json";
 const loki = require("lokijs");
-console.log(path.resolve(__dirname, FILE_NAME));
 const db = new loki(path.resolve(__dirname, FILE_NAME));
 
-const collections = requireDir("./collections");
-console.log(collections);
+const collections = requireDir(path.resolve(__dirname,"./collections"));
 
-const inserts = requireDir("./insert", { recurse: true });
-console.log(inserts);
+const inserts = requireDir(path.resolve(__dirname, "./insert"), { recurse: true });
 
 Promise.all(
 	new Array().concat(
+		new Promise((resolve) => resolve("table list")),
 		Object.values(collections).map((collection) => collection(db)),
+		new Promise((resolve) => resolve("")),
+		new Promise((resolve) => resolve("insert list")),
 		...Object.values(inserts).map((insertDict) => {
 			const func = (insert) => {
 				if (typeof insert === "function") return insert(db);
