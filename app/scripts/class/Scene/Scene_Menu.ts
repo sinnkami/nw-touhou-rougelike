@@ -163,7 +163,7 @@ export default class Scene_Menu extends Scene_Base {
 			// キャラ名
 			const CharacterName = new Sprite_Text();
 			CharacterName.init({
-				text: `${characterData.familyName} ${characterData.firstName}`,
+				text: `${characterData.name}`,
 				x: 20 * partyInfo.order + 250 * (partyInfo.order - 1),
 				y: CommonConstruct.size.height - 210,
 				width: 250,

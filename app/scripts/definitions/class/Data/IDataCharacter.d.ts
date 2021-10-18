@@ -1,12 +1,10 @@
 export interface IDataCharacter {
 	/** キャラID */
 	characterId: string;
-	/** 名 */
-	firstName: string;
-	/** 姓 */
-	familyName: string;
-	/** 名前の区切り文字 */
-	delimiter?: string;
+	/** 名前 */
+	name: string;
+	/** フルネーム */
+	fullName: string;
 
 	// テクスチャ関連
 	/** 歩行グラのパス */

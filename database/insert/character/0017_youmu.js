@@ -11,9 +11,8 @@ module.exports = function (db) {
 
 		const value = {
 			characterId: ID,
-			firstName: "妖夢",
-			familyName: "魂魄",
-			delimiter: " ",
+			name: "妖夢",
+			fullName: "魂魄 妖夢",
 			charaChipPath: "assets/images/charaChip/youmu.png",
 			portraitPath: "assets/images/portrait/youmu/normal.png",
 			hp: 300,

@@ -11,9 +11,8 @@ module.exports = function (db) {
 
 		const value = {
 			characterId: ID,
-			firstName: "咲夜",
-			familyName: "十六夜",
-			delimiter: " ",
+			name: "咲夜",
+			fullName: "十六夜 咲夜",
 			charaChipPath: "assets/images/charaChip/sakuya.png",
 			portraitPath: "assets/images/portrait/sakuya/normal.png",
 			hp: 300,
