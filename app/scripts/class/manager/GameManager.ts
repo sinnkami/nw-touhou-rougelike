@@ -1,7 +1,9 @@
 import Canvas from "../../modules/Canvas/Canvas";
 import { CommonConstruct } from "../Construct/CommonConstruct";
+import Game_Battle from "../Game/Game_Battle";
 import Game_Character from "../Game/Game_Character";
 import { Game_Dungeon } from "../Game/Game_Dungeon";
+import Game_Enemy from "../Game/Game_Enemy";
 import Game_Input from "../Game/Game_Input";
 import { Game_Loop } from "../Game/Game_Loop";
 import { Game_Map } from "../Game/Game_Map";
@@ -26,6 +28,8 @@ export default class GameManager {
 	public static dungeon: Game_Dungeon = new Game_Dungeon();
 	public static character: Game_Character = new Game_Character();
 	public static party: Game_Party = new Game_Party();
+	public static battle: Game_Battle = new Game_Battle();
+	public static enemy: Game_Enemy = new Game_Enemy();
 
 	/**
 	 * 初期化処理

@@ -33,6 +33,10 @@ export default class Sprite_Character extends Sprite_Base {
 		if (option.delay === undefined) option.delay = 8;
 
 		super.init(option);
+
+		this.width = option.width || 32;
+		this.height = option.height || 32;
+
 		this.path = option.path;
 		this.animationSpeed = option.animationSpeed || 0.25;
 	}
@@ -57,6 +61,9 @@ export default class Sprite_Character extends Sprite_Base {
 		// 表示するキャラの情報を設定
 		const sprite = new AnimatedSprite([sheet.textures["down_0"]]);
 		sprite.animationSpeed = this.animationSpeed;
+
+		sprite.width = this.width;
+		sprite.height = this.height;
 
 		// コンテナの初期位置を設定
 		container.setTransform(this.x, this.y);
