@@ -195,8 +195,11 @@ export default class Scene_Battle extends Scene_Base {
 	}
 
 	private async setProcessEnemy(): Promise<void> {
-		const enemyPosition = EnemyPosition[GameManager.battle.getEnemyList().length];
-		GameManager.battle.getEnemyList().forEach(async (enemyData, index) => {
+		const enemyPosition = EnemyPosition[GameManager.enemyGroup.getEnemyGroupInfoList().length];
+		GameManager.enemyGroup.getEnemyGroupInfoList().forEach(async (enemyGroupInfo, index) => {
+			const enemy = GameManager.enemy.getEnemy(enemyGroupInfo.enemyId);
+			if (!enemy) throw new Error("敵の情報が存在しない");
+
 			// エネミー立ち絵
 			const EnemyRender = new Sprite_Enemy();
 			EnemyRender.init({
@@ -204,14 +207,14 @@ export default class Scene_Battle extends Scene_Base {
 				y: enemyPosition[index].y,
 				width: 270,
 				height: 270,
-				path: `enemy-portrait-${enemyData.enemyId}`,
+				path: `enemy-portrait-${enemy.enemyId}`,
 			});
 
 			await EnemyRender.setSprite();
 			EnemyRender.setZIndex(1);
 			this.addProcess({
 				// TODO: プロセス名
-				name: `${enemyData.name} - ${enemyData.enemyId}`,
+				name: `${enemy.name} - ${enemy.enemyId}`,
 				class: EnemyRender,
 				process: async () => {
 					EnemyRender.update();

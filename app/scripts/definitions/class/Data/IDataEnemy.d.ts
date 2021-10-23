@@ -1,4 +1,5 @@
 // TODO: キャラクターと共通化したい
+// TODO: 敵のタイプ欲しい
 export interface IDataEnemy {
 	/** 敵ID */
 	enemyId: string;
