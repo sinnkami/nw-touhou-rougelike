@@ -69,7 +69,6 @@ export default class Canvas {
 	 * @returns
 	 */
 	public update(): void {
-		console.log(this.app.stage.children.length);
 		return this.app.render();
 	}
 }
