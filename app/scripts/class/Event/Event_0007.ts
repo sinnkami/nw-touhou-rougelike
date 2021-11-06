@@ -42,9 +42,11 @@ export class Event_0007 extends Event_Base {
 		}
 
 		// TODO: エネミーグループの決定
-		const enemyGroupData = DataManager.enemyGroup.get("0001");
-		if (!enemyGroupData) throw new Error("存在しないエンカウント情報です");
-		for (const enemyId of enemyGroupData.enemyList) {
+		const enemyPartyId = "0001";
+		GameManager.battle.init(enemyPartyId);
+		const enemyParty = DataManager.enemyParty.get(enemyPartyId);
+		if (!enemyParty) throw new Error("存在しない敵パーティ");
+		for (const enemyId of enemyParty.enemyList) {
 			const enemyData = DataManager.enemy.get(enemyId);
 			if (!enemyData) throw new Error("存在しないエネミー情報です");
 			loadResources.push({
@@ -52,8 +54,6 @@ export class Event_0007 extends Event_Base {
 				path: enemyData.portraitPath,
 			});
 		}
-
-		GameManager.battle.battleStart(enemyGroupData.enemyGroupId);
 
 		await ResourceManager.loadResources(...loadResources);
 

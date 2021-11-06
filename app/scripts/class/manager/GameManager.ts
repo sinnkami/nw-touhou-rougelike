@@ -4,12 +4,13 @@ import Game_Battle from "../Game/Game_Battle";
 import Game_Character from "../Game/Game_Character";
 import { Game_Dungeon } from "../Game/Game_Dungeon";
 import Game_Enemy from "../Game/Game_Enemy";
-import Game_EnemyGroup from "../Game/Game_EnemyGroup";
+import Game_EnemyParty from "../Game/Game_EnemyParty";
 import Game_Input from "../Game/Game_Input";
 import { Game_Loop } from "../Game/Game_Loop";
 import { Game_Map } from "../Game/Game_Map";
 import Game_Party from "../Game/Game_Party";
 import Game_Player from "../Game/Game_Player";
+import Game_Turn from "../Game/Game_Turn";
 
 // 解像度
 const SIZE = CommonConstruct.size;
@@ -31,7 +32,8 @@ export default class GameManager {
 	public static party: Game_Party = new Game_Party();
 	public static battle: Game_Battle = new Game_Battle();
 	public static enemy: Game_Enemy = new Game_Enemy();
-	public static enemyGroup: Game_EnemyGroup = new Game_EnemyGroup();
+	public static enemyParty: Game_EnemyParty = new Game_EnemyParty();
+	public static turn: Game_Turn = new Game_Turn();
 
 	/**
 	 * 初期化処理

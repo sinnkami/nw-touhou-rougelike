@@ -25,13 +25,7 @@ export default class Scene_Base {
 	 * MEMO: シーンを再利用する際に実行する
 	 */
 	public init(): void {
-		this.processInfoList.forEach(processInfo => {
-			if (processInfo.class) {
-				processInfo.class.destroy();
-			}
-		});
-
-		this.processInfoList = [];
+		this.processInfoList.forEach(processInfo => this.removeProcess(processInfo.name));
 	}
 
 	/**
@@ -66,6 +60,16 @@ export default class Scene_Base {
 
 	public addProcess(processInfo: IProcessInfo): void {
 		this.processInfoList.push(processInfo);
+	}
+
+	public removeProcess(processName: string): void {
+		// MEMO: プロセスが設定されていない場合があるのでエラーを無視する
+		try {
+			const process = this.getProcessClass(processName);
+			process.destroy();
+		} finally {
+			this.processInfoList = this.processInfoList.filter(v => v.name !== processName);
+		}
 	}
 
 	/**

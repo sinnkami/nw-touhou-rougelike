@@ -6,7 +6,7 @@ interface IEnemyPositionInfo {
 
 export const BattleCommandList: IMenuInfo[] = [
 	{
-		menuId: "test1",
+		menuId: "attack",
 		text: "戦う",
 		x: 0,
 		y: 0,
@@ -63,3 +63,22 @@ export const EnemyPosition: IEnemyPositionInfo = {
 		},
 	],
 };
+
+export enum CharacterType {
+	Player = "Player",
+	Enemy = "Enemy",
+}
+
+export enum BattlePhase {
+	Init = "Init",
+	BattleStart = "BattleStart",
+	SelectedTrun = "SelectedTrun",
+	TrunStart = "TrunStart",
+	CommandSelect = "CommandSelect",
+	CommandExecute = "CommandExecute",
+	DamagePhase = "DamagePhase",
+	CommandEnd = "CommandEnd",
+	TrunEnd = "TrunEnd",
+	BattleEnd = "BattleEnd",
+	BattleResult = "BattleResult",
+}
