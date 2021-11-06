@@ -1,7 +1,7 @@
 import Data_Character from "../Data/Data_Character";
 import Data_Dungeon from "../Data/Data_Dungeon";
 import Data_Enemy from "../Data/Data_Enemy";
-import Data_EnemyGroup from "../Data/Data_EnemyGroup";
+import Data_EnemyParty from "../Data/Data_EnemyParty";
 
 /**
  * DB情報を管理するクラス
@@ -11,7 +11,7 @@ export default class DataManager {
 	public static dungeon: Data_Dungeon = new Data_Dungeon();
 	public static character: Data_Character = new Data_Character();
 	public static enemy: Data_Enemy = new Data_Enemy();
-	public static enemyGroup: Data_EnemyGroup = new Data_EnemyGroup();
+	public static enemyParty: Data_EnemyParty = new Data_EnemyParty();
 
 	/**
 	 * 初期化処理
@@ -22,7 +22,7 @@ export default class DataManager {
 			this.dungeon.load(),
 			this.character.load(),
 			this.enemy.load(),
-			this.enemyGroup.load(),
+			this.enemyParty.load(),
 		]).then();
 	}
 }

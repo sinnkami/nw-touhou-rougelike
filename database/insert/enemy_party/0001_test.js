@@ -5,13 +5,13 @@ const ID = "0001";
 
 module.exports = function (db) {
 	return new Promise((resolve) => {
-		const DB = db.getCollection("enemy_group");
+		const DB = db.getCollection("enemy_party");
 
-		DB.findAndRemove({ enemyGroupId: { '$eq': ID } });
+		DB.findAndRemove({ enemyPartyId: { '$eq': ID } });
 
 		const value = {
-			enemyGroupId: ID,
-			enemyList: ["0001"],
+			enemyPartyId: ID,
+			enemyList: ["0001", "0001", "0001"],
 			rate: 100,
 		};
 
