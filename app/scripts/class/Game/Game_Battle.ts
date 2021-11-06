@@ -7,6 +7,8 @@ import { Game_Base } from "./Game_Base";
 export default class Game_Battle extends Game_Base {
 	// バトルフェイズ
 	private phase: BattlePhase = BattlePhase.Init;
+	// そのフェイズを実行したか
+	private hasExecutedPhase: boolean = false;
 
 	private selectedCommand: string = "";
 
@@ -16,8 +18,9 @@ export default class Game_Battle extends Game_Base {
 		return this.phase;
 	}
 
-	public init(enemyGroupId: string): void {
+	public async init(enemyGroupId: string): Promise<void> {
 		this.changePhase(BattlePhase.Init);
+		this.hasExecutedPhase = true;
 
 		GameManager.enemyParty.setEnemyParty(enemyGroupId);
 
@@ -26,22 +29,29 @@ export default class Game_Battle extends Game_Base {
 		GameManager.turn.setCharacterList(playerIdList, enemyIdList);
 	}
 
-	public executeBattleStart(): void {
+	public async executeBattleStart(): Promise<void> {
+		if (this.hasExecutedPhase) return;
 		console.log("executeBattleStart");
 		this.changePhase(BattlePhase.BattleStart);
+		this.hasExecutedPhase = true;
 	}
 
-	public executeSelectedTurn(): void {
+	public async executeSelectedTurn(): Promise<void> {
+		if (this.hasExecutedPhase) return;
 		console.log("executeSelectedTurn");
 
 		this.changePhase(BattlePhase.SelectedTrun);
+		this.hasExecutedPhase = true;
 		GameManager.turn.getNextTrun();
 	}
 
-	public executeTurnStart(): void {
+	public async executeTurnStart(): Promise<void> {
+		if (this.hasExecutedPhase) return;
 		console.log("executeTurnStart");
 
 		this.changePhase(BattlePhase.TrunStart);
+		this.hasExecutedPhase = true;
+
 		const turn = GameManager.turn.getCurrentTrunCharacter();
 	}
 
@@ -54,7 +64,7 @@ export default class Game_Battle extends Game_Base {
 	}
 
 	// TODO: コマンド内容
-	public executeCommandSelect(): void {
+	public async executeCommandSelect(): Promise<void> {
 		console.log("executeCommandSelect");
 		switch (this.selectedCommand) {
 			case "attack": {
@@ -69,6 +79,8 @@ export default class Game_Battle extends Game_Base {
 
 	public changePhase(phase: BattlePhase): void {
 		console.info("バトルフェイズ - ", phase);
+		console.trace();
 		this.phase = phase;
+		this.hasExecutedPhase = false;
 	}
 }

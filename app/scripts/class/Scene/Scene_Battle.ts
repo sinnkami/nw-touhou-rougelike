@@ -77,12 +77,22 @@ export default class Scene_Battle extends Scene_Base {
 			class: BattleMenuRender,
 			process: async () => {
 				BattleMenuRender.update();
+				BattleMenuRender.hide();
+
+				// TODO: 表示する段階の指定（多分これで大丈夫だとは思うけど一応）
+				// ターン開始フェイズ以外は動作させない
+				if (GameManager.battle.getPhase() !== BattlePhase.TrunStart) {
+					return;
+				}
 
 				// 敵ターンの場合、メニューを操作させない
 				const turn = GameManager.turn.getCurrentTrunCharacter();
 				if (turn.type === CharacterType.Enemy) {
 					return;
 				}
+
+				// このタイミングでメニューを表示
+				BattleMenuRender.show();
 
 				// メニューが既に選択済みの場合は処理しない
 				if (GameManager.battle.getSelectedCommand()) {
@@ -97,9 +107,11 @@ export default class Scene_Battle extends Scene_Base {
 						case "attack": {
 							GameManager.battle.selectCommand("attack");
 							this.setProcessSelectCommandAtack();
+							break;
 						}
 						default: {
 							console.log("設定されていないコマンド");
+							break;
 						}
 					}
 				}
@@ -274,18 +286,22 @@ export default class Scene_Battle extends Scene_Base {
 				switch (GameManager.battle.getPhase()) {
 					case BattlePhase.Init: {
 						// MEMO: 処理は既にイベントにて呼び出し済み
-						GameManager.battle.changePhase(BattlePhase.Init);
+						await GameManager.battle.changePhase(BattlePhase.BattleStart);
+						break;
 					}
 					case BattlePhase.BattleStart: {
-						GameManager.battle.executeBattleStart();
+						await GameManager.battle.executeBattleStart();
 						GameManager.battle.changePhase(BattlePhase.SelectedTrun);
+						break;
 					}
 					case BattlePhase.SelectedTrun: {
-						GameManager.battle.executeSelectedTurn();
+						await GameManager.battle.executeSelectedTurn();
 						GameManager.battle.changePhase(BattlePhase.TrunStart);
+						break;
 					}
 					case BattlePhase.TrunStart: {
-						GameManager.battle.executeTurnStart();
+						await GameManager.battle.executeTurnStart();
+						break;
 					}
 				}
 			},

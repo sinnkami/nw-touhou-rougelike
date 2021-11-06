@@ -48,10 +48,12 @@ export default class Game_Turn extends Game_Base {
 				case CharacterType.Player: {
 					const character = GameManager.character.getCharacter(id);
 					v.gauge -= character.agility;
+					break;
 				}
 				case CharacterType.Enemy: {
 					const character = GameManager.enemy.getEnemy(id);
 					v.gauge -= character.agility;
+					break;
 				}
 			}
 		});
