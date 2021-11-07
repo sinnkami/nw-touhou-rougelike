@@ -76,7 +76,6 @@ export enum BattlePhase {
 	TrunStart = "TrunStart",
 	CommandSelect = "CommandSelect",
 	CommandExecute = "CommandExecute",
-	DamagePhase = "DamagePhase",
 	CommandEnd = "CommandEnd",
 	TrunEnd = "TrunEnd",
 	BattleEnd = "BattleEnd",
