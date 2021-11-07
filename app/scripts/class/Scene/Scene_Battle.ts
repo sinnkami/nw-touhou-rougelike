@@ -183,7 +183,7 @@ export default class Scene_Battle extends Scene_Base {
 			CharacterName.setZIndex(partyInfo.order + 1);
 			this.addProcess({
 				// TODO: プロセス名
-				name: "名前",
+				name: `name - ${characterData.characterId}`,
 				class: CharacterName,
 				process: async () => {
 					// CharacterName.update();
@@ -204,7 +204,7 @@ export default class Scene_Battle extends Scene_Base {
 			CharacterHp.setZIndex(partyInfo.order + 1);
 			this.addProcess({
 				// TODO: プロセス名
-				name: "hp",
+				name: `hp - ${characterData.characterId}`,
 				class: CharacterHp,
 				process: async () => {
 					CharacterHp.update();
@@ -228,7 +228,7 @@ export default class Scene_Battle extends Scene_Base {
 			CharacterMp.setZIndex(partyInfo.order + 1);
 			this.addProcess({
 				// TODO: プロセス名
-				name: "mp",
+				name: `mp - ${characterData.characterId}`,
 				class: CharacterMp,
 				process: async () => {
 					CharacterMp.update();
@@ -258,7 +258,7 @@ export default class Scene_Battle extends Scene_Base {
 			EnemyRender.setZIndex(1);
 			this.addProcess({
 				// TODO: プロセス名
-				name: `${enemy.name} - ${enemy.enemyId}`,
+				name: `${enemy.name} - ${enemy.partyId}`,
 				class: EnemyRender,
 				process: async () => {
 					EnemyRender.update();
