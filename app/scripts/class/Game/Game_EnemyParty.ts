@@ -18,6 +18,7 @@ export default class Game_EnemyParty extends Game_Base {
 	}
 
 	public init(): void {
+		StoreManager.enemyParty.init();
 		return;
 	}
 

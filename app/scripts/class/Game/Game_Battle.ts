@@ -23,6 +23,12 @@ export default class Game_Battle extends Game_Base {
 		this.changePhase(BattlePhase.Init);
 		this.hasExecutedPhase = true;
 
+		GameManager.enemyParty.init();
+		GameManager.turn.init();
+
+		this.selectedCommand = "";
+		this.commandFunc = undefined;
+
 		GameManager.enemyParty.setEnemyParty(enemyGroupId);
 
 		const playerIdList = GameManager.party.getMenberList().map(v => v.partyId);
