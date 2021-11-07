@@ -14,11 +14,11 @@ export default class Game_Party extends Game_Base {
 
 	/**
 	 * 指定されたメンバーの情報を取得
-	 * @param order
+	 * @param partyId
 	 * @returns
 	 */
-	public getMenber(order: number): IStoreParty {
-		const menber = this.menberList.find(v => v.order === order);
+	public getMenber(partyId: string): IStoreParty {
+		const menber = this.menberList.find(v => v.partyId === partyId);
 
 		if (!menber) throw new Error("指定された並び位置にメンバーはいません");
 
@@ -40,15 +40,18 @@ export default class Game_Party extends Game_Base {
 	 */
 	public getFirstMenber(): IStoreParty {
 		// TODO: 先頭の番号、固定値か何かにしたい
-		return this.getMenber(1);
+		const character = this.menberList.find(v => v.order === 1);
+		if (!character) throw new Error("指定されたキャラはパーティにいません");
+
+		return character;
 	}
 
 	/**
 	 * 指定されたメンバーのキャラ情報を取得
-	 * @param order
+	 * @param partyId
 	 */
-	public getMenberInCharacterInfo(order: number): IStoreCharacter {
-		const menber = this.getMenber(order);
+	public getMenberInCharacterInfo(partyId: string): IStoreCharacter {
+		const menber = this.getMenber(partyId);
 		const character = GameManager.character.getCharacter(menber.characterId);
 		return character;
 	}
