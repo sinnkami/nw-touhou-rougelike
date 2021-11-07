@@ -51,6 +51,7 @@ export class Sprite_Text extends Sprite_Base {
 			fill: "#FFFFFF",
 			align: "left",
 		});
+		text.name = this.name;
 
 		if (this.isBackground) {
 			const spriteFrame = new Sprite_Frame();
@@ -71,5 +72,15 @@ export class Sprite_Text extends Sprite_Base {
 		}
 
 		container.addChild(text);
+	}
+
+	private getSprite(): Text {
+		const container = super.getContainer();
+		return container.getChildByName(this.name) as Text;
+	}
+
+	public setText(text: string): void {
+		const sprite = this.getSprite();
+		sprite.text = text;
 	}
 }
