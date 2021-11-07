@@ -67,6 +67,8 @@ export default class Scene_Base {
 		try {
 			const process = this.getProcessClass(processName);
 			process.destroy();
+		} catch {
+			// MEMO: エラーを無視
 		} finally {
 			this.processInfoList = this.processInfoList.filter(v => v.name !== processName);
 		}
