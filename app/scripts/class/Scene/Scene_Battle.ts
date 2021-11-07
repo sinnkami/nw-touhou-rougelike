@@ -1,7 +1,9 @@
+import getRandomValue from "../../modules/utils/getRandomValue";
 import { BattleCommandList, BattlePhase, CharacterType, EnemyPosition } from "../Construct/BattleConstruct";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import DataManager from "../Manager/DataManager";
 import GameManager from "../Manager/GameManager";
+import SceneManager from "../Manager/SceneManager";
 import StoreManager from "../Manager/StoreManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
 import Sprite_Character from "../Sprite/Sprite_Character";
@@ -125,7 +127,7 @@ export default class Scene_Battle extends Scene_Base {
 			const characterData = DataManager.character.get(partyInfo.characterId);
 			if (!characterData) throw new Error("データベース内に存在しないキャラがパーティに存在します");
 
-			const characterInfo = StoreManager.character.get(partyInfo.characterId);
+			const characterInfo = GameManager.party.getMenber(partyInfo.partyId);
 			if (!characterInfo) throw new Error("所持していないキャラがパーティに存在します");
 
 			// フレーム
@@ -206,6 +208,9 @@ export default class Scene_Battle extends Scene_Base {
 				class: CharacterHp,
 				process: async () => {
 					CharacterHp.update();
+
+					// TODO: もしかしたら負荷かかるかもしれない
+					CharacterHp.setText(`体力: ${characterInfo.hp} / ${characterData.hp}`);
 				},
 			});
 
@@ -227,6 +232,9 @@ export default class Scene_Battle extends Scene_Base {
 				class: CharacterMp,
 				process: async () => {
 					CharacterMp.update();
+
+					// TODO: もしかしたら負荷かかるかもしれない
+					CharacterMp.setText(`霊力: ${characterInfo.mp} / ${characterData.mp}`);
 				},
 			});
 		}
@@ -286,21 +294,56 @@ export default class Scene_Battle extends Scene_Base {
 				switch (GameManager.battle.getPhase()) {
 					case BattlePhase.Init: {
 						// MEMO: 処理は既にイベントにて呼び出し済み
-						await GameManager.battle.changePhase(BattlePhase.BattleStart);
+						GameManager.battle.changePhase(BattlePhase.BattleStart);
 						break;
 					}
 					case BattlePhase.BattleStart: {
 						await GameManager.battle.executeBattleStart();
-						GameManager.battle.changePhase(BattlePhase.SelectedTrun);
+
 						break;
 					}
 					case BattlePhase.SelectedTrun: {
 						await GameManager.battle.executeSelectedTurn();
-						GameManager.battle.changePhase(BattlePhase.TrunStart);
 						break;
 					}
 					case BattlePhase.TrunStart: {
 						await GameManager.battle.executeTurnStart();
+						break;
+					}
+					case BattlePhase.CommandSelect: {
+						// MEMO: プレイヤー側コマンド選択は対象選択時に実行
+						// TODO: 敵側のターン処理
+						const turn = GameManager.turn.getCurrentTrunCharacter();
+
+						// TODO: turnの要領？
+						if (turn.type === CharacterType.Enemy) {
+							const menberList = GameManager.party.getMenberList();
+
+							// TODO: とりあえず通常攻撃をさせる
+							GameManager.battle.selectCommand("attack");
+							GameManager.battle.executeCommandSelect(getRandomValue(menberList));
+						}
+						break;
+					}
+					case BattlePhase.CommandExecute: {
+						await GameManager.battle.executeCommandExecute();
+						break;
+					}
+					case BattlePhase.CommandEnd: {
+						await GameManager.battle.executeCommandEnd();
+						break;
+					}
+					case BattlePhase.TrunEnd: {
+						await GameManager.battle.executeTurnEnd();
+						break;
+					}
+					case BattlePhase.BattleEnd: {
+						await GameManager.battle.executeBattleEnd();
+						break;
+					}
+					case BattlePhase.BattleResult: {
+						await GameManager.battle.executeBattleResult();
+						SceneManager.stopScene();
 						break;
 					}
 				}
@@ -309,6 +352,9 @@ export default class Scene_Battle extends Scene_Base {
 	}
 
 	private async setProcessSelectCommandAtack(): Promise<void> {
+		// キー情報を初期化
+		GameManager.input.init();
+
 		const enemyList = GameManager.enemyParty.getEnemyPartyList();
 		const enemyPosition = EnemyPosition[enemyList.length];
 		const list = enemyList.map((v, index) => {
@@ -335,12 +381,21 @@ export default class Scene_Battle extends Scene_Base {
 			class: TargetEnemyWindow,
 			process: async () => {
 				TargetEnemyWindow.update();
-				console.log(TargetEnemyWindow.getCurrentMenu());
+
 				if (GameManager.input.isPushedKey(KeyCode.Right)) return TargetEnemyWindow.changeMenu(1);
 				if (GameManager.input.isPushedKey(KeyCode.Left)) return TargetEnemyWindow.changeMenu(-1);
 				if (GameManager.input.isPushedKey(KeyCode.Escape)) {
-					GameManager.battle.selectCommand("");
 					this.removeProcess(`target-enemy`);
+					GameManager.battle.selectCommand("");
+				}
+				if (GameManager.input.isPushedKey(KeyCode.Select)) {
+					this.removeProcess(`target-enemy`);
+					const menu = TargetEnemyWindow.getCurrentMenu();
+					const target = GameManager.enemyParty.getMenber(menu.menuId);
+
+					// コマンド選択処理実行
+					GameManager.battle.changePhase(BattlePhase.CommandSelect);
+					await GameManager.battle.executeCommandSelect(target);
 				}
 			},
 		});

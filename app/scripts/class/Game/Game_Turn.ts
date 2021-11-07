@@ -7,25 +7,25 @@ import { Game_Base } from "./Game_Base";
 export default class Game_Turn extends Game_Base {
 	private characterList: IGameTurnInfo[] = [];
 
-	private currntTrunCharacterId: string = "";
+	private currntTrun?: IGameTurnInfo = undefined;
 
 	public init(): void {
 		this.characterList = [];
-		this.currntTrunCharacterId = "";
+		this.currntTrun = undefined;
 	}
 
 	public setCharacterList(playerIdList: string[], enemyIdList: string[]): void {
 		this.init();
 		playerIdList.forEach(v => {
 			this.characterList.push({
-				characterId: v,
+				partyId: v,
 				gauge: 1000,
 				type: CharacterType.Player,
 			});
 		});
 		enemyIdList.forEach(v => {
 			this.characterList.push({
-				characterId: v,
+				partyId: v,
 				gauge: 1000,
 				type: CharacterType.Enemy,
 			});
@@ -34,24 +34,22 @@ export default class Game_Turn extends Game_Base {
 
 	public getNextTrun(): IGameTurnInfo {
 		const turn = this.characterList.find(v => v.gauge <= 0);
-		console.log(turn);
 		if (turn) {
-			this.currntTrunCharacterId = turn.characterId;
+			this.currntTrun = turn;
 			return turn;
 		}
 
 		this.characterList.forEach(v => {
-			console.log(v);
-			const id = v.characterId;
+			const id = v.partyId;
 			switch (v.type) {
 				// TODO: コマンド速度調整
 				case CharacterType.Player: {
-					const character = GameManager.character.getCharacter(id);
+					const character = GameManager.party.getMenber(id);
 					v.gauge -= character.agility;
 					break;
 				}
 				case CharacterType.Enemy: {
-					const character = GameManager.enemy.getEnemy(id);
+					const character = GameManager.enemyParty.getMenber(id);
 					v.gauge -= character.agility;
 					break;
 				}
@@ -61,8 +59,15 @@ export default class Game_Turn extends Game_Base {
 	}
 
 	public getCurrentTrunCharacter(): IGameTurnInfo {
-		const turn = this.characterList.find(v => v.characterId === this.currntTrunCharacterId);
+		const turn = this.currntTrun;
 		if (!turn) throw new Error("ターン処理が行えない");
 		return turn;
+	}
+
+	// 行動順を再設定
+	public setGaugeInCurrentTurn(): void {
+		// TODO: コマンド内容に対応して行動順を設定できるようにする
+		const turn = this.getCurrentTrunCharacter();
+		turn.gauge = 1000;
 	}
 }

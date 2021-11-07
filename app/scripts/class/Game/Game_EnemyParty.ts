@@ -26,7 +26,7 @@ export default class Game_EnemyParty extends Game_Base {
 	 * @param order
 	 * @returns
 	 */
-	public getEnemyParty(partyId: string): IStoreEnemyParty {
+	public getMenber(partyId: string): IStoreEnemyParty {
 		const enemy = this.menberList.find(v => v.partyId === partyId);
 
 		if (!enemy) throw new Error("指定されたエネミーはパーティにいません");
@@ -79,7 +79,7 @@ export default class Game_EnemyParty extends Game_Base {
 	 * @param order
 	 */
 	public getEnemyInCharacterInfo(partyId: string): IDataEnemy {
-		const enemy = this.getEnemyParty(partyId);
+		const enemy = this.getMenber(partyId);
 		const character = GameManager.enemy.getEnemy(enemy.enemyId);
 		return character;
 	}

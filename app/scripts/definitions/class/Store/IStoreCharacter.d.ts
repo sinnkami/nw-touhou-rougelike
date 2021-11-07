@@ -1,10 +1,13 @@
 /**
  * ゲーム内キャラ情報
  * MEMO: Data_Characterが保持しているで変更されないならば極力保存しない
+ * TODO: データの調整
  */
 export interface IStoreCharacter {
 	/** キャラID */
 	characterId: string;
+	/** 名前 */
+	name: string;
 
 	// パラメータ関連
 	/** 体力 */
