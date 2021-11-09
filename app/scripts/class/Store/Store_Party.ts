@@ -1,4 +1,5 @@
-import { IStoreParty } from "../../definitions/class/Store/IStoreParty";
+import { IStorePartyDict } from "../../definitions/class/Store/IStoreParty";
+import Actor from "../../modules/field/Actor";
 import Store_Base from "./Store_Base";
 
 // 最大人数
@@ -9,32 +10,35 @@ const LIMIT_MENBER = 3;
  * 現在のパーティメンバーを管理するクラス
  */
 export default class Store_Party extends Store_Base {
-	// メンバーリスト
-	private menberList: IStoreParty[] = [];
+	// メンバー一覧
+	private menberDict: IStorePartyDict = {};
+
+	private get size(): number {
+		return Object.values(this.menberDict).length;
+	}
 
 	public async init(): Promise<void> {
-		this.menberList = [];
+		this.menberDict = {};
 	}
 
 	public async load(): Promise<void> {
 		this.init();
-		const list = await super.load();
-		this.menberList = list as IStoreParty[];
+		const dict = await super.load();
+		this.menberDict = dict as IStorePartyDict;
 	}
 
-	public getAll(): IStoreParty[] {
-		return this.menberList;
+	public getAll(): IStorePartyDict {
+		return this.menberDict;
 	}
 
-	public get(id: string): IStoreParty | undefined {
-		return this.menberList.find(v => v.characterId === id);
+	public get(id: string): Actor | undefined {
+		return this.menberDict[id];
 	}
 
-	public add(...partys: IStoreParty[]): void {
+	public add(...partys: Actor[]): void {
 		// TODO: エラーにするかは悩みどころ
 		// MEMO: キャッチさせてしょりったほうがよいかなぁ・・・？
-		if (partys.length + this.menberList.length > LIMIT_MENBER)
-			throw new Error("パーティ上限を超えて追加しようとしました");
-		this.menberList = this.menberList.concat(partys);
+		if (partys.length + this.size > LIMIT_MENBER) throw new Error("パーティ上限を超えて追加しようとしました");
+		partys.forEach((v, i) => (this.menberDict[i] = v));
 	}
 }

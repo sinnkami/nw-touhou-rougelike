@@ -1,27 +1,11 @@
+import { ICharacter } from "../../modules/field/ICharacter";
+
 /**
  * ゲーム内キャラ情報
  * MEMO: Data_Characterが保持しているで変更されないならば極力保存しない
  * TODO: データの調整
  */
-export interface IStoreCharacter {
+export interface IStoreCharacter extends ICharacter {
 	/** キャラID */
 	characterId: string;
-	/** 名前 */
-	name: string;
-
-	// パラメータ関連
-	/** 体力 */
-	hp: number;
-	/** 霊力 */
-	mp: number;
-	/** 攻撃力 */
-	attack: number;
-	/** 守備力 */
-	defense: number;
-	/** 魔力 */
-	magical: number;
-	/** 素早さ */
-	agility: number;
-	/** 器用さ */
-	dexterity: number;
 }

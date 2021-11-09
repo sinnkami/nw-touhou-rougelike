@@ -91,6 +91,10 @@ export default class Scene_Title extends Scene_Base {
 	 */
 	private async executeInitStart(): Promise<void> {
 		// TODO: 現在はテスト用の値まみれ
+
+		console.log(DataManager.enemy.getAll());
+		console.log(DataManager.enemyParty.getAll());
+
 		// とりあえずキャラ追加
 		const reimu = DataManager.character.get("0001") as IStoreCharacter;
 		const sakuya = DataManager.character.get("0009") as IStoreCharacter;
@@ -101,18 +105,9 @@ export default class Scene_Title extends Scene_Base {
 
 		// パーティーを勝手に設定
 		StoreManager.party.add(
-			{
-				characterId: reimu.characterId,
-				order: 3,
-			},
-			{
-				characterId: sakuya.characterId,
-				order: 2,
-			},
-			{
-				characterId: youmu.characterId,
-				order: 1,
-			}
+			Object.assign({ partyId: "0", order: 3 }, reimu),
+			Object.assign({ partyId: "1", order: 2 }, sakuya),
+			Object.assign({ partyId: "2", order: 1 }, youmu)
 		);
 	}
 }

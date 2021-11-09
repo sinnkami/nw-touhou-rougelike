@@ -2,7 +2,6 @@ import { IDataEnemy } from "../../definitions/class/Data/IDataEnemy";
 import { IGameEnemyGroupInfo } from "../../definitions/class/Game/IGameEnemyGroup";
 import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
 import { IStoreEnemyParty } from "../../definitions/class/Store/IStoreEnemyParty";
-import { IStoreParty } from "../../definitions/class/Store/IStoreParty";
 import DataManager from "../Manager/DataManager";
 import { ErrorCode } from "../Manager/ErrorManager";
 import GameManager from "../Manager/GameManager";

@@ -14,12 +14,12 @@ module.exports = function (db) {
 			enemyId: ID,
 			name: "アクピー",
 			portraitPath: "assets/images/enemy/akpy.jpg",
-			hp: 10000,
+			hp: 300,
 			mp: 99999,
 			attack: 10,
 			defense: 10,
 			magical: 10,
-			agility: 10,
+			agility: 50,
 			dexterity: 10,
 		};
 

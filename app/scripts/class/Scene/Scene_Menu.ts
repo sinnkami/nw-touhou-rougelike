@@ -135,124 +135,123 @@ export default class Scene_Menu extends Scene_Base {
 		});
 
 		// パーティ周りの描画を設定
-		for (const partyInfo of GameManager.party.getMenberList()) {
-			const characterData = DataManager.character.get(partyInfo.characterId);
-			if (!characterData) throw new Error("データベース内に存在しないキャラがパーティに存在します");
+		await Promise.all(
+			GameManager.party.getMenberList().map(async (actor, index) => {
+				const characterData = DataManager.character.get(actor.characterId);
+				if (!characterData) throw new Error("データベース内に存在しないキャラがパーティに存在します");
 
-			const characterInfo = StoreManager.character.get(partyInfo.characterId);
-			if (!characterInfo) throw new Error("所持していないキャラがパーティに存在します");
+				// キャラ立ち絵
+				const PortraitRender = new Sprite_Portrait();
+				PortraitRender.init({
+					x: 260 * index,
+					y: 200,
+					path: `character-portrait-${characterData.characterId}`,
+				});
+				await PortraitRender.setSprite();
+				PortraitRender.setZIndex(index);
+				this.addProcess({
+					// TODO: プロセス名
+					name: `${Sprite_Portrait.name} - ${characterData.characterId}`,
+					class: PortraitRender,
+					process: async () => {
+						PortraitRender.update();
+					},
+				});
 
-			// キャラ立ち絵
-			const PortraitRender = new Sprite_Portrait();
-			PortraitRender.init({
-				x: 260 * (partyInfo.order - 1),
-				y: 200,
-				path: `character-portrait-${characterData.characterId}`,
-			});
-			await PortraitRender.setSprite();
-			PortraitRender.setZIndex(partyInfo.order);
-			this.addProcess({
-				// TODO: プロセス名
-				name: `${Sprite_Portrait.name} - ${characterData.characterId}`,
-				class: PortraitRender,
-				process: async () => {
-					PortraitRender.update();
-				},
-			});
+				// キャラ名
+				const CharacterName = new Sprite_Text();
+				CharacterName.init({
+					text: `${characterData.name}`,
+					x: 20 * index + 250 * index,
+					y: CommonConstruct.size.height - 210,
+					width: 250,
+					height: 30,
+					fontSize: 25,
+					isBackground: true,
+					backgroundImagePath: "menu-background",
+				});
+				await CharacterName.setSprite();
+				CharacterName.setZIndex(index + 1);
+				this.addProcess({
+					// TODO: プロセス名
+					name: "名前",
+					class: CharacterName,
+					process: async () => {
+						CharacterName.update();
+					},
+				});
 
-			// キャラ名
-			const CharacterName = new Sprite_Text();
-			CharacterName.init({
-				text: `${characterData.name}`,
-				x: 20 * partyInfo.order + 250 * (partyInfo.order - 1),
-				y: CommonConstruct.size.height - 210,
-				width: 250,
-				height: 30,
-				fontSize: 25,
-				isBackground: true,
-				backgroundImagePath: "menu-background",
-			});
-			await CharacterName.setSprite();
-			CharacterName.setZIndex(partyInfo.order + 1);
-			this.addProcess({
-				// TODO: プロセス名
-				name: "名前",
-				class: CharacterName,
-				process: async () => {
-					CharacterName.update();
-				},
-			});
+				// キャラの体力
+				const CharacterHp = new Sprite_Text();
+				CharacterHp.init({
+					text: `体力: ${actor.hp} / ${characterData.hp}`,
+					x: 20 * index + 250 * index,
+					y: CommonConstruct.size.height - 160,
+					width: 250,
+					height: 30,
+					fontSize: 25,
+					isBackground: true,
+					backgroundImagePath: "menu-background",
+				});
+				await CharacterHp.setSprite();
+				CharacterHp.setZIndex(index + 1);
+				this.addProcess({
+					// TODO: プロセス名
+					name: "hp",
+					class: CharacterHp,
+					process: async () => {
+						CharacterHp.update();
+					},
+				});
 
-			// キャラの体力
-			const CharacterHp = new Sprite_Text();
-			CharacterHp.init({
-				text: `体力: ${characterInfo.hp} / ${characterData.hp}`,
-				x: 20 * partyInfo.order + 250 * (partyInfo.order - 1),
-				y: CommonConstruct.size.height - 160,
-				width: 250,
-				height: 30,
-				fontSize: 25,
-				isBackground: true,
-				backgroundImagePath: "menu-background",
-			});
-			await CharacterHp.setSprite();
-			CharacterHp.setZIndex(partyInfo.order + 1);
-			this.addProcess({
-				// TODO: プロセス名
-				name: "hp",
-				class: CharacterHp,
-				process: async () => {
-					CharacterHp.update();
-				},
-			});
+				// キャラの霊力
+				const CharacterMp = new Sprite_Text();
+				CharacterMp.init({
+					text: `霊力: ${actor.mp} / ${characterData.mp}`,
+					x: 20 * index + 250 * index,
+					y: CommonConstruct.size.height - 110,
+					width: 250,
+					height: 30,
+					fontSize: 25,
+					isBackground: true,
+					backgroundImagePath: "menu-background",
+				});
+				await CharacterMp.setSprite();
+				CharacterMp.setZIndex(index + 1);
+				this.addProcess({
+					// TODO: プロセス名
+					name: "mp",
+					class: CharacterMp,
+					process: async () => {
+						CharacterMp.update();
+					},
+				});
 
-			// キャラの霊力
-			const CharacterMp = new Sprite_Text();
-			CharacterMp.init({
-				text: `霊力: ${characterInfo.mp} / ${characterData.mp}`,
-				x: 20 * partyInfo.order + 250 * (partyInfo.order - 1),
-				y: CommonConstruct.size.height - 110,
-				width: 250,
-				height: 30,
-				fontSize: 25,
-				isBackground: true,
-				backgroundImagePath: "menu-background",
-			});
-			await CharacterMp.setSprite();
-			CharacterMp.setZIndex(partyInfo.order + 1);
-			this.addProcess({
-				// TODO: プロセス名
-				name: "mp",
-				class: CharacterMp,
-				process: async () => {
-					CharacterMp.update();
-				},
-			});
-
-			// キャラのレベル
-			const CharacterLevel = new Sprite_Text();
-			CharacterLevel.init({
-				//TODO: 現在レベルの表示
-				text: `Lv. null`,
-				x: 20 * partyInfo.order + 250 * (partyInfo.order - 1),
-				y: CommonConstruct.size.height - 60,
-				width: 250,
-				height: 30,
-				fontSize: 25,
-				isBackground: true,
-				backgroundImagePath: "menu-background",
-			});
-			await CharacterLevel.setSprite();
-			CharacterLevel.setZIndex(partyInfo.order + 1);
-			this.addProcess({
-				// TODO: プロセス名
-				name: "level",
-				class: CharacterLevel,
-				process: async () => {
-					CharacterLevel.update();
-				},
-			});
-		}
+				// キャラのレベル
+				const CharacterLevel = new Sprite_Text();
+				CharacterLevel.init({
+					//TODO: 現在レベルの表示
+					text: `Lv. null`,
+					x: 20 * index + 250 * index,
+					y: CommonConstruct.size.height - 60,
+					width: 250,
+					height: 30,
+					fontSize: 25,
+					isBackground: true,
+					backgroundImagePath: "menu-background",
+				});
+				await CharacterLevel.setSprite();
+				CharacterLevel.setZIndex(index + 1);
+				this.addProcess({
+					// TODO: プロセス名
+					name: "level",
+					class: CharacterLevel,
+					process: async () => {
+						CharacterLevel.update();
+					},
+				});
+			})
+		);
 	}
 
 	/**
