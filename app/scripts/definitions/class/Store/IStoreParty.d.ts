@@ -1,11 +1,8 @@
-import { IStoreCharacter } from "./IStoreCharacter";
+import Actor from "../../../modules/field/Actor";
 
 /**
  * ゲーム内パーティ情報
  */
-export interface IStoreParty extends IStoreCharacter {
-	/** パーティID */
-	partyId: string;
-	/** 並び順 */
-	order: number;
+export interface IStorePartyDict {
+	[partyId: string]: Actor;
 }

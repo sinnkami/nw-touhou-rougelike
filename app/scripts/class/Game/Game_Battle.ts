@@ -1,8 +1,9 @@
 import { IDataEnemy } from "../../definitions/class/Data/IDataEnemy";
+import { IPartyMenber } from "../../definitions/modules/field/IPartyMenber";
 import { BattlePhase, CharacterType } from "../Construct/BattleConstruct";
 import DataManager from "../Manager/DataManager";
 import GameManager from "../Manager/GameManager";
-import { attack, IActor } from "./Battle_Commands/Attack";
+import { attack } from "./Battle_Commands/Attack";
 import { Game_Base } from "./Game_Base";
 
 export default class Game_Battle extends Game_Base {
@@ -31,8 +32,8 @@ export default class Game_Battle extends Game_Base {
 
 		GameManager.enemyParty.setEnemyParty(enemyGroupId);
 
-		const playerIdList = GameManager.party.getMenberList().map(v => v.partyId);
-		const enemyIdList = GameManager.enemyParty.getEnemyPartyList().map(v => v.partyId);
+		const playerIdList = GameManager.party.getMenberKeys();
+		const enemyIdList = GameManager.enemyParty.getMenberKeys();
 		GameManager.turn.setCharacterList(playerIdList, enemyIdList);
 	}
 
@@ -79,7 +80,7 @@ export default class Game_Battle extends Game_Base {
 	}
 
 	// TODO: コマンド内容
-	public async executeCommandSelect(target: IActor): Promise<void> {
+	public async executeCommandSelect(target: IPartyMenber): Promise<void> {
 		if (this.hasExecutedPhase) return;
 		this.hasExecutedPhase = true;
 

@@ -1,8 +1,8 @@
 import { IDataEnemy } from "../../definitions/class/Data/IDataEnemy";
 import { IGameEnemyGroupInfo } from "../../definitions/class/Game/IGameEnemyGroup";
 import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
-import { IStoreEnemyParty } from "../../definitions/class/Store/IStoreEnemyParty";
-import { IStoreParty } from "../../definitions/class/Store/IStoreParty";
+import { IStoreEnemyPartyDict } from "../../definitions/class/Store/IStoreEnemyParty";
+import Enemy from "../../modules/field/Enemy";
 import DataManager from "../Manager/DataManager";
 import { ErrorCode } from "../Manager/ErrorManager";
 import GameManager from "../Manager/GameManager";
@@ -13,7 +13,7 @@ import { Game_Base } from "./Game_Base";
  * 現在の敵パーティに関する情報を操作するクラス
  */
 export default class Game_EnemyParty extends Game_Base {
-	private get menberList(): IStoreEnemyParty[] {
+	private get menberDict(): IStoreEnemyPartyDict {
 		return StoreManager.enemyParty.getAll();
 	}
 
@@ -27,8 +27,8 @@ export default class Game_EnemyParty extends Game_Base {
 	 * @param order
 	 * @returns
 	 */
-	public getMenber(partyId: string): IStoreEnemyParty {
-		const enemy = this.menberList.find(v => v.partyId === partyId);
+	public getMenber(partyId: string): Enemy {
+		const enemy = this.menberDict[partyId];
 
 		if (!enemy) throw new Error("指定されたエネミーはパーティにいません");
 
@@ -39,9 +39,9 @@ export default class Game_EnemyParty extends Game_Base {
 	 * 先頭のエネミーを取得
 	 * @returns
 	 */
-	public getFirstEnemyParty(): IStoreEnemyParty {
+	public getFirstEnemyParty(): Enemy {
 		// TODO: 先頭の番号、固定値か何かにしたい
-		const enemy = this.menberList.find(v => v.order === 1);
+		const enemy = this.getEnemyPartyList()[0];
 		if (!enemy) throw new Error("指定されたエネミーはパーティにいません");
 
 		return enemy;
@@ -52,8 +52,12 @@ export default class Game_EnemyParty extends Game_Base {
 	 * @param order
 	 * @returns
 	 */
-	public getEnemyPartyList(): IStoreEnemyParty[] {
-		return this.menberList;
+	public getEnemyPartyList(): Enemy[] {
+		return Object.values(this.menberDict);
+	}
+
+	public getMenberKeys(): string[] {
+		return Object.keys(this.menberDict);
 	}
 
 	public setEnemyParty(enemyPartyId: string): void {
@@ -62,16 +66,8 @@ export default class Game_EnemyParty extends Game_Base {
 
 		StoreManager.enemyParty.setEnemyPartyId(enemyPartyId);
 		enemyParty.enemyList.forEach((enemyId: string, index: number) => {
-			const enemy = GameManager.enemy.getEnemy(enemyId);
-			StoreManager.enemyParty.add(
-				Object.assign(
-					{
-						partyId: index.toString(),
-						order: index,
-					},
-					enemy
-				)
-			);
+			const enemyData = GameManager.enemy.getEnemy(enemyId);
+			StoreManager.enemyParty.add(new Enemy(enemyData));
 		});
 	}
 

@@ -1,5 +1,6 @@
 import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
-import { IStoreParty } from "../../definitions/class/Store/IStoreParty";
+import { IStorePartyDict } from "../../definitions/class/Store/IStoreParty";
+import Actor from "../../modules/field/Actor";
 import GameManager from "../Manager/GameManager";
 import StoreManager from "../Manager/StoreManager";
 import { Game_Base } from "./Game_Base";
@@ -8,7 +9,7 @@ import { Game_Base } from "./Game_Base";
  * 現在のパーティーメンバーに関する情報を操作するクラス
  */
 export default class Game_Party extends Game_Base {
-	private get menberList(): IStoreParty[] {
+	private get menberDict(): IStorePartyDict {
 		return StoreManager.party.getAll();
 	}
 
@@ -17,8 +18,8 @@ export default class Game_Party extends Game_Base {
 	 * @param partyId
 	 * @returns
 	 */
-	public getMenber(partyId: string): IStoreParty {
-		const menber = this.menberList.find(v => v.partyId === partyId);
+	public getMenber(partyId: string): Actor {
+		const menber = this.menberDict[partyId];
 
 		if (!menber) throw new Error("指定された並び位置にメンバーはいません");
 
@@ -30,17 +31,20 @@ export default class Game_Party extends Game_Base {
 	 * @param order
 	 * @returns
 	 */
-	public getMenberList(): IStoreParty[] {
-		return this.menberList;
+	public getMenberList(): Actor[] {
+		return Object.values(this.menberDict);
+	}
+
+	public getMenberKeys(): string[] {
+		return Object.keys(this.menberDict);
 	}
 
 	/**
 	 * 先頭のメンバーを取得
 	 * @returns
 	 */
-	public getFirstMenber(): IStoreParty {
-		// TODO: 先頭の番号、固定値か何かにしたい
-		const character = this.menberList.find(v => v.order === 1);
+	public getFirstMenber(): Actor {
+		const character = this.getMenberList()[0];
 		if (!character) throw new Error("指定されたキャラはパーティにいません");
 
 		return character;

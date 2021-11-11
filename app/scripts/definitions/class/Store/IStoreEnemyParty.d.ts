@@ -1,11 +1,14 @@
-import { IDataEnemy } from "../Data/IDataEnemy";
+import Enemy from "../../../modules/field/Enemy";
+import { ICharacter } from "../../modules/field/ICharacter";
+
+// TODO: そのうち必要になるかもしれない
+interface IStoreEnemy extends ICharacter {
+	enemyId: string;
+}
 
 /**
  * 敵パーティ情報
  */
-export interface IStoreEnemyParty extends IDataEnemy {
-	/** パーティID */
-	partyId: string;
-	/** 並び順 */
-	order: number;
+export interface IStoreEnemyPartyDict {
+	[partyId: string]: Enemy;
 }

@@ -1,4 +1,5 @@
 import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
+import Actor from "../../modules/field/Actor";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import DataManager from "../Manager/DataManager";
 import EventManager, { EventCode } from "../Manager/EventManager";
@@ -91,6 +92,10 @@ export default class Scene_Title extends Scene_Base {
 	 */
 	private async executeInitStart(): Promise<void> {
 		// TODO: 現在はテスト用の値まみれ
+
+		console.log(DataManager.enemy.getAll());
+		console.log(DataManager.enemyParty.getAll());
+
 		// とりあえずキャラ追加
 		const reimu = DataManager.character.get("0001") as IStoreCharacter;
 		const sakuya = DataManager.character.get("0009") as IStoreCharacter;
@@ -100,19 +105,6 @@ export default class Scene_Title extends Scene_Base {
 		console.log(reimu, sakuya, youmu);
 
 		// パーティーを勝手に設定
-		StoreManager.party.add(
-			{
-				characterId: reimu.characterId,
-				order: 3,
-			},
-			{
-				characterId: sakuya.characterId,
-				order: 2,
-			},
-			{
-				characterId: youmu.characterId,
-				order: 1,
-			}
-		);
+		StoreManager.party.add(new Actor(reimu), new Actor(sakuya), new Actor(youmu));
 	}
 }

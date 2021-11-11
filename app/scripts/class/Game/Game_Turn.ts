@@ -1,5 +1,4 @@
 import { IGameTurnInfo } from "../../definitions/class/Game/IGameTurn";
-import { IStoreParty } from "../../definitions/class/Store/IStoreParty";
 import { CharacterType } from "../Construct/BattleConstruct";
 import GameManager from "../Manager/GameManager";
 import { Game_Base } from "./Game_Base";
