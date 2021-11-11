@@ -1,4 +1,4 @@
-import { IWindowTargetEnemyOption, IMenuInfo } from "../../definitions/class/Window/IWindowTargetEnemy";
+import { IMenuInfo } from "../../definitions/class/Window/IWindowTargetEnemy";
 import { EnemyPosition } from "../Construct/BattleConstruct";
 import GameManager from "../Manager/GameManager";
 import Sprite_Selected from "../Sprite/Sprite_Selected";
@@ -13,11 +13,26 @@ export default class Window_TargetEnemy extends Window_Base {
 
 	private selectSprite: Sprite_Selected = new Sprite_Selected();
 
-	public init(option: IWindowTargetEnemyOption): void {
-		super.init(option);
+	public init(): void {
+		const enemyList = GameManager.enemyParty.getEnemyPartyList();
 
-		this.menuList = option.list;
-		this.menuId = this.menuList[0].menuId;
+		// 倒されていない敵をフォーカス
+		const index = enemyList.findIndex(v => !v.isDead);
+		const enemyPosition = EnemyPosition[enemyList.length];
+		super.init({
+			x: enemyPosition[index].x,
+			y: enemyPosition[index].y,
+			width: 270,
+			height: 270,
+		});
+
+		const list = enemyList.map((enemy, index) => ({
+			menuId: index.toString(),
+			order: index,
+			skip: enemy.isDead,
+		}));
+		this.menuList = list;
+		this.menuId = list[index].menuId;
 
 		return;
 	}
@@ -60,14 +75,9 @@ export default class Window_TargetEnemy extends Window_Base {
 
 	public changeMenu(index: number): void {
 		if (this.isAnimation) return;
-
-		// 移動出来ないようにする時間
-		this.nextUpdateFrame = GameManager.loop.frameCount + 10;
-
 		const currentMenu = this.getCurrentMenu();
 
 		let next = currentMenu.order + index;
-
 		if (next < 0) {
 			next = this.maxOrder;
 		}
@@ -77,6 +87,12 @@ export default class Window_TargetEnemy extends Window_Base {
 
 		const nextMenu = this.getMenu(next);
 
+		// 対象をスキップするか
+		if (nextMenu.skip) {
+			this.menuId = nextMenu.menuId;
+			return this.changeMenu(index);
+		}
+
 		const enemyList = GameManager.enemyParty.getEnemyPartyList();
 		const enemyPosition = EnemyPosition[enemyList.length];
 
@@ -84,6 +100,9 @@ export default class Window_TargetEnemy extends Window_Base {
 		sprite.x = enemyPosition[nextMenu.order].x;
 		sprite.y = enemyPosition[nextMenu.order].y;
 		this.menuId = nextMenu.menuId;
+
+		// 移動出来ないようにする時間
+		this.nextUpdateFrame = GameManager.loop.frameCount + 10;
 	}
 
 	private getMenu(order: number): IMenuInfo {

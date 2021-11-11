@@ -65,10 +65,9 @@ export default class Game_EnemyParty extends Game_Base {
 		if (!enemyParty) throw new Error("存在しないエネミーグループ");
 
 		StoreManager.enemyParty.setEnemyPartyId(enemyPartyId);
-		enemyParty.enemyList.forEach((enemyId: string, index: number) => {
-			const enemyData = GameManager.enemy.getEnemy(enemyId);
-			StoreManager.enemyParty.add(new Enemy(enemyData));
-		});
+
+		const enemyList = enemyParty.enemyList.map((enemyId: string) => new Enemy(GameManager.enemy.getEnemy(enemyId)));
+		StoreManager.enemyParty.add(...enemyList);
 	}
 
 	/**

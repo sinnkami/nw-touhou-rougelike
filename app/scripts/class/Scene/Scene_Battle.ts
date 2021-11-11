@@ -88,7 +88,7 @@ export default class Scene_Battle extends Scene_Base {
 				}
 
 				// 敵ターンの場合、メニューを操作させない
-				const turn = GameManager.turn.getCurrentTrunCharacter();
+				const turn = GameManager.turn.getCurrentTrun();
 				if (turn.type === CharacterType.Enemy) {
 					return;
 				}
@@ -260,6 +260,11 @@ export default class Scene_Battle extends Scene_Base {
 				name: `${enemy.name} - ${index}`,
 				class: EnemyRender,
 				process: async () => {
+					if (enemy.isDead) {
+						this.removeProcess(`${enemy.name} - ${index}`);
+						return;
+					}
+
 					EnemyRender.update();
 				},
 			});
@@ -312,7 +317,7 @@ export default class Scene_Battle extends Scene_Base {
 					case BattlePhase.CommandSelect: {
 						// MEMO: プレイヤー側コマンド選択は対象選択時に実行
 						// TODO: 敵側のターン処理
-						const turn = GameManager.turn.getCurrentTrunCharacter();
+						const turn = GameManager.turn.getCurrentTrun();
 
 						// TODO: turnの要領？
 						if (turn.type === CharacterType.Enemy) {
@@ -354,23 +359,8 @@ export default class Scene_Battle extends Scene_Base {
 		// キー情報を初期化
 		GameManager.input.init();
 
-		const enemyList = GameManager.enemyParty.getEnemyPartyList();
-		const enemyPosition = EnemyPosition[enemyList.length];
-		const list = enemyList.map((v, index) => {
-			return {
-				menuId: String(index),
-				order: index,
-			};
-		});
-
 		const TargetEnemyWindow = new Window_TargetEnemy();
-		TargetEnemyWindow.init({
-			x: enemyPosition[0].x,
-			y: enemyPosition[0].y,
-			width: 270,
-			height: 270,
-			list,
-		});
+		TargetEnemyWindow.init();
 
 		await TargetEnemyWindow.setSprite();
 		TargetEnemyWindow.setZIndex(10);

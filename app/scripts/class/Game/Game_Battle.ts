@@ -32,9 +32,10 @@ export default class Game_Battle extends Game_Base {
 
 		GameManager.enemyParty.setEnemyParty(enemyGroupId);
 
-		const playerIdList = GameManager.party.getMenberKeys();
-		const enemyIdList = GameManager.enemyParty.getMenberKeys();
-		GameManager.turn.setCharacterList(playerIdList, enemyIdList);
+		GameManager.turn.setCharacterList(
+			GameManager.party.getMenberList(),
+			GameManager.enemyParty.getEnemyPartyList()
+		);
 	}
 
 	public async executeBattleStart(): Promise<void> {
@@ -57,12 +58,9 @@ export default class Game_Battle extends Game_Base {
 		if (this.hasExecutedPhase) return;
 		this.hasExecutedPhase = true;
 
-		const turn = GameManager.turn.getCurrentTrunCharacter();
+		const turn = GameManager.turn.getCurrentTrun();
 
-		const nextActor =
-			turn.type === CharacterType.Player
-				? GameManager.party.getMenber(turn.partyId)
-				: GameManager.enemyParty.getMenber(turn.partyId);
+		const nextActor = turn.character;
 		console.log(`ターン開始 -> ${nextActor.name}(${turn.type})`);
 
 		// 敵ターンの場合、そのままコマンド選択処理へ
@@ -84,16 +82,12 @@ export default class Game_Battle extends Game_Base {
 		if (this.hasExecutedPhase) return;
 		this.hasExecutedPhase = true;
 
-		const turn = GameManager.turn.getCurrentTrunCharacter();
+		const turn = GameManager.turn.getCurrentTrun();
 		switch (this.selectedCommand) {
 			case "attack": {
-				const attaker =
-					turn.type === CharacterType.Player
-						? GameManager.party.getMenber(turn.partyId)
-						: GameManager.enemyParty.getMenber(turn.partyId);
-
 				// 通常攻撃コマンドを設定
-				this.commandFunc = () => attack(attaker, target);
+				const source = turn.character;
+				this.commandFunc = () => attack(source, target);
 				break;
 			}
 			default:
@@ -134,7 +128,11 @@ export default class Game_Battle extends Game_Base {
 		this.hasExecutedPhase = true;
 
 		// TODO: 戦闘継続判定
-		// this.changePhase(BattlePhase.BattleEnd);
+		const enemyList = GameManager.enemyParty.getEnemyPartyList().filter(v => !v.isDead);
+		if (!enemyList.length) {
+			this.changePhase(BattlePhase.BattleEnd);
+			return;
+		}
 
 		this.changePhase(BattlePhase.SelectedTrun);
 	}
@@ -151,6 +149,8 @@ export default class Game_Battle extends Game_Base {
 		this.hasExecutedPhase = true;
 
 		// TODO: レベルアップ判定等
+
+		console.log("戦闘終了");
 
 		// MEMO: 戦闘シーン終了処理は Scene_Battle側
 	}
