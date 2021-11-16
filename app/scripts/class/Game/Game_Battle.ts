@@ -13,37 +13,25 @@ export default class Game_Battle extends Game_Base {
 	private get phase(): BattlePhase {
 		return StoreManager.battle.getPhase();
 	}
-	private set phase(phase: BattlePhase) {
-		StoreManager.battle.setPhase(phase);
-	}
 
 	// そのフェイズを実行したか
 	private get hasExecutedPhase(): boolean {
 		return StoreManager.battle.getHasExecutedPhase();
-	}
-	private set hasExecutedPhase(executed: boolean) {
-		StoreManager.battle.setHasExecutedPhase(executed);
 	}
 
 	// 選択されたコマンド
 	private get commandType(): string {
 		return StoreManager.battle.getCommandType();
 	}
-	private set commandType(type: string) {
-		StoreManager.battle.setCommandType(type);
-	}
 
 	// 実行するコマンド関数
 	private get command(): () => Promise<void> {
 		return StoreManager.battle.getCommand();
 	}
-	private set command(command: (() => Promise<void>) | undefined) {
-		StoreManager.battle.setCommand(command);
-	}
 
 	public async init(enemyGroupId: string): Promise<void> {
 		StoreManager.battle.init();
-		this.hasExecutedPhase = true;
+		StoreManager.battle.setHasExecutedPhase(true);
 
 		GameManager.enemyParty.init();
 		GameManager.turn.init();
@@ -58,7 +46,7 @@ export default class Game_Battle extends Game_Base {
 
 	// 選択したコマンドを保持する
 	public selectCommandType(command: string): void {
-		this.commandType = command;
+		StoreManager.battle.setCommandType(command);
 	}
 
 	public getCommandType(): string {
@@ -71,20 +59,21 @@ export default class Game_Battle extends Game_Base {
 
 	public changePhase(phase: BattlePhase): void {
 		console.info("バトルフェイズ - ", phase);
-		this.phase = phase;
-		this.hasExecutedPhase = false;
+
+		StoreManager.battle.setPhase(phase);
+		StoreManager.battle.setHasExecutedPhase(false);
 	}
 
 	public async executeBattleStart(): Promise<void> {
 		if (this.hasExecutedPhase) return;
-		this.hasExecutedPhase = true;
+		StoreManager.battle.setHasExecutedPhase(true);
 
 		this.changePhase(BattlePhase.SelectedTrun);
 	}
 
 	public async executeSelectedTurn(): Promise<void> {
 		if (this.hasExecutedPhase) return;
-		this.hasExecutedPhase = true;
+		StoreManager.battle.setHasExecutedPhase(true);
 
 		GameManager.turn.getNextTrun();
 
@@ -93,7 +82,7 @@ export default class Game_Battle extends Game_Base {
 
 	public async executeTurnStart(): Promise<void> {
 		if (this.hasExecutedPhase) return;
-		this.hasExecutedPhase = true;
+		StoreManager.battle.setHasExecutedPhase(true);
 
 		const turn = GameManager.turn.getCurrentTrun();
 		console.log(`ターン開始 -> ${turn.character.name}(${turn.type})`);
@@ -107,14 +96,17 @@ export default class Game_Battle extends Game_Base {
 	// TODO: コマンド内容
 	public async executeCommandSelect(target: IPartyMenber): Promise<void> {
 		if (this.hasExecutedPhase) return;
-		this.hasExecutedPhase = true;
+		StoreManager.battle.setHasExecutedPhase(true);
 
 		const turn = GameManager.turn.getCurrentTrun();
 		switch (this.commandType) {
 			case "attack": {
-				// 通常攻撃コマンドを設定
 				const source = turn.character;
-				this.command = () => attack(source, target);
+
+				// 通常攻撃コマンドを設定
+				const command = () => attack(source, target);
+				StoreManager.battle.setCommand(command);
+
 				break;
 			}
 			default:
@@ -127,7 +119,7 @@ export default class Game_Battle extends Game_Base {
 
 	public async executeCommandExecute(): Promise<void> {
 		if (this.hasExecutedPhase) return;
-		this.hasExecutedPhase = true;
+		StoreManager.battle.setHasExecutedPhase(true);
 
 		await this.command();
 
@@ -136,21 +128,21 @@ export default class Game_Battle extends Game_Base {
 
 	public async executeCommandEnd(): Promise<void> {
 		if (this.hasExecutedPhase) return;
-		this.hasExecutedPhase = true;
+		StoreManager.battle.setHasExecutedPhase(true);
 
 		// TODO: 行動後処理をどこで行うべきか
 		GameManager.turn.setGaugeInCurrentTurn();
 
 		// 使用したコマンドを初期化
 		this.selectCommandType("");
-		this.command = undefined;
+		StoreManager.battle.setCommand(undefined);
 
 		this.changePhase(BattlePhase.TrunEnd);
 	}
 
 	public async executeTurnEnd(): Promise<void> {
 		if (this.hasExecutedPhase) return;
-		this.hasExecutedPhase = true;
+		StoreManager.battle.setHasExecutedPhase(true);
 
 		// TODO: 戦闘継続判定
 		const enemyList = GameManager.enemyParty.getEnemyPartyList().filter(v => !v.isDead);
@@ -164,14 +156,14 @@ export default class Game_Battle extends Game_Base {
 
 	public async executeBattleEnd(): Promise<void> {
 		if (this.hasExecutedPhase) return;
-		this.hasExecutedPhase = true;
+		StoreManager.battle.setHasExecutedPhase(true);
 
 		this.changePhase(BattlePhase.BattleResult);
 	}
 
 	public async executeBattleResult(): Promise<void> {
 		if (this.hasExecutedPhase) return;
-		this.hasExecutedPhase = true;
+		StoreManager.battle.setHasExecutedPhase(true);
 
 		// TODO: レベルアップ判定等
 
