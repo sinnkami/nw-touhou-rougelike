@@ -15,7 +15,7 @@ export class Event_0007 extends Event_Base {
 	 * イベントを実行
 	 * @override
 	 */
-	public async execute(): Promise<boolean> {
+	public async execute(enemyPartyId: string): Promise<boolean> {
 		const executed = await super.execute();
 		if (!executed) return false;
 
@@ -41,8 +41,7 @@ export class Event_0007 extends Event_Base {
 			});
 		}
 
-		// TODO: エネミーグループの決定
-		const enemyPartyId = "0001";
+		// const enemyPartyId = "0001";
 		GameManager.battle.init(enemyPartyId);
 		const enemyParty = DataManager.enemyParty.get(enemyPartyId);
 		if (!enemyParty) throw new Error("存在しない敵パーティ");

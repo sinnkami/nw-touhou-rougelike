@@ -3,32 +3,50 @@ import { IPartyMenber } from "../../definitions/modules/field/IPartyMenber";
 import { BattlePhase, CharacterType } from "../Construct/BattleConstruct";
 import DataManager from "../Manager/DataManager";
 import GameManager from "../Manager/GameManager";
+import StoreManager from "../Manager/StoreManager";
+import Store_Base from "../Store/Store_Base";
 import { attack } from "./Battle_Commands/Attack";
 import { Game_Base } from "./Game_Base";
 
 export default class Game_Battle extends Game_Base {
 	// バトルフェイズ
-	private phase: BattlePhase = BattlePhase.Init;
+	private get phase(): BattlePhase {
+		return StoreManager.battle.getPhase();
+	}
+	private set phase(phase: BattlePhase) {
+		StoreManager.battle.setPhase(phase);
+	}
+
 	// そのフェイズを実行したか
-	private hasExecutedPhase: boolean = false;
+	private get hasExecutedPhase(): boolean {
+		return StoreManager.battle.getHasExecutedPhase();
+	}
+	private set hasExecutedPhase(executed: boolean) {
+		StoreManager.battle.setHasExecutedPhase(executed);
+	}
 
-	private selectedCommand: string = "";
+	// 選択されたコマンド
+	private get commandType(): string {
+		return StoreManager.battle.getCommandType();
+	}
+	private set commandType(type: string) {
+		StoreManager.battle.setCommandType(type);
+	}
 
-	private commandFunc?: () => Promise<void> = undefined;
-
-	public getPhase(): BattlePhase {
-		return this.phase;
+	// 実行するコマンド関数
+	private get command(): () => Promise<void> {
+		return StoreManager.battle.getCommand();
+	}
+	private set command(command: (() => Promise<void>) | undefined) {
+		StoreManager.battle.setCommand(command);
 	}
 
 	public async init(enemyGroupId: string): Promise<void> {
-		this.changePhase(BattlePhase.Init);
+		StoreManager.battle.init();
 		this.hasExecutedPhase = true;
 
 		GameManager.enemyParty.init();
 		GameManager.turn.init();
-
-		this.selectedCommand = "";
-		this.commandFunc = undefined;
 
 		GameManager.enemyParty.setEnemyParty(enemyGroupId);
 
@@ -36,6 +54,25 @@ export default class Game_Battle extends Game_Base {
 			GameManager.party.getMenberList(),
 			GameManager.enemyParty.getEnemyPartyList()
 		);
+	}
+
+	// 選択したコマンドを保持する
+	public selectCommandType(command: string): void {
+		this.commandType = command;
+	}
+
+	public getCommandType(): string {
+		return this.commandType;
+	}
+
+	public getPhase(): BattlePhase {
+		return this.phase;
+	}
+
+	public changePhase(phase: BattlePhase): void {
+		console.info("バトルフェイズ - ", phase);
+		this.phase = phase;
+		this.hasExecutedPhase = false;
 	}
 
 	public async executeBattleStart(): Promise<void> {
@@ -59,22 +96,12 @@ export default class Game_Battle extends Game_Base {
 		this.hasExecutedPhase = true;
 
 		const turn = GameManager.turn.getCurrentTrun();
-
-		const nextActor = turn.character;
-		console.log(`ターン開始 -> ${nextActor.name}(${turn.type})`);
+		console.log(`ターン開始 -> ${turn.character.name}(${turn.type})`);
 
 		// 敵ターンの場合、そのままコマンド選択処理へ
 		if (turn.type === CharacterType.Enemy) {
 			this.changePhase(BattlePhase.CommandSelect);
 		}
-	}
-
-	// 選択したコマンドを保持する
-	public selectCommand(command: string): void {
-		this.selectedCommand = command;
-	}
-	public getSelectedCommand(): string {
-		return this.selectedCommand;
 	}
 
 	// TODO: コマンド内容
@@ -83,11 +110,11 @@ export default class Game_Battle extends Game_Base {
 		this.hasExecutedPhase = true;
 
 		const turn = GameManager.turn.getCurrentTrun();
-		switch (this.selectedCommand) {
+		switch (this.commandType) {
 			case "attack": {
 				// 通常攻撃コマンドを設定
 				const source = turn.character;
-				this.commandFunc = () => attack(source, target);
+				this.command = () => attack(source, target);
 				break;
 			}
 			default:
@@ -102,9 +129,7 @@ export default class Game_Battle extends Game_Base {
 		if (this.hasExecutedPhase) return;
 		this.hasExecutedPhase = true;
 
-		if (!this.commandFunc) throw new Error("実行するコマンドが設定されていない");
-
-		await this.commandFunc();
+		await this.command();
 
 		this.changePhase(BattlePhase.CommandEnd);
 	}
@@ -117,8 +142,8 @@ export default class Game_Battle extends Game_Base {
 		GameManager.turn.setGaugeInCurrentTurn();
 
 		// 使用したコマンドを初期化
-		this.selectCommand("");
-		this.commandFunc = undefined;
+		this.selectCommandType("");
+		this.command = undefined;
 
 		this.changePhase(BattlePhase.TrunEnd);
 	}
@@ -153,11 +178,5 @@ export default class Game_Battle extends Game_Base {
 		console.log("戦闘終了");
 
 		// MEMO: 戦闘シーン終了処理は Scene_Battle側
-	}
-
-	public changePhase(phase: BattlePhase): void {
-		console.info("バトルフェイズ - ", phase);
-		this.phase = phase;
-		this.hasExecutedPhase = false;
 	}
 }

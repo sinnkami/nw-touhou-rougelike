@@ -97,7 +97,7 @@ export default class Scene_Battle extends Scene_Base {
 				BattleMenuRender.show();
 
 				// メニューが既に選択済みの場合は処理しない
-				if (GameManager.battle.getSelectedCommand()) {
+				if (GameManager.battle.getCommandType()) {
 					return;
 				}
 
@@ -107,7 +107,7 @@ export default class Scene_Battle extends Scene_Base {
 					const menu = BattleMenuRender.getCurrentMenu();
 					switch (menu.menuId) {
 						case "attack": {
-							GameManager.battle.selectCommand("attack");
+							GameManager.battle.selectCommandType("attack");
 							this.setProcessSelectCommandAtack();
 							break;
 						}
@@ -324,7 +324,7 @@ export default class Scene_Battle extends Scene_Base {
 							const menberList = GameManager.party.getMenberList();
 
 							// TODO: とりあえず通常攻撃をさせる
-							GameManager.battle.selectCommand("attack");
+							GameManager.battle.selectCommandType("attack");
 							GameManager.battle.executeCommandSelect(getRandomValue(menberList));
 						}
 						break;
@@ -375,7 +375,7 @@ export default class Scene_Battle extends Scene_Base {
 				if (GameManager.input.isPushedKey(KeyCode.Left)) return TargetEnemyWindow.changeMenu(-1);
 				if (GameManager.input.isPushedKey(KeyCode.Escape)) {
 					this.removeProcess(`target-enemy`);
-					GameManager.battle.selectCommand("");
+					GameManager.battle.selectCommandType("");
 				}
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					this.removeProcess(`target-enemy`);
