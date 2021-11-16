@@ -1,4 +1,5 @@
 import GameManager from "../Manager/GameManager";
+import StoreManager from "../Manager/StoreManager";
 import { Game_Base } from "./Game_Base";
 
 /**
@@ -6,12 +7,8 @@ import { Game_Base } from "./Game_Base";
  */
 export class Game_Dungeon extends Game_Base {
 	// 現在の階層
-	private currentHierarchy: number;
-
-	public constructor() {
-		super();
-
-		this.currentHierarchy = 0;
+	private get hierarchy(): number {
+		return StoreManager.dungeon.getHierarchy();
 	}
 
 	/**
@@ -50,7 +47,7 @@ export class Game_Dungeon extends Game_Base {
 	 * @returns 階層
 	 */
 	public getCurrentHierarchy(): number {
-		return this.currentHierarchy;
+		return this.hierarchy;
 	}
 
 	/**
@@ -58,6 +55,6 @@ export class Game_Dungeon extends Game_Base {
 	 * @param hierarchy
 	 */
 	public setCurrentHierarchy(hierarchy: number): void {
-		this.currentHierarchy = hierarchy;
+		StoreManager.dungeon.setHierarchy(hierarchy);
 	}
 }
