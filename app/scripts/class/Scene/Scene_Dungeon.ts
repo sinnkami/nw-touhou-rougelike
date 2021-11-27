@@ -152,8 +152,12 @@ export default class Scene_Dungeon extends Scene_Base {
 	 */
 	private async setProcessStairs(): Promise<void> {
 		const StairsText = new Sprite_Text();
+
+		// ダンジョン情報を取得
+		const dungeonInfo = GameManager.dungeon.getDungeon();
+
 		await StairsText.init({
-			text: `${GameManager.map.getName()}: ${GameManager.dungeon.getCurrentHierarchy()}F`,
+			text: `${dungeonInfo.name}: ${GameManager.dungeon.getCurrentHierarchy()}F`,
 			x: 10,
 			y: 10,
 			width: 300,

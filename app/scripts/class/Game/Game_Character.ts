@@ -3,6 +3,7 @@ import StoreManager from "../Manager/StoreManager";
 import { Game_Base } from "./Game_Base";
 /**
  * ゲーム内に登場するキャラの現在情報を操作するクラス
+ * TODO: 預り所的なのを別で作って保持した方が良さそう
  */
 export default class Game_Character extends Game_Base {
 	private get characterList(): IStoreCharacter[] {

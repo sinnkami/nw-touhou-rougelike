@@ -18,8 +18,6 @@ const ROOM_SIZE = CommonConstruct.roomSize;
  * ゲーム内マップに関する情報を操作するクラス
  */
 export class Game_Map extends Game_Base {
-	// マップ名
-	private name: string = "";
 	// ダンジョン内に存在する部屋一覧
 	private rooms: Room[] = [];
 
@@ -39,22 +37,6 @@ export class Game_Map extends Game_Base {
 	public initMapData(): void {
 		this.baseMap = [];
 		this.eventMap = [];
-	}
-
-	/**
-	 * ダンジョン名を取得
-	 * @returns ダンジョン名
-	 */
-	public getName(): string {
-		return this.name;
-	}
-
-	/**
-	 * ダンジョン名を設定
-	 * @param name
-	 */
-	public setName(name: string): void {
-		this.name = name;
 	}
 
 	/**

@@ -19,20 +19,16 @@ export class Event_0002 extends Event_Base {
 		const executed = await super.execute();
 		if (!executed) return false;
 
-		// TODO: またないと何故かロード中の画面が遅延して表示される
+		// TODO: 遅延しないと何故かロード中の画面が後から表示される
 		await sleep(100);
 
-		// TODO: いずれ Data_Hoge から取得するように書き換える
-		const dataDungeon = DataManager.dungeon.get(dungeonId);
-		if (!dataDungeon) throw new Error(`no select dungeon on dungeonId: ${dungeonId}`);
+		// ダンジョン情報を初期化する
+		GameManager.dungeon.init(dungeonId);
 
 		// パーティ内の先頭のキャラを取得
 		const firstCharacter = GameManager.party.getFirstMenber();
 		const characterData = DataManager.character.get(firstCharacter.characterId);
 		if (!characterData) throw new Error("データベース内に存在しないキャラがパーティに存在します");
-
-		GameManager.map.setName(dataDungeon.name);
-		GameManager.dungeon.invadeDungeon();
 
 		await ResourceManager.loadResources(
 			{

@@ -1,3 +1,5 @@
+import { IDataDungeon } from "../../definitions/class/Data/IDataDungeon";
+import DataManager from "../Manager/DataManager";
 import GameManager from "../Manager/GameManager";
 import StoreManager from "../Manager/StoreManager";
 import { Game_Base } from "./Game_Base";
@@ -11,10 +13,33 @@ export class Game_Dungeon extends Game_Base {
 		return StoreManager.dungeon.getHierarchy();
 	}
 
+	// 現在のダンジョンID
+	private get dungeonId(): string {
+		return StoreManager.dungeon.getDungeonId();
+	}
+
+	// 現在のダンジョン情報
+	private get dungeonInfo(): IDataDungeon | undefined {
+		return DataManager.dungeon.get(this.dungeonId);
+	}
+
+	/**
+	 * 現在のダンジョン情報を返す
+	 */
+	public getDungeon(): IDataDungeon {
+		const dungeonInfo = this.dungeonInfo;
+		if (!dungeonInfo) throw new Error("ダンジョン情報が取得できません");
+		return dungeonInfo;
+	}
+
 	/**
 	 * ダンジョンに侵入した際の必要な情報を設定する
 	 */
-	public invadeDungeon(): void {
+	public init(dungeonId: string): void {
+		// ダンジョンIDを設定
+		StoreManager.dungeon.setDungeonId(dungeonId);
+
+		// 現在の階層を1階に設定
 		this.setCurrentHierarchy(1);
 
 		// ダンジョンを生成
