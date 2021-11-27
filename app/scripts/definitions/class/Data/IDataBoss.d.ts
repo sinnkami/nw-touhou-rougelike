@@ -1,5 +1,5 @@
-export interface IDataBossMessages {
-	bossMessagesId: string;
+export interface IDataBoss {
+	bossId: string;
 	enemyPartyId: string;
 	messages: IBossMessage[];
 	backgroundImagePath: string;

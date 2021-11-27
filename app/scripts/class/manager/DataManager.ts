@@ -1,4 +1,4 @@
-import Data_BossMessages from "../Data/Data_BossMessages";
+import Data_Boss from "../Data/Data_Boss";
 import Data_Character from "../Data/Data_Character";
 import Data_Dungeon from "../Data/Data_Dungeon";
 import Data_Enemy from "../Data/Data_Enemy";
@@ -13,7 +13,7 @@ export default class DataManager {
 	public static character: Data_Character = new Data_Character();
 	public static enemy: Data_Enemy = new Data_Enemy();
 	public static enemyParty: Data_EnemyParty = new Data_EnemyParty();
-	public static bossMessages: Data_BossMessages = new Data_BossMessages();
+	public static boss: Data_Boss = new Data_Boss();
 
 	/**
 	 * 初期化処理
@@ -25,7 +25,7 @@ export default class DataManager {
 			this.character.load(),
 			this.enemy.load(),
 			this.enemyParty.load(),
-			this.bossMessages.load(),
+			this.boss.load(),
 		]).then();
 	}
 }

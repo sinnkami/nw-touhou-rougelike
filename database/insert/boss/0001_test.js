@@ -5,12 +5,12 @@ const ID = "0001";
 
 module.exports = function (db) {
 	return new Promise((resolve) => {
-		const DB = db.getCollection("boss_messages");
+		const DB = db.getCollection("boss");
 
-		DB.findAndRemove({ bossMessagesId: { '$eq': ID } });
+		DB.findAndRemove({ bossId: { '$eq': ID } });
 
 		const value = {
-			bossMessagesId: ID, 
+			bossId: ID, 
 			enemyPartyId: "9001",
 			backgroundImagePath: "assets/images/background/bossMessgaes/test/background.jpg",
 			messages: [
