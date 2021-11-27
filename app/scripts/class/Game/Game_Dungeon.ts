@@ -57,4 +57,24 @@ export class Game_Dungeon extends Game_Base {
 	public setCurrentHierarchy(hierarchy: number): void {
 		StoreManager.dungeon.setHierarchy(hierarchy);
 	}
+
+	/**
+	 * 敵とエンカウントするかどうかのチェックを行う
+	 * TODO: 確率と値の設定
+	 * @return エンカウントするかどうか
+	 */
+	public checkEncount(): boolean {
+		const value = Math.floor(Math.random() * 100);
+		const isEncount = value == Math.floor(Math.random() * 100) ? true : false;
+		return isEncount;
+	}
+
+	/**
+	 * エンカウントする敵パーティIDをランダムで返す
+	 * @return enemyPartyId
+	 */
+	public getRandomEnemyPartyId(): string {
+		// TODO: ちゃんと算出する
+		return "0001";
+	}
 }

@@ -3,6 +3,7 @@ import { Game_Base } from "./Game_Base";
 
 /**
  * ゲーム内での入力値を操作するクラス
+ * TODO: これもStoreに移動した方が良い・・・？
  */
 export default class Game_Input extends Game_Base {
 	// キー操作の辞書

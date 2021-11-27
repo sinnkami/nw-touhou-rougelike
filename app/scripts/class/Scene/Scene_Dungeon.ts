@@ -109,6 +109,16 @@ export default class Scene_Dungeon extends Scene_Base {
 				if (flag) {
 					// 移動できたならマップをずらす
 					MapRender.move(x, y);
+
+					// エンカウント判定
+					if (GameManager.dungeon.checkEncount()) {
+						// 戦闘開始
+						const event = EventManager.getEvent(EventCode.StartBattle);
+						const enemyPartyId = GameManager.dungeon.getRandomEnemyPartyId();
+						console.log(`エンカウント(partyId: ${enemyPartyId})`);
+						await event.execute(enemyPartyId);
+						return;
+					}
 				}
 			},
 		});

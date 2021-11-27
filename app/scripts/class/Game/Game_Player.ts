@@ -58,12 +58,10 @@ export default class Game_Player extends Game_Base {
 	 * @returns boolean (移動できたかどうか)
 	 */
 	public move(x: number, y: number): boolean {
-		let flag = true;
+		// 移動量が無い場合はfalse
+		if (!x && !y) return false;
 
-		if (Math.sign(x) > 0 && !this.canMove(x, y)) flag = false;
-		if (Math.sign(x) < 0 && !this.canMove(x, y)) flag = false;
-		if (Math.sign(y) > 0 && !this.canMove(x, y)) flag = false;
-		if (Math.sign(y) < 0 && !this.canMove(x, y)) flag = false;
+		const flag = this.canMove(x, y);
 
 		if (flag) {
 			this.x += x;
