@@ -11,6 +11,8 @@ module.exports = function (db) {
 
 		const value = {
 			dungeonId: ID,
+			bossId: "0001",
+			maxHierarchy: 3,
 			name: "テストダンジョン",
 		};
 
