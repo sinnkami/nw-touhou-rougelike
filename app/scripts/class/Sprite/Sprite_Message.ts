@@ -47,7 +47,7 @@ export class Sprite_Message extends Sprite_Base {
 		container.setTransform(this.x, this.y);
 
 		// TODO: 背景画像を仮の物ではなくちゃんとした物へ
-		container.addChild(new Graphics().beginFill(0x008000).drawRect(this.x, this.y, this.width, this.height));
+		container.addChild(new Graphics().beginFill(0x008000).drawRect(0, 0, this.width, this.height));
 
 		// テキスト情報を作成する
 		// まず表示できる文字数で切り出す
@@ -107,8 +107,10 @@ export class Sprite_Message extends Sprite_Base {
 			fill: "#FFFFFF",
 			align: "center",
 		});
-		text.x = this.x + this.fontSize * this.textIndex;
-		text.y = this.y + this.fontSize * this.newLineCount;
+		text.name = this.name;
+
+		text.x = this.fontSize * this.textIndex;
+		text.y = this.fontSize * this.newLineCount;
 
 		const size = text.width;
 
@@ -116,7 +118,7 @@ export class Sprite_Message extends Sprite_Base {
 		text.alpha = 0;
 
 		// 縦軸のテキスト表示範囲を超えた場合は表示しない
-		if (text.y >= this.height) {
+		if (text.y >= this.height + this.y) {
 			return;
 		}
 

@@ -5,6 +5,7 @@ import { Event_0004 } from "../Event/Event_0004";
 import { Event_0005 } from "../Event/Event_0005";
 import { Event_0006 } from "../Event/Event_0006";
 import { Event_0007 } from "../Event/Event_0007";
+import { Event_0008 } from "../Event/Event_0008";
 import { Event_Base } from "../Event/Event_Base";
 
 /**
@@ -38,6 +39,8 @@ export default class EventManager {
 				return new Event_0006();
 			case EventCode.StartBattle:
 				return new Event_0007();
+			case EventCode.BossRoom:
+				return new Event_0008();
 			default:
 				throw new Error("no event");
 		}
@@ -52,4 +55,5 @@ export enum EventCode {
 	OpenMenu = "5",
 	CloseMenu = "6",
 	StartBattle = "7",
+	BossRoom = "8",
 }

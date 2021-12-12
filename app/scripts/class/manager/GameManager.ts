@@ -1,6 +1,7 @@
 import Canvas from "../../modules/Canvas/Canvas";
 import { CommonConstruct } from "../Construct/CommonConstruct";
 import Game_Battle from "../Game/Game_Battle";
+import Game_Boss from "../Game/Game_Boss";
 import Game_Character from "../Game/Game_Character";
 import { Game_Dungeon } from "../Game/Game_Dungeon";
 import Game_Enemy from "../Game/Game_Enemy";
@@ -34,6 +35,7 @@ export default class GameManager {
 	public static enemy: Game_Enemy = new Game_Enemy();
 	public static enemyParty: Game_EnemyParty = new Game_EnemyParty();
 	public static turn: Game_Turn = new Game_Turn();
+	public static boss: Game_Boss = new Game_Boss();
 
 	/**
 	 * 初期化処理

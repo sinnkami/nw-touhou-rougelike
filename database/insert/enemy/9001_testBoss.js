@@ -1,7 +1,7 @@
 const path = require("path");
 
 const COLLECTION_NAME = path.basename(__filename, path.extname(__filename));
-const ID = "0001";
+const ID = "9001";
 
 module.exports = function (db) {
 	return new Promise((resolve) => {
@@ -12,7 +12,7 @@ module.exports = function (db) {
 		const value = {
 			enemyGroupId: ID,
 			enemyId: ID,
-			name: "アクピー",
+			name: "ボスアクピー",
 			portraitPath: "assets/images/enemy/akpy.jpg",
 			hp: 300,
 			mp: 99999,

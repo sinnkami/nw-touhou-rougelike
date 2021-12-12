@@ -36,6 +36,9 @@ export class Game_Dungeon extends Game_Base {
 	 * ダンジョンに侵入した際の必要な情報を設定する
 	 */
 	public init(dungeonId: string): void {
+		StoreManager.dungeon.init();
+		GameManager.map.initMapData();
+
 		// ダンジョンIDを設定
 		StoreManager.dungeon.setDungeonId(dungeonId);
 
