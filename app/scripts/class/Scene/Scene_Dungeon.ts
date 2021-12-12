@@ -179,8 +179,17 @@ export default class Scene_Dungeon extends Scene_Base {
 					const eventChip = GameManager.map.getEventMapChip(position.x, position.y);
 					if (eventChip && eventChip.name === EventChipName.Stairs) {
 						// 階段の場合は処理を行う
-						const event = EventManager.getEvent(eventChip.event);
-						event.execute();
+
+						// ボス階層かどうか
+						if (GameManager.dungeon.isBeforeBossHierarchy) {
+							// ボス部屋イベント呼び出し
+							const event = EventManager.getEvent(EventCode.BossRoom);
+							await event.execute();
+						} else {
+							// 通常階層
+							const event = EventManager.getEvent(eventChip.event);
+							await event.execute();
+						}
 					}
 				}
 			},

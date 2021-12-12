@@ -1,3 +1,4 @@
+import EventManager, { EventCode } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import LoadManager from "../Manager/LoadManager";
 import SceneManager from "../Manager/SceneManager";
@@ -20,6 +21,12 @@ export class Event_0001 extends Event_Base {
 		// 階層を増やす
 		const hierarchy = GameManager.dungeon.getCurrentHierarchy();
 		GameManager.dungeon.setCurrentHierarchy(hierarchy + 1);
+
+		// ボス前階層かどうか
+		if (GameManager.dungeon.isBeforeBossHierarchy) {
+			console.log("ボス前階層到達");
+			//TODO: ボスBGMへ変更
+		}
 
 		// ダンジョンの再生成
 		GameManager.dungeon.createDungeon();

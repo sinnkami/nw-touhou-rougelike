@@ -23,6 +23,16 @@ export class Game_Dungeon extends Game_Base {
 		return DataManager.dungeon.get(this.dungeonId);
 	}
 
+	// ボス前階層かどうか
+	// TODO: storeの方が良い？
+	public get isBeforeBossHierarchy(): boolean {
+		const dungeon = this.dungeonInfo;
+		if (dungeon) {
+			return dungeon.maxHierarchy - this.hierarchy === 1;
+		}
+		return false;
+	}
+
 	/**
 	 * 現在のダンジョン情報を返す
 	 */
