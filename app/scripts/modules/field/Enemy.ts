@@ -5,11 +5,11 @@ export default class Enemy extends Character {
 	public get enemyId(): string {
 		return this.id;
 	}
-	public set enemyId(id: string) {
-		this.id = id;
-	}
+
 	public constructor(option: IStoreEnemy) {
+		if (!option.id) {
+			option.id = option.enemyId;
+		}
 		super(option);
-		this.enemyId = option.enemyId;
 	}
 }

@@ -191,7 +191,7 @@ export default class Scene_Battle extends Scene_Base {
 				// キャラの体力
 				const CharacterHp = new Sprite_Text();
 				CharacterHp.init({
-					text: `体力: ${actor.hp} / ${characterData.hp}`,
+					text: `体力: ${actor.hp} / ${actor.maxHp}`,
 					x: 90 + 280 * index,
 					y: 50,
 					width: 200,
@@ -208,14 +208,14 @@ export default class Scene_Battle extends Scene_Base {
 						CharacterHp.update();
 
 						// TODO: もしかしたら負荷かかるかもしれない
-						CharacterHp.setText(`体力: ${actor.hp} / ${characterData.hp}`);
+						CharacterHp.setText(`体力: ${actor.hp} / ${actor.maxHp}`);
 					},
 				});
 
 				// キャラの霊力
 				const CharacterMp = new Sprite_Text();
 				CharacterMp.init({
-					text: `霊力: ${actor.mp} / ${characterData.mp}`,
+					text: `霊力: ${actor.mp} / ${actor.maxMp}`,
 					x: 90 + 280 * index,
 					y: 80,
 					width: 200,
@@ -232,7 +232,7 @@ export default class Scene_Battle extends Scene_Base {
 						CharacterMp.update();
 
 						// TODO: もしかしたら負荷かかるかもしれない
-						CharacterMp.setText(`霊力: ${actor.mp} / ${characterData.mp}`);
+						CharacterMp.setText(`霊力: ${actor.mp} / ${actor.maxMp}`);
 					},
 				});
 			})

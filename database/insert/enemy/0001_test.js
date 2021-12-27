@@ -7,22 +7,33 @@ module.exports = function (db) {
 	return new Promise((resolve) => {
 		const DB = db.getCollection("enemy");
 
-		DB.findAndRemove({ enemyGroupId: { '$eq': ID } });
+		DB.findAndRemove({ enemyId: { '$eq': ID } });
 
 		const value = {
-			enemyGroupId: ID,
 			enemyId: ID,
 			name: "アクピー",
+			level: 1,
+			growthType: "Late",
 			portraitPath: "assets/images/enemy/akpy.jpg",
-			hp: 300,
-			mp: 99999,
-			attack: 10,
-			defense: 10,
-			magical: 10,
-			agility: 50,
-			dexterity: 10,
+			initStatus: {
+				hp: 300,
+				mp: 99999,
+				attack: 10,
+				defense: 10,
+				magical: 10,
+				agility: 50,
+				dexterity: 10,
+			},
+			maxStatus: {
+				hp: 300,
+				mp: 99999,
+				attack: 10,
+				defense: 10,
+				magical: 10,
+				agility: 50,
+				dexterity: 10,
+			},
 		};
-
 
 		DB.insert(value);
 		return resolve(`insert to ${COLLECTION_NAME} : ${ID} ok`);
