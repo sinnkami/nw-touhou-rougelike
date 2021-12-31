@@ -2,19 +2,22 @@ import { CalcStatusType, CharacterStatus, MAX_LEVEL, INIT_LEVEL } from "../../cl
 import { ICharacter, IStatus } from "../../definitions/modules/field/ICharacter";
 
 // キャラ情報
-export default class Character {
+export default class Character implements ICharacter {
 	public id: string;
 	/** 名前 */
 	public name: string;
 	/** レベル */
 	public level: number;
+	/** 経験値 */
+	public exp: number;
+
 	/** 成長タイプ */
-	private growthType: CalcStatusType;
+	public growthType: CalcStatusType;
 
 	// レベル1時点でのステータス
-	private initStatus: IStatus;
+	public initStatus: IStatus;
 	// 最大レベル時点でのステータス
-	private maxStatus: IStatus;
+	public maxStatus: IStatus;
 
 	// パラメータ関連
 	/** 体力 */
@@ -67,6 +70,7 @@ export default class Character {
 		this.name = option.name;
 
 		this.level = option.level;
+		this.exp = option.exp;
 
 		this.growthType = option.growthType;
 

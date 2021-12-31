@@ -14,6 +14,7 @@ module.exports = function (db) {
 			name: "咲夜",
 			fullName: "十六夜 咲夜",
 			level: 1,
+			exp: 0,
 			growthType: "Late",
 			charaChipPath: "assets/images/charaChip/sakuya.png",
 			portraitPath: "assets/images/portrait/sakuya/normal.png",

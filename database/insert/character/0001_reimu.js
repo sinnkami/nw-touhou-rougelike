@@ -14,6 +14,7 @@ module.exports = function (db) {
 			name: "霊夢",
 			fullName: "博麗 霊夢",
 			level: 1,
+			exp: 0,
 			growthType: "Late",
 			charaChipPath: "assets/images/charaChip/reimu.png",
 			portraitPath: "assets/images/portrait/reimu/normal.png",

@@ -14,6 +14,7 @@ module.exports = function (db) {
 			name: "妖夢",
 			fullName: "魂魄 妖夢",
 			level: 1,
+			exp: 0,
 			growthType: "Late",
 			charaChipPath: "assets/images/charaChip/youmu.png",
 			portraitPath: "assets/images/portrait/youmu/normal.png",

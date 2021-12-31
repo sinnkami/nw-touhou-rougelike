@@ -1,6 +1,7 @@
 import { IDataEnemy } from "../../definitions/class/Data/IDataEnemy";
 import { IPartyMenber } from "../../definitions/modules/field/IPartyMenber";
 import { BattlePhase, CharacterType } from "../Construct/BattleConstruct";
+import { CharacterStatus } from "../Construct/CharacterConstruct";
 import DataManager from "../Manager/DataManager";
 import GameManager from "../Manager/GameManager";
 import StoreManager from "../Manager/StoreManager";
@@ -165,7 +166,33 @@ export default class Game_Battle extends Game_Base {
 		if (this.hasExecutedPhase) return;
 		StoreManager.battle.setHasExecutedPhase(true);
 
+		// この戦闘で得られた総経験値
+		const totalExp = GameManager.enemyParty.getEnemyPartyList().reduce((sum, enemy) => {
+			return sum + enemy.exp;
+		}, 0);
+
 		// TODO: レベルアップ判定等
+		console.log("レベルリザルト");
+		GameManager.party.getMenberList().forEach(actor => {
+			const beforeLevel = actor.level;
+
+			// TODO: 人数によって割るかどうかを決める
+			actor.addExp(totalExp);
+
+			// レベルアップが出来なくなるまで回す
+			while (actor.canLevelUp()) {
+				actor.addLevel(1);
+			}
+
+			if (beforeLevel !== actor.level) {
+				console.log(`${actor.name} レベルアップ`);
+				console.log(`Lv. ${beforeLevel} -> ${actor.level}`);
+				console.log(
+					`HP: ${actor.calcStatus(beforeLevel, actor.growthType, CharacterStatus.Hp)} -> ${actor.maxHp}`
+				);
+			}
+		});
+		console.log("--------------");
 
 		console.log("戦闘終了");
 

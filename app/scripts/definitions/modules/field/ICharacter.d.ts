@@ -6,6 +6,8 @@ export interface ICharacter {
 	name: string;
 	/** レベル */
 	level: number;
+	/** 経験値 */
+	exp: number;
 
 	/** 成長タイプ */
 	growthType: CalcStatusType;

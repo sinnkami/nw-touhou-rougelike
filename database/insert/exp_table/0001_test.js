@@ -5,7 +5,7 @@ const ID = "0001";
 
 module.exports = function (db) {
 	return new Promise((resolve) => {
-		const DB = db.getCollection("enemy_party");
+		const DB = db.getCollection("exp_table");
 
 		DB.findAndRemove({ expTableId: { '$eq': ID } });
 		DB.insert({

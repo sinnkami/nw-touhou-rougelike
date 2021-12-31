@@ -4,6 +4,7 @@ import { Game_Base } from "./Game_Base";
 /**
  * ゲーム内に登場するキャラの現在情報を操作するクラス
  * TODO: 預り所的なのを別で作って保持した方が良さそう
+ * TODO: 預り所を別で作って、こちらはDataから取得する専用にする
  */
 export default class Game_Character extends Game_Base {
 	private get characterList(): IStoreCharacter[] {

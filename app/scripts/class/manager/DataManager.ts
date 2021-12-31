@@ -3,6 +3,7 @@ import Data_Character from "../Data/Data_Character";
 import Data_Dungeon from "../Data/Data_Dungeon";
 import Data_Enemy from "../Data/Data_Enemy";
 import Data_EnemyParty from "../Data/Data_EnemyParty";
+import Data_ExpTable from "../Data/Data_ExpTable";
 
 /**
  * DB情報を管理するクラス
@@ -14,6 +15,7 @@ export default class DataManager {
 	public static enemy: Data_Enemy = new Data_Enemy();
 	public static enemyParty: Data_EnemyParty = new Data_EnemyParty();
 	public static boss: Data_Boss = new Data_Boss();
+	public static expTable: Data_ExpTable = new Data_ExpTable();
 
 	/**
 	 * 初期化処理
@@ -26,6 +28,7 @@ export default class DataManager {
 			this.enemy.load(),
 			this.enemyParty.load(),
 			this.boss.load(),
+			this.expTable.load(),
 		]).then();
 	}
 }

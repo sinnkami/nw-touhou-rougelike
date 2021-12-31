@@ -13,6 +13,7 @@ module.exports = function (db) {
 			enemyId: ID,
 			name: "アクピー",
 			level: 1,
+			exp: 100,
 			growthType: "Late",
 			portraitPath: "assets/images/enemy/akpy.jpg",
 			initStatus: {
