@@ -49,14 +49,4 @@ export default class Game_Party extends Game_Base {
 
 		return character;
 	}
-
-	/**
-	 * 指定されたメンバーのキャラ情報を取得
-	 * @param partyId
-	 */
-	public getMenberInCharacterInfo(partyId: string): IStoreCharacter {
-		const menber = this.getMenber(partyId);
-		const character = GameManager.character.getCharacter(menber.characterId);
-		return character;
-	}
 }

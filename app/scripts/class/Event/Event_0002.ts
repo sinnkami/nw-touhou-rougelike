@@ -27,8 +27,7 @@ export class Event_0002 extends Event_Base {
 
 		// パーティ内の先頭のキャラを取得
 		const firstCharacter = GameManager.party.getFirstMenber();
-		const characterData = DataManager.character.get(firstCharacter.characterId);
-		if (!characterData) throw new Error("データベース内に存在しないキャラがパーティに存在します");
+		const characterData = GameManager.character.getCharacter(firstCharacter.characterId);
 
 		await ResourceManager.loadResources(
 			{

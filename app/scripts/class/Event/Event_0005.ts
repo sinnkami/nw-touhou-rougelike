@@ -28,8 +28,7 @@ export class Event_0005 extends Event_Base {
 		});
 
 		for (const partyInfo of GameManager.party.getMenberList()) {
-			const characterData = DataManager.character.get(partyInfo.characterId);
-			if (!characterData) throw new Error("データベース内に存在しないキャラがパーティに存在します");
+			const characterData = GameManager.character.getCharacter(partyInfo.characterId);
 			loadResources.push({
 				name: `character-portrait-${characterData.characterId}`,
 				path: characterData.portraitPath,

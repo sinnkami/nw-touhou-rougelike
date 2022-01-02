@@ -125,9 +125,6 @@ export default class Scene_Battle extends Scene_Base {
 		// パーティ周りの描画を設定
 		await Promise.all(
 			GameManager.party.getMenberList().map(async (actor, index) => {
-				const characterData = DataManager.character.get(actor.characterId);
-				if (!characterData) throw new Error("データベース内に存在しないキャラがパーティに存在します");
-
 				// フレーム
 				const FrameRender = new Sprite_Frame();
 				FrameRender.init({
@@ -140,7 +137,7 @@ export default class Scene_Battle extends Scene_Base {
 				await FrameRender.setSprite();
 				this.addProcess({
 					// TODO: プロセス名
-					name: `${Sprite_Frame.name} - ${characterData.characterId}`,
+					name: `${Sprite_Frame.name} - ${actor.characterId}`,
 					class: FrameRender,
 					process: async () => {
 						// CharaRender.update();
@@ -154,13 +151,13 @@ export default class Scene_Battle extends Scene_Base {
 					y: 30,
 					width: 60,
 					height: 60,
-					path: `character-charaChip-${characterData.characterId}`,
+					path: `character-charaChip-${actor.characterId}`,
 				});
 				await CharaRender.setSprite();
 				CharaRender.setZIndex(index);
 				this.addProcess({
 					// TODO: プロセス名
-					name: `${Sprite_Character.name} - ${characterData.characterId}`,
+					name: `${Sprite_Character.name} - ${actor.characterId}`,
 					class: CharaRender,
 					process: async () => {
 						// CharaRender.update();
@@ -170,7 +167,7 @@ export default class Scene_Battle extends Scene_Base {
 				// キャラ名
 				const CharacterName = new Sprite_Text();
 				CharacterName.init({
-					text: `${characterData.name}`,
+					text: `${actor.name}`,
 					x: 90 + 280 * index,
 					y: 20,
 					width: 200,
@@ -181,7 +178,7 @@ export default class Scene_Battle extends Scene_Base {
 				CharacterName.setZIndex(index + 1);
 				this.addProcess({
 					// TODO: プロセス名
-					name: `name - ${characterData.characterId}`,
+					name: `name - ${actor.characterId}`,
 					class: CharacterName,
 					process: async () => {
 						// CharacterName.update();
@@ -202,7 +199,7 @@ export default class Scene_Battle extends Scene_Base {
 				CharacterHp.setZIndex(index + 1);
 				this.addProcess({
 					// TODO: プロセス名
-					name: `hp - ${characterData.characterId}`,
+					name: `hp - ${actor.characterId}`,
 					class: CharacterHp,
 					process: async () => {
 						CharacterHp.update();
@@ -226,7 +223,7 @@ export default class Scene_Battle extends Scene_Base {
 				CharacterMp.setZIndex(index + 1);
 				this.addProcess({
 					// TODO: プロセス名
-					name: `mp - ${characterData.characterId}`,
+					name: `mp - ${actor.characterId}`,
 					class: CharacterMp,
 					process: async () => {
 						CharacterMp.update();
