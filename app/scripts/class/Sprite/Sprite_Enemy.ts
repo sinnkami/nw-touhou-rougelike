@@ -1,4 +1,5 @@
 import { Sprite } from "@pixi/sprite";
+import { Graphics } from "pixi.js";
 import { ISpriteEnemyOption } from "../../definitions/class/Sprite/ISpriteEnemy";
 import ResourceManager from "../Manager/ResourceManager";
 import Sprite_Base from "./Sprite_Base";
