@@ -39,6 +39,8 @@ export default class Store_Party extends Store_Base {
 		// TODO: エラーにするかは悩みどころ
 		// MEMO: キャッチさせてしょりったほうがよいかなぁ・・・？
 		if (partys.length + this.size > LIMIT_MENBER) throw new Error("パーティ上限を超えて追加しようとしました");
-		partys.forEach((v, i) => (this.menberDict[i] = v));
+		partys.forEach(v => {
+			this.menberDict[this.size] = v;
+		});
 	}
 }

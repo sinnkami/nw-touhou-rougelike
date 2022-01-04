@@ -6,6 +6,8 @@ import { ICharacter } from "../../modules/field/ICharacter";
  * TODO: データの調整
  */
 export interface IStoreCharacter extends ICharacter {
+	/** 固有ID */
+	storeId: string;
 	/** キャラID */
 	characterId: string;
 }

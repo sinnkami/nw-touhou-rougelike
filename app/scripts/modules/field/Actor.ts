@@ -3,6 +3,8 @@ import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
 import Character from "./Character";
 
 export default class Actor extends Character implements IStoreCharacter {
+	public storeId: string;
+
 	public get characterId(): string {
 		return this.id;
 	}
@@ -26,6 +28,8 @@ export default class Actor extends Character implements IStoreCharacter {
 			option.id = option.characterId;
 		}
 		super(option);
+
+		this.storeId = option.storeId;
 	}
 
 	/**
