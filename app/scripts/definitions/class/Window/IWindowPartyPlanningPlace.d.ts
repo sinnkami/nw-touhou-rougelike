@@ -10,4 +10,5 @@ export interface ICharacterMenuInfo {
 	index: number;
 	menuId: string;
 	character: IStoreCharacter;
+	isMask?: boolean;
 }

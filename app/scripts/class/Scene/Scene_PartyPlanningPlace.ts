@@ -200,6 +200,7 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 					index,
 					menuId: index.toString(),
 					character: actor,
+					isMask: GameManager.party.hasMenberByStoreId(actor.storeId),
 				};
 			}),
 			fontSize: 20,

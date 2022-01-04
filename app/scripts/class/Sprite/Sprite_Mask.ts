@@ -13,8 +13,8 @@ export default class Sprite_Mask extends Sprite_Base {
 		if (option.name === undefined) option.name = SPRITE_NAME;
 
 		super.init(option);
-		this.width = CommonConstruct.size.width;
-		this.height = CommonConstruct.size.height;
+		this.width = option.width || CommonConstruct.size.width;
+		this.height = option.height || CommonConstruct.size.height;
 	}
 
 	/**

@@ -6,6 +6,7 @@ import {
 import clamp from "../../modules/utils/clamp";
 import GameManager from "../Manager/GameManager";
 import Sprite_Frame from "../Sprite/Sprite_Frame";
+import Sprite_Mask from "../Sprite/Sprite_Mask";
 import Sprite_PartyPlaningPlaceMenuInfo from "../Sprite/Sprite_PartyPlaningPlaceMenuInfo";
 import Sprite_Selected from "../Sprite/Sprite_Selected";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
@@ -80,7 +81,7 @@ export default class Window_SelectionCharacter extends Window_Base {
 			height: MENU_HEIGHT,
 		});
 		await this.selectSprite.setSprite();
-		this.selectSprite.setZIndex(10);
+		this.selectSprite.setZIndex(100);
 		container.addChild(this.selectSprite.getContainer());
 
 		// キャラ情報
@@ -88,12 +89,17 @@ export default class Window_SelectionCharacter extends Window_Base {
 			const characterData = GameManager.character.getCharacter(menuInfo.character.characterId);
 
 			const sprite = new Sprite_PartyPlaningPlaceMenuInfo();
+
+			const x = PADDHING;
 			const y = PADDHING + MENU_HEIGHT * menuInfo.index;
+			const width = this.width - PADDHING * 2;
+			const height = MENU_HEIGHT;
+
 			await sprite.init({
-				x: PADDHING,
+				x,
 				y,
-				width: this.width - PADDHING * 2,
-				height: MENU_HEIGHT,
+				width,
+				height,
 				characterName: characterData.fullName,
 				level: menuInfo.character.level,
 				charaChipPath: `character-charaChip-${characterData.characterId}`,
@@ -102,6 +108,20 @@ export default class Window_SelectionCharacter extends Window_Base {
 
 			const spriteContainer = sprite.getContainer();
 			this.characterContaiter.addChild(spriteContainer);
+
+			// マスクをかける場合
+			if (menuInfo.isMask) {
+				const mask = new Sprite_Mask();
+				mask.init({
+					x: 0,
+					y: 0,
+					width,
+					height,
+				});
+				mask.setZIndex(10);
+				await mask.setSprite();
+				spriteContainer.addChild(mask.getContainer());
+			}
 		}
 
 		// マスクをかけることで範囲外を表示しないように

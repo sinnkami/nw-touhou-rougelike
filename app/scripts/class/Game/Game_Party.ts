@@ -27,6 +27,15 @@ export default class Game_Party extends Game_Base {
 	}
 
 	/**
+	 * 指定されたStoreIdを持つメンバーが存在するか
+	 * @param storeId
+	 * @returns
+	 */
+	public hasMenberByStoreId(storeId: string): boolean {
+		return this.getMenberList().some(actor => actor.storeId === storeId);
+	}
+
+	/**
 	 * 全メンバーの情報を取得
 	 * @param order
 	 * @returns
