@@ -11,6 +11,7 @@ import Window_SelectionCharacter from "../Window/Window_SelectionCharacter";
 import Scene_Base from "./Scene_Base";
 import Actor from "../../modules/field/Actor";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
+import { ICharacterMenuInfo } from "../../definitions/class/Window/IWindowPartyPlanningPlace";
 
 /** プロセス名 */
 export enum ProcessName {
@@ -23,7 +24,7 @@ export enum ResourceName {
 	BackgroundImage = "BackgroundImage",
 }
 
-enum CharacterDestination {
+enum SceneType {
 	Party = "party",
 	PartyPlanningPlace = "PartyPlanningPlace",
 }
@@ -35,6 +36,10 @@ const SIZE = CommonConstruct.size;
  * パーティ編集画面のシーン
  */
 export default class Scene_PartyPlanningPlace extends Scene_Base {
+	private sceneType: SceneType = SceneType.Party;
+
+	private seletedPartyMenber?: ICharacterMenuInfo;
+
 	/**
 	 * シーンを開始する
 	 * @override
@@ -44,12 +49,6 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 		if (!executed) return;
 
 		//TODO: 処理内容を他の物に合わせる
-
-		// キー入力の処理を追加
-		this.addProcess({
-			name: "input",
-			process: this.inputProcess(),
-		});
 
 		// 描画する背景画像を設定
 		// MEMO: 画像ではなくマスクを掛ける
@@ -89,22 +88,6 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 		await this.processPartyCharacterSelection();
 
 		await this.processStoreCharacterSelection();
-	}
-
-	/**
-	 * キー入力の処理を行う
-	 * @returns
-	 */
-	private inputProcess(): () => Promise<void> {
-		return async () => {
-			// escキーの処理
-			if (GameManager.input.isPushedKey(KeyCode.Escape)) {
-				// メニューを閉じる
-				const event = EventManager.getEvent(EventCode.ClosePartyPlanningPlace);
-				event.execute();
-				return;
-			}
-		};
 	}
 
 	private async processPartyCharacterSelection(): Promise<void> {
@@ -149,6 +132,9 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 			class: PartyCharacterSelection,
 			process: async () => {
 				PartyCharacterSelection.update();
+				if (this.sceneType !== SceneType.Party) {
+					return;
+				}
 
 				if (GameManager.input.isPushedKey(KeyCode.Up)) {
 					PartyCharacterSelection.changeMenu(-1);
@@ -160,6 +146,16 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 				// 決定キーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					console.log(PartyCharacterSelection.getCurrentMenu());
+					this.seletedPartyMenber = PartyCharacterSelection.getCurrentMenu();
+					this.sceneType = SceneType.PartyPlanningPlace;
+					return;
+				}
+
+				// escキーの処理
+				if (GameManager.input.isPushedKey(KeyCode.Escape)) {
+					// メニューを閉じる
+					const event = EventManager.getEvent(EventCode.ClosePartyPlanningPlace);
+					event.execute();
 					return;
 				}
 			},
@@ -212,6 +208,10 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 			process: async () => {
 				StoreCharacterSelection.update();
 
+				if (this.sceneType !== SceneType.PartyPlanningPlace) {
+					return;
+				}
+
 				if (GameManager.input.isPushedKey(KeyCode.Up)) {
 					StoreCharacterSelection.changeMenu(-1);
 				}
@@ -222,6 +222,13 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 				// 決定キーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					console.log(StoreCharacterSelection.getCurrentMenu());
+					return;
+				}
+
+				// escキーの処理
+				if (GameManager.input.isPushedKey(KeyCode.Escape)) {
+					this.seletedPartyMenber = undefined;
+					this.sceneType = SceneType.Party;
 					return;
 				}
 			},
