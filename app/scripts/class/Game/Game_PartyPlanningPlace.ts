@@ -17,6 +17,10 @@ export default class Game_PartyPlanningPlace extends Game_Base {
 		return character;
 	}
 
+	public getCharacterList(): IStoreCharacter[] {
+		return this.characterList;
+	}
+
 	public addCharacter(character: IStoreCharacter): void {
 		StoreManager.character.add(character);
 	}

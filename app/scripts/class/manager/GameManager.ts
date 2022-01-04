@@ -10,6 +10,7 @@ import Game_Input from "../Game/Game_Input";
 import { Game_Loop } from "../Game/Game_Loop";
 import { Game_Map } from "../Game/Game_Map";
 import Game_Party from "../Game/Game_Party";
+import Game_PartyPlanningPlace from "../Game/Game_PartyPlanningPlace";
 import Game_Player from "../Game/Game_Player";
 import Game_Turn from "../Game/Game_Turn";
 
@@ -36,6 +37,7 @@ export default class GameManager {
 	public static enemyParty: Game_EnemyParty = new Game_EnemyParty();
 	public static turn: Game_Turn = new Game_Turn();
 	public static boss: Game_Boss = new Game_Boss();
+	public static partyPlanningPlace: Game_PartyPlanningPlace = new Game_PartyPlanningPlace();
 
 	/**
 	 * 初期化処理

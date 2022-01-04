@@ -28,8 +28,8 @@ export class Event_0009 extends Event_Base {
 			path: "assets/images/window/menu/test.png",
 		});
 
-		for (const partyInfo of GameManager.party.getMenberList()) {
-			const characterData = GameManager.character.getCharacter(partyInfo.characterId);
+		for (const storeCharacter of GameManager.partyPlanningPlace.getCharacterList()) {
+			const characterData = GameManager.character.getCharacter(storeCharacter.characterId);
 			loadResources.push({
 				name: `character-charaChip-${characterData.characterId}`,
 				path: characterData.charaChipPath,

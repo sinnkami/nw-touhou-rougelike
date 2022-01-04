@@ -10,6 +10,7 @@ import Window_Menu from "../Window/Window_Menu";
 import Window_SelectionCharacter from "../Window/Window_SelectionCharacter";
 import Scene_Base from "./Scene_Base";
 import Actor from "../../modules/field/Actor";
+import { Sprite_Text } from "../Sprite/Sprite_Text";
 
 /** プロセス名 */
 export enum ProcessName {
@@ -85,69 +86,9 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 			},
 		});
 
-		const test = new Window_SelectionCharacter();
-		const list = new Array<Actor>().concat(
-			GameManager.party.getMenberList(),
-			GameManager.party.getMenberList(),
-			GameManager.party.getMenberList(),
-			GameManager.party.getMenberList(),
-			GameManager.party.getMenberList(),
-			GameManager.party.getMenberList(),
-			GameManager.party.getMenberList(),
-			GameManager.party.getMenberList()
-		);
-		await test.init({
-			x: 10,
-			y: 190,
-			width: SIZE.width / 2 - 20,
-			height: SIZE.height - 200,
-			list: list.map((actor, index) => {
-				return {
-					index,
-					menuId: index.toString(),
-					character: actor,
-				};
-			}),
-			fontSize: 20,
-		});
-		await test.setSprite();
-		this.addProcess({
-			name: "test",
-			class: test,
-			process: async () => {
-				test.update();
+		await this.processPartyCharacterSelection();
 
-				if (GameManager.input.isPushedKey(KeyCode.Up)) {
-					test.changeMenu(-1);
-				}
-				if (GameManager.input.isPushedKey(KeyCode.Down)) {
-					test.changeMenu(1);
-				}
-
-				// 決定キーの処理
-				if (GameManager.input.isPushedKey(KeyCode.Select)) {
-					console.log(test.getCurrentMenu());
-					return;
-				}
-			},
-		});
-
-		const PartyBackgroundImageRender3 = new Sprite_Frame();
-		await PartyBackgroundImageRender3.init({
-			x: SIZE.width / 2,
-			y: 180,
-			width: SIZE.width / 2,
-			height: SIZE.height - 180,
-			path: `menu-background`,
-		});
-		await PartyBackgroundImageRender3.setSprite();
-		this.addProcess({
-			name: "PartyBackgroundImageRender3",
-			class: PartyBackgroundImageRender3,
-			process: async () => {
-				PartyBackgroundImageRender3.update();
-			},
-		});
+		await this.processStoreCharacterSelection();
 	}
 
 	/**
@@ -159,10 +100,130 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 			// escキーの処理
 			if (GameManager.input.isPushedKey(KeyCode.Escape)) {
 				// メニューを閉じる
-				const event = EventManager.getEvent(EventCode.CloseMenu);
+				const event = EventManager.getEvent(EventCode.ClosePartyPlanningPlace);
 				event.execute();
 				return;
 			}
 		};
+	}
+
+	private async processPartyCharacterSelection(): Promise<void> {
+		const PartyText = new Sprite_Text();
+		await PartyText.init({
+			x: 10,
+			y: 184,
+			width: SIZE.width / 2 - 20,
+			height: 30,
+			fontSize: 36,
+			text: "パーティ",
+			isBackground: true,
+			backgroundImagePath: "menu-background",
+		});
+		await PartyText.setSprite();
+		this.addProcess({
+			name: "PartyText",
+			class: PartyText,
+			process: async () => {
+				// PartyText.update();
+			},
+		});
+
+		const PartyCharacterSelection = new Window_SelectionCharacter();
+		await PartyCharacterSelection.init({
+			x: 10,
+			y: 255,
+			width: SIZE.width / 2 - 20,
+			height: 200,
+			list: GameManager.party.getMenberList().map((actor, index) => {
+				return {
+					index,
+					menuId: index.toString(),
+					character: actor,
+				};
+			}),
+			fontSize: 20,
+		});
+		await PartyCharacterSelection.setSprite();
+		this.addProcess({
+			name: "PartyCharacterSelection",
+			class: PartyCharacterSelection,
+			process: async () => {
+				PartyCharacterSelection.update();
+
+				if (GameManager.input.isPushedKey(KeyCode.Up)) {
+					PartyCharacterSelection.changeMenu(-1);
+				}
+				if (GameManager.input.isPushedKey(KeyCode.Down)) {
+					PartyCharacterSelection.changeMenu(1);
+				}
+
+				// 決定キーの処理
+				if (GameManager.input.isPushedKey(KeyCode.Select)) {
+					console.log(PartyCharacterSelection.getCurrentMenu());
+					return;
+				}
+			},
+		});
+	}
+
+	/**
+	 * 預り所のキャラ表示
+	 */
+	private async processStoreCharacterSelection(): Promise<void> {
+		const StoreText = new Sprite_Text();
+		await StoreText.init({
+			x: SIZE.width / 2 + 10,
+			y: 184,
+			width: SIZE.width / 2 - 20,
+			height: 30,
+			fontSize: 36,
+			text: "預り所",
+			isBackground: true,
+			backgroundImagePath: "menu-background",
+		});
+		await StoreText.setSprite();
+		this.addProcess({
+			name: "StoreText",
+			class: StoreText,
+			process: async () => {
+				// StoreText.update();
+			},
+		});
+		const StoreCharacterSelection = new Window_SelectionCharacter();
+		await StoreCharacterSelection.init({
+			x: SIZE.width / 2 + 10,
+			y: 255,
+			width: SIZE.width / 2 - 20,
+			height: SIZE.height - 260,
+			list: GameManager.partyPlanningPlace.getCharacterList().map((actor, index) => {
+				return {
+					index,
+					menuId: index.toString(),
+					character: actor,
+				};
+			}),
+			fontSize: 20,
+		});
+		await StoreCharacterSelection.setSprite();
+		this.addProcess({
+			name: "StoreCharacterSelection",
+			class: StoreCharacterSelection,
+			process: async () => {
+				StoreCharacterSelection.update();
+
+				if (GameManager.input.isPushedKey(KeyCode.Up)) {
+					StoreCharacterSelection.changeMenu(-1);
+				}
+				if (GameManager.input.isPushedKey(KeyCode.Down)) {
+					StoreCharacterSelection.changeMenu(1);
+				}
+
+				// 決定キーの処理
+				if (GameManager.input.isPushedKey(KeyCode.Select)) {
+					console.log(StoreCharacterSelection.getCurrentMenu());
+					return;
+				}
+			},
+		});
 	}
 }

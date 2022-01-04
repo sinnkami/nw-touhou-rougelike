@@ -11,7 +11,7 @@ export default class Game_Character extends Game_Base {
 
 	public getCharacter(characterId: string): IDataCharacter {
 		const character = this.characterList.find(v => v.characterId === characterId);
-		if (!character) throw new Error("設定されていないキャラクターです");
+		if (!character) throw new Error(`設定されていないキャラクターです (ID: ${characterId})`);
 		return character;
 	}
 }
