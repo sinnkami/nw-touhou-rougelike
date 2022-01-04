@@ -1,7 +1,7 @@
 const path = require("path");
 
 const COLLECTION_NAME = path.basename(__filename, path.extname(__filename));
-const ID = "0017";
+const ID = "0002";
 
 module.exports = function (db) {
 	return new Promise((resolve) => {
@@ -11,13 +11,13 @@ module.exports = function (db) {
 
 		const value = {
 			characterId: ID,
-			name: "妖夢",
-			fullName: "魂魄 妖夢",
+			name: "魔理沙",
+			fullName: "霧雨 魔理沙",
 			level: 1,
 			exp: 0,
 			growthType: "Late",
-			charaChipPath: "assets/images/charaChip/youmu.png",
-			portraitPath: "assets/images/portrait/youmu/normal.png",
+			charaChipPath: "assets/images/charaChip/marisa.png",
+			portraitPath: "assets/images/portrait/test.png",
 			initStatus: {
 				hp: 300,
 				mp: 200,
