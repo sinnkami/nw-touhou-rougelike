@@ -28,5 +28,14 @@
 
 	/** jsonをimportできるようにする */
 	"resolveJsonModule": true,
+
+	/* vscodeにて型エラーを発生させないための記述
+	   URL: https://newreleases.io/project/github/pixijs/pixijs/release/v6.0.0 */
+	"paths": {
+		"mini-signals": [
+			"node_modules/resource-loader/typings/mini-signals.d.ts"
+		]
+	},
+	"baseUrl": "./",
   }
 }

@@ -9,7 +9,7 @@
     "dev": "gulp",
     "watch": "gulp --watch",
     "lint": "eslint --fix --ext .ts ./src",
-	"init-db": "node database/init.js"
+    "init-db": "node database/init.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +21,7 @@
     "@babel/preset-env": "^7.12.16",
     "@babel/preset-typescript": "^7.12.16",
     "@types/lokijs": "^1.5.4",
+    "@types/offscreencanvas": "^2019.6.4",
     "@types/stats.js": "^0.17.0",
     "@typescript-eslint/eslint-plugin": "^4.15.1",
     "@typescript-eslint/parser": "^4.15.1",
