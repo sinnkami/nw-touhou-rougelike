@@ -12,6 +12,7 @@ import Scene_Base from "./Scene_Base";
 import Actor from "../../modules/field/Actor";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
 import { ICharacterMenuInfo } from "../../definitions/class/Window/IWindowPartyPlanningPlace";
+import sleep from "../../modules/utils/sleep";
 
 /** プロセス名 */
 export enum ProcessName {
@@ -146,7 +147,9 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 				// 決定キーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					console.log(PartyCharacterSelection.getCurrentMenu());
+					console.log(GameManager.loop.frameCount);
 					this.seletedPartyMenber = PartyCharacterSelection.getCurrentMenu();
+
 					this.sceneType = SceneType.PartyPlanningPlace;
 					return;
 				}
@@ -221,7 +224,19 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 
 				// 決定キーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
-					console.log(StoreCharacterSelection.getCurrentMenu());
+					if (this.seletedPartyMenber) {
+						const partyMenber = this.seletedPartyMenber;
+						GameManager.party.removeMenberByStoreId(partyMenber.character.storeId);
+
+						const addMenber = StoreCharacterSelection.getCurrentMenu();
+						GameManager.party.addMenberByStoreId(addMenber.character.storeId);
+
+						this.seletedPartyMenber = undefined;
+
+						const closeEvent = EventManager.getEvent(EventCode.ClosePartyPlanningPlace);
+						const openEvent = EventManager.getEvent(EventCode.OpenPartyPlanningPlace);
+						await closeEvent.execute().then(() => openEvent.execute());
+					}
 					return;
 				}
 

@@ -11,36 +11,38 @@ const LIMIT_MENBER = 3;
  */
 export default class Store_Party extends Store_Base {
 	// メンバー一覧
-	private menberDict: IStorePartyDict = {};
+	private menberList: Actor[] = [];
 
 	private get size(): number {
-		return Object.values(this.menberDict).length;
+		return this.menberList.length;
 	}
 
 	public async init(): Promise<void> {
-		this.menberDict = {};
+		this.menberList = [];
 	}
 
 	public async load(): Promise<void> {
 		this.init();
 		const dict = await super.load();
-		this.menberDict = dict as IStorePartyDict;
+		this.menberList = dict as Actor[];
 	}
 
-	public getAll(): IStorePartyDict {
-		return this.menberDict;
+	public getAll(): Actor[] {
+		return this.menberList;
 	}
 
 	public get(id: string): Actor | undefined {
-		return this.menberDict[id];
+		return this.menberList.find(v => v.characterId === id);
 	}
 
 	public add(...partys: Actor[]): void {
 		// TODO: エラーにするかは悩みどころ
 		// MEMO: キャッチさせてしょりったほうがよいかなぁ・・・？
 		if (partys.length + this.size > LIMIT_MENBER) throw new Error("パーティ上限を超えて追加しようとしました");
-		partys.forEach(v => {
-			this.menberDict[this.size] = v;
-		});
+		this.menberList = this.menberList.concat(partys);
+	}
+
+	public remove(actor: Actor): void {
+		this.menberList = this.menberList.filter(v => v.storeId !== actor.storeId);
 	}
 }

@@ -9,21 +9,8 @@ import { Game_Base } from "./Game_Base";
  * 現在のパーティーメンバーに関する情報を操作するクラス
  */
 export default class Game_Party extends Game_Base {
-	private get menberDict(): IStorePartyDict {
+	private get menberList(): Actor[] {
 		return StoreManager.party.getAll();
-	}
-
-	/**
-	 * 指定されたメンバーの情報を取得
-	 * @param partyId
-	 * @returns
-	 */
-	public getMenber(partyId: string): Actor {
-		const menber = this.menberDict[partyId];
-
-		if (!menber) throw new Error("指定された並び位置にメンバーはいません");
-
-		return menber;
 	}
 
 	/**
@@ -35,17 +22,28 @@ export default class Game_Party extends Game_Base {
 		return this.getMenberList().some(actor => actor.storeId === storeId);
 	}
 
+	public addMenberByStoreId(storeId: string): void {
+		const storeCharacter = StoreManager.character.get(storeId);
+		if (!storeCharacter) throw new Error("指定されたメンバーを所持していません");
+
+		const actor = new Actor(storeCharacter);
+		StoreManager.party.add(actor);
+	}
+
+	public removeMenberByStoreId(storeId: string): void {
+		const menber = this.getMenberList().find(actor => actor.storeId === storeId);
+		if (!menber) throw new Error("指定されたメンバーはいません");
+
+		StoreManager.party.remove(menber);
+	}
+
 	/**
 	 * 全メンバーの情報を取得
 	 * @param order
 	 * @returns
 	 */
 	public getMenberList(): Actor[] {
-		return Object.values(this.menberDict);
-	}
-
-	public getMenberKeys(): string[] {
-		return Object.keys(this.menberDict);
+		return this.menberList;
 	}
 
 	/**
