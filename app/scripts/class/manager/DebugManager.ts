@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { Loader } from "pixi.js";
+import { Loader, Texture } from "pixi.js";
 import Stats from "stats.js";
 /**
  * デバッグ機能を管理するクラス
@@ -20,6 +20,8 @@ export default class DebugManager {
 			this.setStats(),
 			// Resourceを読み込んだ際のログ
 			this.setProcessLogs(),
+			// pixi.jsの邪魔なログを消す
+			this.overrideAddToCacheForPixiJsTexture(),
 		]).then();
 	}
 
@@ -61,6 +63,24 @@ export default class DebugManager {
 		Loader.shared.onError.add((error: any, _loader: any, _resource: any): void => {
 			throw error;
 		});
+		return Promise.resolve();
+	}
+
+	/**
+	 * pixi.jsにてキャッシュされているテクスチャを再度ロードしようとした際に出力されるwarnが邪魔なので表示しないように上書きする
+	 * @returns
+	 */
+	private static overrideAddToCacheForPixiJsTexture(): Promise<void> {
+		const originAddToCache = Texture.addToCache;
+		const originWarn = console.warn;
+		Texture.addToCache = function (texture, id) {
+			console.warn = () => {
+				return;
+			};
+			originAddToCache.call(undefined, texture, id);
+			console.warn = originWarn;
+		};
+
 		return Promise.resolve();
 	}
 }
