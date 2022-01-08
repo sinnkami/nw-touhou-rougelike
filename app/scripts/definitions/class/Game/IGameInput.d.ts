@@ -7,4 +7,6 @@ export interface IKeyInfoDict {
 export interface IKeyInfo {
 	keyCode: string;
 	frame: number;
+
+	delay: number;
 }

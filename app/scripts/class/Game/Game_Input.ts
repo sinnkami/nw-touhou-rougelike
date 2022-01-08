@@ -1,6 +1,9 @@
 import { IKeyInfo, IKeyInfoDict } from "../../definitions/class/Game/IGameInput";
+import GameManager from "../Manager/GameManager";
 import { Game_Base } from "./Game_Base";
 
+// ディレイする時間
+const DELAY = 5;
 /**
  * ゲーム内での入力値を操作するクラス
  * TODO: これもStoreに移動した方が良い・・・？
@@ -75,7 +78,15 @@ export default class Game_Input extends Game_Base {
 	 */
 	public isPushedKey(keyCode: string): boolean {
 		// MEMO: キーが存在するかで入力判定を行う
-		return this.hasKey(keyCode);
+		// ディレイを掛ける
+		const key = this.getKey(keyCode);
+		if (!key) return false;
+
+		if (GameManager.loop.frameCount < key.delay) return false;
+
+		key.delay = GameManager.loop.frameCount + DELAY;
+
+		return true;
 	}
 
 	/**
@@ -121,6 +132,7 @@ export default class Game_Input extends Game_Base {
 				this.setKey({
 					keyCode: ev.key,
 					frame: 0,
+					delay: 0,
 				});
 			}
 			ev.preventDefault();
