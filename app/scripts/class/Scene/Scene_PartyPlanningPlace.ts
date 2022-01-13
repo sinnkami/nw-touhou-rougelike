@@ -146,8 +146,6 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 
 				// 決定キーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
-					console.log(PartyCharacterSelection.getCurrentMenu());
-					console.log(GameManager.loop.frameCount);
 					this.seletedPartyMenber = PartyCharacterSelection.getCurrentMenu();
 
 					this.sceneType = SceneType.PartyPlanningPlace;

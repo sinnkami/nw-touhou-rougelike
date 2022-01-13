@@ -110,7 +110,6 @@ export default class Scene_Boss extends Scene_Base {
 						this.getProcessClass(`messages-window`).destroy();
 						this.setProcessMessageWindow();
 					} else {
-						console.log(GameManager.party.getMenberList());
 						// TODO: ボスバトル呼び出し
 						const event = EventManager.getEvent(EventCode.StartBattle);
 						event.execute(bossMessagesInfo.enemyPartyId);

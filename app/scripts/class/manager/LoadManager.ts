@@ -28,7 +28,6 @@ export default class LoadManager {
 	}
 
 	public static async start(name: string): Promise<boolean> {
-		console.log(this.mask);
 		this.loadingList.push(name);
 		this.mask.show();
 		await sleep(1);

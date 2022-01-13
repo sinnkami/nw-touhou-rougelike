@@ -33,8 +33,6 @@ export class Event_0008 extends Event_Base {
 			}
 		);
 
-		console.log(GameManager.party.getMenberList());
-
 		await SceneManager.stopScene();
 
 		await SceneManager.addScene(new Scene_Boss());

@@ -55,7 +55,6 @@ export class Sprite_Message extends Sprite_Base {
 			new RegExp(`.{0,${Math.floor(this.width / this.fontSize)}}`, "g")
 		);
 		if (!textListBySplitLength) throw new Error("not text");
-		console.log(textListBySplitLength);
 
 		textListBySplitLength.forEach(text => {
 			if (text) this.textList.push(text.split(""));

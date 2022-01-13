@@ -39,8 +39,6 @@ export default class Sprite_Portrait extends Sprite_Base {
 		this.width = texture.width / 2;
 		this.height = CommonConstruct.size.height;
 
-		console.log(this.width, this.height);
-
 		sprite.width = this.width;
 		sprite.height = this.height;
 

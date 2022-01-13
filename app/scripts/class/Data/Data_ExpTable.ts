@@ -17,7 +17,6 @@ export default class Data_ExpTable extends Data_Base {
 	public async load(): Promise<void> {
 		this.init();
 		const list = await super.load(COLLECTION_NAME);
-		console.log(list);
 		this.expTableInfoList = list as IDataExpTable[];
 	}
 

@@ -64,8 +64,6 @@ export default class Window_Selection extends Window_Base {
 		const currentSelection = this.getCurrentSelection();
 
 		let nextIndex = currentSelection.index + index;
-
-		console.log(nextIndex, this.maxIndex);
 		if (nextIndex < 0) {
 			nextIndex = this.maxIndex;
 		} else if (nextIndex > this.maxIndex) {
