@@ -1,7 +1,7 @@
 const path = require("path");
 
 const COLLECTION_NAME = path.basename(__filename, path.extname(__filename));
-const ID = "0010";
+const ID = "0012";
 
 module.exports = function (db) {
 	return new Promise((resolve) => {
