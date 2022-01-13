@@ -1,3 +1,4 @@
+import { IDataCharacter } from "../../definitions/class/Data/IDataCharacter";
 import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
 import DataManager from "../Manager/DataManager";
 import StoreManager from "../Manager/StoreManager";
@@ -25,7 +26,41 @@ export default class Game_PartyPlanningPlace extends Game_Base {
 		StoreManager.character.add(character);
 	}
 
+	public addNewCharacter(characterId: string): void {
+		const dataCharacter = DataManager.character.get(characterId);
+		if (!dataCharacter) throw new Error(`選択されたキャラは存在しない(id: ${characterId})`);
+
+		const storeCharacter = this.convertDataCharacterByStoreCharater(dataCharacter);
+		this.addCharacter(storeCharacter);
+	}
+
 	public removeCharacter(storeId: string): void {
 		StoreManager.character.remove(storeId);
+	}
+
+	private convertDataCharacterByStoreCharater(dataCharater: IDataCharacter): IStoreCharacter {
+		const characterId = dataCharater.characterId;
+		return {
+			/** 固有ID */
+			storeId: StoreManager.character.createNewStoreId(),
+			/** キャラID */
+			characterId,
+			id: characterId,
+			/** 名前 */
+			name: dataCharater.name,
+			/** レベル */
+			level: 1,
+			/** 経験値 */
+			exp: 0,
+
+			/** 成長タイプ */
+			growthType: dataCharater.growthType,
+
+			// パラメータ関連
+			// レベル1時点でのステータス
+			initStatus: dataCharater.initStatus,
+			// 最大レベル時点でのステータス
+			maxStatus: dataCharater.maxStatus,
+		};
 	}
 }

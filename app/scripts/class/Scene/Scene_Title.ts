@@ -93,18 +93,38 @@ export default class Scene_Title extends Scene_Base {
 	private async executeInitStart(): Promise<void> {
 		// TODO: 現在はテスト用の値まみれ
 
-		console.log(DataManager.enemy.getAll());
-		console.log(DataManager.enemyParty.getAll());
+		console.log(DataManager.boss.getAll());
 
 		// とりあえずキャラ追加
-		const reimu = DataManager.character.get("0001") as IStoreCharacter;
-		const sakuya = DataManager.character.get("0009") as IStoreCharacter;
-		const youmu = DataManager.character.get("0017") as IStoreCharacter;
-		StoreManager.character.add(reimu, sakuya, youmu);
+		[
+			"0001",
+			"0002",
+			"0003",
+			"0004",
+			"0005",
+			"0006",
+			"0007",
+			"0008",
+			"0009",
+			"0010",
+			"0011",
+			"0012",
+			"0013",
+			"0014",
+			"0015",
+			"0016",
+			"0017",
+			"0018",
+			"0019",
+			"0020",
+			"0021",
+			"0022",
+		].forEach(characterId => GameManager.partyPlanningPlace.addNewCharacter(characterId));
 
-		console.log(reimu, sakuya, youmu);
-
-		// パーティーを勝手に設定
-		StoreManager.party.add(new Actor(reimu), new Actor(sakuya), new Actor(youmu));
+		// 最初の3人をメンバーへ
+		["1", "2", "3"].forEach(storeId => {
+			const storeCharacter = GameManager.partyPlanningPlace.getCharacter(storeId);
+			StoreManager.party.add(new Actor(storeCharacter));
+		});
 	}
 }

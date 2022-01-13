@@ -14,4 +14,8 @@ export default class Game_Character extends Game_Base {
 		if (!character) throw new Error(`設定されていないキャラクターです (ID: ${characterId})`);
 		return character;
 	}
+
+	public getCharacterList(): IDataCharacter[] {
+		return this.characterList;
+	}
 }
