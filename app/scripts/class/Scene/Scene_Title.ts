@@ -93,7 +93,7 @@ export default class Scene_Title extends Scene_Base {
 	private async executeInitStart(): Promise<void> {
 		// TODO: 現在はテスト用の値まみれ
 
-		console.log(DataManager.boss.getAll());
+		console.info(DataManager.boss.getAll());
 
 		// とりあえずキャラ追加
 		[

@@ -112,7 +112,7 @@ export default class Scene_Battle extends Scene_Base {
 							break;
 						}
 						default: {
-							console.log("設定されていないコマンド");
+							console.info("設定されていないコマンド");
 							break;
 						}
 					}

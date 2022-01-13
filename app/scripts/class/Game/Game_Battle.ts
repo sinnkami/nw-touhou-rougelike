@@ -86,7 +86,7 @@ export default class Game_Battle extends Game_Base {
 		StoreManager.battle.setHasExecutedPhase(true);
 
 		const turn = GameManager.turn.getCurrentTrun();
-		console.log(`ターン開始 -> ${turn.character.name}(${turn.type})`);
+		console.info(`ターン開始 -> ${turn.character.name}(${turn.type})`);
 
 		// 敵ターンの場合、そのままコマンド選択処理へ
 		if (turn.type === CharacterType.Enemy) {
@@ -172,7 +172,7 @@ export default class Game_Battle extends Game_Base {
 		}, 0);
 
 		// TODO: レベルアップ判定等
-		console.log("レベルリザルト");
+		console.info("レベルリザルト");
 		GameManager.party.getMenberList().forEach(actor => {
 			const beforeLevel = actor.level;
 
@@ -185,16 +185,16 @@ export default class Game_Battle extends Game_Base {
 			}
 
 			if (beforeLevel !== actor.level) {
-				console.log(`${actor.name} レベルアップ`);
-				console.log(`Lv. ${beforeLevel} -> ${actor.level}`);
-				console.log(
+				console.info(`${actor.name} レベルアップ`);
+				console.info(`Lv. ${beforeLevel} -> ${actor.level}`);
+				console.info(
 					`HP: ${actor.calcStatus(beforeLevel, actor.growthType, CharacterStatus.Hp)} -> ${actor.maxHp}`
 				);
 			}
 		});
-		console.log("--------------");
+		console.info("--------------");
 
-		console.log("戦闘終了");
+		console.info("戦闘終了");
 
 		// MEMO: 戦闘シーン終了処理は Scene_Battle側
 	}

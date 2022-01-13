@@ -19,7 +19,7 @@ export default class ErrorManager {
 	 */
 	public static getError(code: number, ...messages: unknown[]): Error {
 		const error = new Error();
-		console.log(code);
+		console.info(code);
 		switch (code) {
 			case ErrorCode.CanvasNotFound: {
 				error.name = "ReferenceError";

@@ -105,7 +105,7 @@ export default class Scene_Boss extends Scene_Base {
 				if (GameManager.input.isPushedKey(KeyCode.Select) && !this.isBattle) {
 					const bossMessagesInfo = GameManager.boss.getBossMessages();
 					if (bossMessagesInfo.messages.length - 1 !== this.textIndex) {
-						console.log("テキスト送り");
+						console.info("テキスト送り");
 						this.textIndex++;
 						this.getProcessClass(`messages-window`).destroy();
 						this.setProcessMessageWindow();

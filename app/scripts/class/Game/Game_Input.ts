@@ -128,7 +128,7 @@ export default class Game_Input extends Game_Base {
 	private setListener(): void {
 		document.addEventListener("keydown", ev => {
 			if (!this.hasKey(ev.key)) {
-				console.log(ev.key);
+				console.info(ev.key);
 				this.setKey({
 					keyCode: ev.key,
 					frame: 0,

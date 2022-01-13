@@ -24,7 +24,7 @@ export class Event_0001 extends Event_Base {
 
 		// ボス前階層かどうか
 		if (GameManager.dungeon.isBeforeBossHierarchy) {
-			console.log("ボス前階層到達");
+			console.info("ボス前階層到達");
 			//TODO: ボスBGMへ変更
 		}
 

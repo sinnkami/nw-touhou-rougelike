@@ -126,7 +126,7 @@ export default class Scene_CreateCharacter extends Scene_Base {
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					const addCharacter = StoreCharacterSelection.getCurrentMenu();
 					GameManager.partyPlanningPlace.addNewCharacter(addCharacter.character.characterId);
-					console.log(`${addCharacter.character.fullName}(${addCharacter.character.characterId}) 追加`);
+					console.info(`${addCharacter.character.fullName}(${addCharacter.character.characterId}) 追加`);
 					return;
 				}
 

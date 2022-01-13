@@ -115,7 +115,7 @@ export default class Scene_Dungeon extends Scene_Base {
 						// 戦闘開始
 						const event = EventManager.getEvent(EventCode.StartBattle);
 						const enemyPartyId = GameManager.dungeon.getRandomEnemyPartyId();
-						console.log(`エンカウント(partyId: ${enemyPartyId})`);
+						console.info(`エンカウント(partyId: ${enemyPartyId})`);
 						await event.execute(enemyPartyId);
 						return;
 					}
