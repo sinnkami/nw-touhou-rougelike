@@ -5,3 +5,8 @@ build/
 cache/
 .vscode/launch.json
 package-lock.json
+
+app/database/db.json
+app/savedata
+
+
