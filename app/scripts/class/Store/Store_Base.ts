@@ -6,8 +6,7 @@ export default class Store_Base {
 		return;
 	}
 
-	public async load(): Promise<unknown> {
-		// TODO: セーブデータからの復帰処理
+	public async load(data: any): Promise<unknown> {
 		return Promise.resolve();
 	}
 

@@ -16,9 +16,8 @@ export default class Store_Character extends Store_Base {
 		this.storeNum = 0;
 	}
 
-	public async load(): Promise<void> {
-		this.init();
-		const list = await super.load();
+	public async load(list: IStoreCharacter[]): Promise<void> {
+		await super.load(list);
 		this.characterList = list as IStoreCharacter[];
 	}
 

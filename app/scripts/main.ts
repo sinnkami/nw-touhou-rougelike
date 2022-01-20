@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import "babel-polyfill";
-import DataManager from "./class/Manager/DataManager";
 
+import path from "./modules/path";
+
+import { DEFAULT_SAVE_FILE_NAME, SAVE_DIR, SAVE_FILE_EXTENSION } from "./class/Construct/CommonConstruct";
+
+import DataManager from "./class/Manager/DataManager";
 import DebugManager from "./class/Manager/DebugManager";
 import ErrorManager from "./class/Manager/ErrorManager";
 import EventManager from "./class/Manager/EventManager";
@@ -39,9 +43,18 @@ window.onload = () => {
 		LoadManager.init(),
 		DataManager.init(),
 		StoreManager.init(),
-	]).then(() => {
-		GameManager.loop.gameLoopStart();
-	});
+	])
+		.then(() => {
+			// セーブデータ読み込み処理
+			// TODO: 将来的には複数ファイルから選択できるようにする
+			const saveFilePath = path.resolve(SAVE_DIR, DEFAULT_SAVE_FILE_NAME + SAVE_FILE_EXTENSION);
+			return StoreManager.loadFile(saveFilePath).catch(() => {
+				console.info(`セーブデータが見つからなかった(${saveFilePath})`);
+			});
+		})
+		.then(() => {
+			GameManager.loop.gameLoopStart();
+		});
 };
 
 export {};

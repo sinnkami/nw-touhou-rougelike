@@ -21,10 +21,11 @@ export default class Store_Party extends Store_Base {
 		this.menberList = [];
 	}
 
-	public async load(): Promise<void> {
-		this.init();
-		const dict = await super.load();
-		this.menberList = dict as Actor[];
+	public async load(list: Actor[]): Promise<void> {
+		await super.load(list);
+
+		// MEMO: JSONにすると算出プロパティなどが無くなるので再生成
+		this.menberList = list.map(actor => new Actor(actor));
 	}
 
 	public getAll(): Actor[] {

@@ -3,6 +3,9 @@
 
 import { Loader, Texture } from "pixi.js";
 import Stats from "stats.js";
+import { SAVE_DIR } from "../Construct/CommonConstruct";
+import GameManager from "./GameManager";
+import StoreManager from "./StoreManager";
 /**
  * デバッグ機能を管理するクラス
  */
@@ -34,6 +37,43 @@ export default class DebugManager {
 			this.stats.update();
 		}
 		return Promise.resolve();
+	}
+
+	/**
+	 * テスト用のセーブデータを生成する
+	 */
+	public static createTestSaveDataFile(): void {
+		// とりあえずキャラ追加
+		[
+			"0001",
+			"0002",
+			"0003",
+			"0004",
+			"0005",
+			"0006",
+			"0007",
+			"0008",
+			"0009",
+			"0010",
+			"0011",
+			"0012",
+			"0013",
+			"0014",
+			"0015",
+			"0016",
+			"0017",
+			"0018",
+			"0019",
+			"0020",
+			"0021",
+			"0022",
+		].forEach(characterId => GameManager.partyPlanningPlace.addNewCharacter(characterId));
+
+		// 最初の3人をメンバーへ
+		["1", "2", "3"].forEach(storeId => GameManager.party.addMenberByStoreId(storeId));
+
+		// セーブを行う
+		StoreManager.saveFile(SAVE_DIR);
 	}
 
 	/**

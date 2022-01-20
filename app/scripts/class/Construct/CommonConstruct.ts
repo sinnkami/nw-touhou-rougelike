@@ -1,6 +1,18 @@
 import { ISize } from "pixi.js";
 import { IRoomSize } from "../../definitions/class/Construct/ICommonConstruct";
 
+import path from "../../modules/path";
+
+/** セーブデータ保存先ディレクトリ */
+export const SAVE_DIR_NAME = "savedata";
+export const DEFAULT_SAVE_FILE_NAME = "saveFile";
+export const SAVE_FILE_EXTENSION = ".savefile";
+// export const SAVE_DIR = path.join(path.dirname(process.execPath), "savedata");
+export const SAVE_DIR = path.resolve(
+	"F:\\sinnkami\\src\\github.com\\sinnkami\\nw-touhou-rougelike\\app",
+	SAVE_DIR_NAME
+);
+
 /**
  * ゲーム内にて変更されることのない定義
  */

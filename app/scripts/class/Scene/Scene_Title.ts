@@ -91,40 +91,6 @@ export default class Scene_Title extends Scene_Base {
 	 * TODO: メソッドの箇所
 	 */
 	private async executeInitStart(): Promise<void> {
-		// TODO: 現在はテスト用の値まみれ
-
-		console.info(DataManager.boss.getAll());
-
-		// とりあえずキャラ追加
-		[
-			"0001",
-			"0002",
-			"0003",
-			"0004",
-			"0005",
-			"0006",
-			"0007",
-			"0008",
-			"0009",
-			"0010",
-			"0011",
-			"0012",
-			"0013",
-			"0014",
-			"0015",
-			"0016",
-			"0017",
-			"0018",
-			"0019",
-			"0020",
-			"0021",
-			"0022",
-		].forEach(characterId => GameManager.partyPlanningPlace.addNewCharacter(characterId));
-
-		// 最初の3人をメンバーへ
-		["1", "2", "3"].forEach(storeId => {
-			const storeCharacter = GameManager.partyPlanningPlace.getCharacter(storeId);
-			StoreManager.party.add(new Actor(storeCharacter));
-		});
+		return;
 	}
 }
