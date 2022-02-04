@@ -11,6 +11,7 @@ import Sprite_Enemy from "../Sprite/Sprite_Enemy";
 import Sprite_Frame from "../Sprite/Sprite_Frame";
 import Sprite_Portrait from "../Sprite/Sprite_Portrait";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
+import Window_BattleLog from "../Window/Window_BattleLog";
 import Window_Menu from "../Window/Window_Menu";
 import Window_TargetEnemy from "../Window/Window_TargetEnemy";
 import Scene_Base from "./Scene_Base";
@@ -269,21 +270,22 @@ export default class Scene_Battle extends Scene_Base {
 	}
 
 	private async setProcessMessageWindow(): Promise<void> {
-		const MessageFrameRender = new Sprite_Frame();
-		MessageFrameRender.init({
+		const BattleLogRender = new Window_BattleLog();
+		BattleLogRender.init({
 			x: 220,
 			y: 410,
 			width: 600,
 			height: 220,
-			path: "menu-background",
+			logList: GameManager.battle.getBattleLogList(),
+			fontSize: 25,
 		});
-		await MessageFrameRender.setSprite();
+		await BattleLogRender.setSprite();
 		this.addProcess({
 			// TODO: プロセス名
 			name: `messages-window`,
-			class: MessageFrameRender,
+			class: BattleLogRender,
 			process: async () => {
-				MessageFrameRender.update();
+				BattleLogRender.update();
 			},
 		});
 	}
@@ -343,8 +345,7 @@ export default class Scene_Battle extends Scene_Base {
 						break;
 					}
 					case BattlePhase.BattleResult: {
-						await GameManager.battle.executeBattleResult();
-						SceneManager.stopScene();
+						await GameManager.battle.executeBattleResult(() => this.stopScene().then());
 						break;
 					}
 				}

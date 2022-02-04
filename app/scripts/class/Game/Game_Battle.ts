@@ -1,5 +1,6 @@
 import { IDataEnemy } from "../../definitions/class/Data/IDataEnemy";
 import { IPartyMenber } from "../../definitions/modules/field/IPartyMenber";
+import sleep from "../../modules/utils/sleep";
 import { BattlePhase, CharacterType } from "../Construct/BattleConstruct";
 import { CharacterStatus } from "../Construct/CharacterConstruct";
 import DataManager from "../Manager/DataManager";
@@ -28,6 +29,11 @@ export default class Game_Battle extends Game_Base {
 	// 実行するコマンド関数
 	private get command(): () => Promise<void> {
 		return StoreManager.battle.getCommand();
+	}
+
+	// 表示するバトルテキストリスト
+	private get battleLogList(): string[] {
+		return StoreManager.battle.getBattleLogList();
 	}
 
 	public async init(enemyGroupId: string): Promise<void> {
@@ -69,6 +75,11 @@ export default class Game_Battle extends Game_Base {
 		if (this.hasExecutedPhase) return;
 		StoreManager.battle.setHasExecutedPhase(true);
 
+		const enemyList = GameManager.enemyParty.getEnemyPartyList();
+		const enemyPartyName = `${enemyList[0].name}${enemyList.length > 1 ? "達" : ""}が現れた！`;
+		this.addBattleLog(enemyPartyName);
+		await sleep(2000);
+
 		this.changePhase(BattlePhase.SelectedTrun);
 	}
 
@@ -88,8 +99,12 @@ export default class Game_Battle extends Game_Base {
 		const turn = GameManager.turn.getCurrentTrun();
 		console.info(`ターン開始 -> ${turn.character.name}(${turn.type})`);
 
+		// バトルログをクリア
+		GameManager.battle.clearBattleLogList();
+
 		// 敵ターンの場合、そのままコマンド選択処理へ
 		if (turn.type === CharacterType.Enemy) {
+			await sleep(100);
 			this.changePhase(BattlePhase.CommandSelect);
 		}
 	}
@@ -145,6 +160,9 @@ export default class Game_Battle extends Game_Base {
 		if (this.hasExecutedPhase) return;
 		StoreManager.battle.setHasExecutedPhase(true);
 
+		// バトルログをクリア
+		GameManager.battle.clearBattleLogList();
+
 		// TODO: 戦闘継続判定
 		const enemyList = GameManager.enemyParty.getEnemyPartyList().filter(v => !v.isDead);
 		if (!enemyList.length) {
@@ -159,10 +177,15 @@ export default class Game_Battle extends Game_Base {
 		if (this.hasExecutedPhase) return;
 		StoreManager.battle.setHasExecutedPhase(true);
 
+		const enemyList = GameManager.enemyParty.getEnemyPartyList();
+		const enemyPartyName = `${enemyList[0].name}${enemyList.length > 1 ? "達" : ""}を倒した！`;
+		this.addBattleLog(enemyPartyName);
+		await sleep(2000);
+
 		this.changePhase(BattlePhase.BattleResult);
 	}
 
-	public async executeBattleResult(): Promise<void> {
+	public async executeBattleResult(callback: () => Promise<void>): Promise<void> {
 		if (this.hasExecutedPhase) return;
 		StoreManager.battle.setHasExecutedPhase(true);
 
@@ -171,9 +194,13 @@ export default class Game_Battle extends Game_Base {
 			return sum + enemy.exp;
 		}, 0);
 
+		GameManager.battle.clearBattleLogList();
+		GameManager.battle.addBattleLog(`${totalExp}経験値を獲得！`);
+		await sleep(1000);
+
 		// TODO: レベルアップ判定等
 		console.info("レベルリザルト");
-		GameManager.party.getMenberList().forEach(actor => {
+		for (const actor of GameManager.party.getMenberList()) {
 			const beforeLevel = actor.level;
 
 			// TODO: 人数によって割るかどうかを決める
@@ -190,12 +217,66 @@ export default class Game_Battle extends Game_Base {
 				console.info(
 					`HP: ${actor.calcStatus(beforeLevel, actor.growthType, CharacterStatus.Hp)} -> ${actor.maxHp}`
 				);
+				GameManager.battle.clearBattleLogList();
+				GameManager.battle.addBattleLog(`${actor.name}はレベル${actor.level}に上がった！`);
+				await sleep(1000);
+				GameManager.battle.addBattleLog(
+					`hpが${actor.maxHp - actor.calcStatus(beforeLevel, actor.growthType, CharacterStatus.Hp)}増えた！`
+				);
+				await sleep(100);
+				GameManager.battle.addBattleLog(
+					`mpが${actor.maxMp - actor.calcStatus(beforeLevel, actor.growthType, CharacterStatus.Mp)}増えた！`
+				);
+				await sleep(100);
+				GameManager.battle.addBattleLog(
+					`attackが${
+						actor.attack - actor.calcStatus(beforeLevel, actor.growthType, CharacterStatus.Attack)
+					}増えた！`
+				);
+				await sleep(100);
+				GameManager.battle.addBattleLog(
+					`defenseが${
+						actor.defense - actor.calcStatus(beforeLevel, actor.growthType, CharacterStatus.Defense)
+					}増えた！`
+				);
+				await sleep(100);
+				GameManager.battle.addBattleLog(
+					`magicalが${
+						actor.magical - actor.calcStatus(beforeLevel, actor.growthType, CharacterStatus.Magical)
+					}増えた！`
+				);
+				await sleep(100);
+				GameManager.battle.addBattleLog(
+					`agilityが${
+						actor.agility - actor.calcStatus(beforeLevel, actor.growthType, CharacterStatus.Agility)
+					}増えた！`
+				);
+				await sleep(100);
+				GameManager.battle.addBattleLog(
+					`dexterityが${
+						actor.dexterity - actor.calcStatus(beforeLevel, actor.growthType, CharacterStatus.Dexterity)
+					}増えた！`
+				);
+				await sleep(2000);
 			}
-		});
+		}
 		console.info("--------------");
 
 		console.info("戦闘終了");
 
 		// MEMO: 戦闘シーン終了処理は Scene_Battle側
+		return callback();
+	}
+
+	public getBattleLogList(): string[] {
+		return this.battleLogList;
+	}
+
+	public addBattleLog(log: string): void {
+		StoreManager.battle.addBattleLog(log);
+	}
+
+	public clearBattleLogList(): void {
+		StoreManager.battle.clearBattleLogList();
 	}
 }

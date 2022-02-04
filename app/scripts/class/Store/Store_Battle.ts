@@ -17,11 +17,15 @@ export default class Store_Battle extends Store_Base {
 	// 実行するコマンド関数
 	private commandFunc?: () => Promise<void> = undefined;
 
+	// 表示するバトルテキスト
+	private battleLogList: string[] = [];
+
 	public async init(): Promise<void> {
 		this.phase = BattlePhase.Init;
 		this.hasExecutedPhase = false;
 		this.commandType = "";
 		this.commandFunc = undefined;
+		this.battleLogList.length = 0;
 	}
 
 	public getPhase(): BattlePhase {
@@ -55,5 +59,17 @@ export default class Store_Battle extends Store_Base {
 
 	public setCommand(command: (() => Promise<void>) | undefined): void {
 		this.commandFunc = command;
+	}
+
+	public getBattleLogList(): string[] {
+		return this.battleLogList;
+	}
+
+	public addBattleLog(log: string): void {
+		this.battleLogList.push(log);
+	}
+
+	public clearBattleLogList(): void {
+		this.battleLogList.length = 0;
 	}
 }
