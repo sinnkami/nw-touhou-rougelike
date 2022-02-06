@@ -3,17 +3,17 @@ import Character from "./Character";
 
 export default class Enemy extends Character {
 	/** 合成用素材: 炎 */
-	private flame: number = 0;
+	public flame: number = 0;
 	/** 合成用素材: 水 */
-	private water: number = 0;
+	public water: number = 0;
 	/** 合成用素材: 草 */
-	private grass: number = 0;
+	public grass: number = 0;
 	/** 合成用素材: 雷 */
-	private thunder: number = 0;
+	public thunder: number = 0;
 	/** 合成用素材: 光 */
-	private light: number = 0;
+	public light: number = 0;
 	/** 合成用素材: 闇 */
-	private darkness: number = 0;
+	public darkness: number = 0;
 
 	public get enemyId(): string {
 		return this.id;

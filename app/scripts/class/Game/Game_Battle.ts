@@ -3,6 +3,7 @@ import { IPartyMenber } from "../../definitions/modules/field/IPartyMenber";
 import sleep from "../../modules/utils/sleep";
 import { BattlePhase, CharacterType } from "../Construct/BattleConstruct";
 import { CharacterStatus } from "../Construct/CharacterConstruct";
+import { Material } from "../Construct/MaterialConstruct";
 import DataManager from "../Manager/DataManager";
 import GameManager from "../Manager/GameManager";
 import StoreManager from "../Manager/StoreManager";
@@ -189,13 +190,42 @@ export default class Game_Battle extends Game_Base {
 		if (this.hasExecutedPhase) return;
 		StoreManager.battle.setHasExecutedPhase(true);
 
+		const enemyList = GameManager.enemyParty.getEnemyPartyList();
+
 		// この戦闘で得られた総経験値
-		const totalExp = GameManager.enemyParty.getEnemyPartyList().reduce((sum, enemy) => {
+		const totalExp = enemyList.reduce((sum, enemy) => {
 			return sum + enemy.exp;
 		}, 0);
 
 		GameManager.battle.clearBattleLogList();
 		GameManager.battle.addBattleLog(`${totalExp}経験値を獲得！`);
+		await sleep(200);
+
+		GameManager.material.addMaterial(
+			Material.Flame,
+			enemyList.reduce((sum, enemy) => sum + enemy.flame, 0)
+		);
+		GameManager.material.addMaterial(
+			Material.Water,
+			enemyList.reduce((sum, enemy) => sum + enemy.water, 0)
+		);
+		GameManager.material.addMaterial(
+			Material.Grass,
+			enemyList.reduce((sum, enemy) => sum + enemy.grass, 0)
+		);
+		GameManager.material.addMaterial(
+			Material.Thunder,
+			enemyList.reduce((sum, enemy) => sum + enemy.thunder, 0)
+		);
+		GameManager.material.addMaterial(
+			Material.Light,
+			enemyList.reduce((sum, enemy) => sum + enemy.light, 0)
+		);
+		GameManager.material.addMaterial(
+			Material.Darkness,
+			enemyList.reduce((sum, enemy) => sum + enemy.darkness, 0)
+		);
+		GameManager.battle.addBattleLog(`時空片を獲得！`);
 		await sleep(1000);
 
 		// TODO: レベルアップ判定等

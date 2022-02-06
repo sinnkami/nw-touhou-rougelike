@@ -89,7 +89,7 @@ export default class StoreManager {
 		}
 		const saveData: ISaveData = JSON.parse(fs.readFileSync(saveFilePath));
 		// TODO: ロード時、読み込まれなかったら個別でログを出力する
-		return Promise.allSettled([
+		return Promise.all([
 			this.character.load(saveData.character),
 			this.party.load(saveData.party),
 			this.material.load(saveData.material),
