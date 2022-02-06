@@ -6,6 +6,7 @@ import EventManager, { EventCode } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import StoreManager from "../Manager/StoreManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
+import Sprite_Logo from "../Sprite/Sprite_Logo";
 import Scene_Base from "./Scene_Base";
 
 /** プロセス名 */
@@ -38,6 +39,23 @@ export default class Scene_Title extends Scene_Base {
 
 		await this.setProcessBackImage();
 		await this.setProcessInputSelect();
+
+		const TitleLogoRender = new Sprite_Logo();
+		TitleLogoRender.init({
+			path: "title-logo",
+			x: 40,
+			y: 100,
+			width: 760,
+			height: 200,
+		});
+		await TitleLogoRender.setSprite();
+		this.addProcess({
+			name: "title-logo",
+			class: TitleLogoRender,
+			process: async () => {
+				TitleLogoRender.update();
+			},
+		});
 	}
 
 	/**

@@ -20,6 +20,10 @@ export class Event_0003 extends Event_Base {
 			name: "title-background",
 			path: "assets/images/background/title.jpg",
 		});
+		await ResourceManager.loadResources({
+			name: "title-logo",
+			path: "assets/images/title/logo.png",
+		});
 
 		// MEMO: 最初以外に呼ぶことあると思うから条件分岐
 		if (SceneManager.getScene()) {
