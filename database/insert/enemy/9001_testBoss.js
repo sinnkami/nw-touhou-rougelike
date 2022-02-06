@@ -33,6 +33,13 @@ module.exports = function (db) {
 				agility: 50,
 				dexterity: 10,
 			},
+
+			flame: 100,
+			water: 100,
+			grass: 100,
+			thunder: 100,
+			light: 100,
+			darkness: 100,
 		};
 
 
