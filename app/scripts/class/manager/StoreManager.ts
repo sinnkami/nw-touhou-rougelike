@@ -8,6 +8,7 @@ import Store_Party from "../Store/Store_Party";
 
 import fs from "../../modules/fs";
 import path from "../../modules/path";
+import Store_Material from "../Store/Store_Material";
 
 /**
  * セーブデータの情報を管理するクラス
@@ -19,6 +20,7 @@ export default class StoreManager {
 	public static enemyParty: Store_EnemyParty = new Store_EnemyParty();
 	public static battle: Store_Battle = new Store_Battle();
 	public static dungeon: Store_Dungeon = new Store_Dungeon();
+	public static material: Store_Material = new Store_Material();
 
 	/**
 	 * 初期化処理
@@ -31,6 +33,7 @@ export default class StoreManager {
 			this.enemyParty.init(),
 			this.battle.init(),
 			this.dungeon.init(),
+			this.material.init(),
 		]).then();
 	}
 
@@ -61,6 +64,7 @@ export default class StoreManager {
 		const saveData: ISaveData = {
 			character: this.character.getAll(),
 			party: this.party.getAll(),
+			material: this.material.getAll(),
 		};
 
 		console.log(JSON.stringify(this.party.getAll()));
@@ -84,7 +88,12 @@ export default class StoreManager {
 			return Promise.reject("セーブデータ読み込み失敗");
 		}
 		const saveData: ISaveData = JSON.parse(fs.readFileSync(saveFilePath));
-		return Promise.all([this.character.load(saveData.character), this.party.load(saveData.party)]).then(() => {
+		// TODO: ロード時、読み込まれなかったら個別でログを出力する
+		return Promise.allSettled([
+			this.character.load(saveData.character),
+			this.party.load(saveData.party),
+			this.material.load(saveData.material),
+		]).then(() => {
 			console.info(`セーブデータを読み込みました(${saveFilePath})`);
 		});
 	}

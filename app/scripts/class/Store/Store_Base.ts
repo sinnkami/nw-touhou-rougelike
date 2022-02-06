@@ -7,6 +7,7 @@ export default class Store_Base {
 	}
 
 	public async load(data: any): Promise<unknown> {
+		if (data === undefined) return Promise.reject();
 		return Promise.resolve();
 	}
 
