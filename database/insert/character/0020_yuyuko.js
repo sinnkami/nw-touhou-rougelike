@@ -27,6 +27,14 @@ module.exports = function (db) {
 				agility: 50,
 				dexterity: 50,
 			},
+
+			flame: 100,
+			water: 100,
+			grass: 100,
+			thunder: 100,
+			light: 100,
+			darkness: 100,
+
 			maxStatus: {
 				hp: 300,
 				mp: 200,

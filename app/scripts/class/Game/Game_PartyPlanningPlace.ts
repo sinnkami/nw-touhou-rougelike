@@ -53,6 +53,19 @@ export default class Game_PartyPlanningPlace extends Game_Base {
 			/** 経験値 */
 			exp: 0,
 
+			/** 合成用素材: 炎 */
+			flame: dataCharater.flame,
+			/** 合成用素材: 水 */
+			water: dataCharater.water,
+			/** 合成用素材: 草 */
+			grass: dataCharater.grass,
+			/** 合成用素材: 雷 */
+			thunder: dataCharater.thunder,
+			/** 合成用素材: 光 */
+			light: dataCharater.light,
+			/** 合成用素材: 闇 */
+			darkness: dataCharater.darkness,
+
 			/** 成長タイプ */
 			growthType: dataCharater.growthType,
 

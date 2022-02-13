@@ -2,19 +2,6 @@ import { IDataEnemy } from "../../definitions/class/Data/IDataEnemy";
 import Character from "./Character";
 
 export default class Enemy extends Character {
-	/** 合成用素材: 炎 */
-	public flame: number = 0;
-	/** 合成用素材: 水 */
-	public water: number = 0;
-	/** 合成用素材: 草 */
-	public grass: number = 0;
-	/** 合成用素材: 雷 */
-	public thunder: number = 0;
-	/** 合成用素材: 光 */
-	public light: number = 0;
-	/** 合成用素材: 闇 */
-	public darkness: number = 0;
-
 	public get enemyId(): string {
 		return this.id;
 	}

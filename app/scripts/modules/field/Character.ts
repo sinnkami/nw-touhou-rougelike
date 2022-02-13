@@ -11,6 +11,19 @@ export default class Character implements ICharacter {
 	/** 経験値 */
 	public exp: number;
 
+	/** 合成用素材: 炎 */
+	public flame: number = 0;
+	/** 合成用素材: 水 */
+	public water: number = 0;
+	/** 合成用素材: 草 */
+	public grass: number = 0;
+	/** 合成用素材: 雷 */
+	public thunder: number = 0;
+	/** 合成用素材: 光 */
+	public light: number = 0;
+	/** 合成用素材: 闇 */
+	public darkness: number = 0;
+
 	/** 成長タイプ */
 	public growthType: CalcStatusType;
 
