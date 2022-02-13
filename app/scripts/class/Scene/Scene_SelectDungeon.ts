@@ -26,9 +26,9 @@ export enum ResourceName {
 const SIZE = CommonConstruct.size;
 
 /**
- * タイトル画面のシーン
+ * ダンジョン選択画面のシーン
  */
-export default class Scene_Lobby extends Scene_Base {
+export default class Scene_SelectDungeon extends Scene_Base {
 	/**
 	 * シーンを開始する
 	 * @override
@@ -72,7 +72,7 @@ export default class Scene_Lobby extends Scene_Base {
 	private async setProcessLobbyText(): Promise<void> {
 		const LobbyText = new Sprite_Text();
 		LobbyText.init({
-			text: "ロビー画面",
+			text: "ダンジョン選択画面",
 			x: 10,
 			y: 10,
 			width: 300,
@@ -98,34 +98,27 @@ export default class Scene_Lobby extends Scene_Base {
 	 */
 	private async setProcessLobbyMenu(): Promise<void> {
 		const LobbyMenuSelection = new Window_Selection();
+
+		const list = GameManager.dungeon.getDungeonList().map((dungeon, index) => {
+			return {
+				selectionId: dungeon.dungeonId,
+				index,
+				text: dungeon.name,
+			};
+		});
+		list.push({
+			selectionId: LobbyMenuId.ReturnLobby,
+			index: list.length,
+			text: "ロビーへ戻る",
+		});
+
 		LobbyMenuSelection.init({
 			x: 10,
 			y: 40,
 			width: 300,
 			height: 30,
 			fontSize: 25,
-			list: [
-				{
-					selectionId: LobbyMenuId.Dungeon,
-					index: 0,
-					text: "ダンジョン選択",
-				},
-				{
-					selectionId: LobbyMenuId.CreateCharacter,
-					index: 1,
-					text: "キャラクター呼び出し",
-				},
-				{
-					selectionId: LobbyMenuId.SelectParty,
-					index: 2,
-					text: "パーティ編成",
-				},
-				{
-					selectionId: LobbyMenuId.ReturnTitle,
-					index: 3,
-					text: "タイトルへ戻る",
-				},
-			],
+			list,
 		});
 		await LobbyMenuSelection.setSprite();
 
@@ -142,7 +135,7 @@ export default class Scene_Lobby extends Scene_Base {
 
 				// 決定キーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
-					this.excuteSelectMenu(LobbyMenuSelection.getCurrentSelection());
+					await this.excuteSelectMenu(LobbyMenuSelection.getCurrentSelection());
 					return;
 				}
 			},
@@ -151,32 +144,15 @@ export default class Scene_Lobby extends Scene_Base {
 
 	private async excuteSelectMenu(info: ISelectionInfo): Promise<void> {
 		switch (info.selectionId) {
-			// タイトルへ戻る
-			case LobbyMenuId.ReturnTitle: {
-				const event = EventManager.getEvent(EventCode.Title);
+			case LobbyMenuId.ReturnLobby: {
+				const event = EventManager.getEvent(EventCode.Lobby);
 				await event.execute();
 				return;
 			}
-
-			// ダンジョン選択
-			case LobbyMenuId.Dungeon: {
-				const event = EventManager.getEvent(EventCode.SelectDungeon);
-				await event.execute();
-				return;
-			}
-
-			// パーティ編集画面
-			case LobbyMenuId.SelectParty: {
-				const event = EventManager.getEvent(EventCode.OpenPartyPlanningPlace);
-				await event.execute();
-				return;
-			}
-
-			// キャラクター呼び出し画面
-			case LobbyMenuId.CreateCharacter: {
-				const event = EventManager.getEvent(EventCode.OpenCreateCharacter);
-				await event.execute();
-				return;
+			default: {
+				const event = EventManager.getEvent(EventCode.InvasionDungeon);
+				const dungeonId = info.selectionId;
+				await event.execute(dungeonId);
 			}
 		}
 	}

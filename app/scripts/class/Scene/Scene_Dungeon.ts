@@ -154,7 +154,7 @@ export default class Scene_Dungeon extends Scene_Base {
 		const StairsText = new Sprite_Text();
 
 		// ダンジョン情報を取得
-		const dungeonInfo = GameManager.dungeon.getDungeon();
+		const dungeonInfo = GameManager.dungeon.getCurrentDungeon();
 
 		await StairsText.init({
 			text: `${dungeonInfo.name}: ${GameManager.dungeon.getCurrentHierarchy()}F`,

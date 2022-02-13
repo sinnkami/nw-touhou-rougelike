@@ -9,7 +9,7 @@ export default class Game_Boss extends Game_Base {
 	}
 
 	public getBossMessages(): IDataBoss {
-		const dungeonInfo = GameManager.dungeon.getDungeon();
+		const dungeonInfo = GameManager.dungeon.getCurrentDungeon();
 
 		const bossMessages = this.bossInfoList.find(v => v.bossId === dungeonInfo.bossId);
 		if (!bossMessages) throw new Error("ボス戦の情報が存在しません");

@@ -34,15 +34,6 @@ export class Game_Dungeon extends Game_Base {
 	}
 
 	/**
-	 * 現在のダンジョン情報を返す
-	 */
-	public getDungeon(): IDataDungeon {
-		const dungeonInfo = this.dungeonInfo;
-		if (!dungeonInfo) throw new Error("ダンジョン情報が取得できません");
-		return dungeonInfo;
-	}
-
-	/**
 	 * ダンジョンに侵入した際の必要な情報を設定する
 	 */
 	public init(dungeonId: string): void {
@@ -57,6 +48,22 @@ export class Game_Dungeon extends Game_Base {
 
 		// ダンジョンを生成
 		this.createDungeon();
+	}
+
+	/**
+	 * 突入可能なダンジョン一覧を取得
+	 */
+	public getDungeonList(): IDataDungeon[] {
+		return DataManager.dungeon.getAll();
+	}
+
+	/**
+	 * 現在のダンジョン情報を返す
+	 */
+	public getCurrentDungeon(): IDataDungeon {
+		const dungeonInfo = this.dungeonInfo;
+		if (!dungeonInfo) throw new Error("ダンジョン情報が取得できません");
+		return dungeonInfo;
 	}
 
 	/**
