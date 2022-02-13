@@ -104,21 +104,25 @@ export default class Scene_Dungeon extends Scene_Base {
 				if (GameManager.input.isPushedKey(KeyCode.Right)) x += speed;
 				if (GameManager.input.isPushedKey(KeyCode.Left)) x -= speed;
 
-				// 移動量に合わせてキャラを移動
-				const flag = GameManager.player.move(x, y);
-				if (flag) {
-					// 移動できたならマップをずらす
-					MapRender.move(x, y);
+				// 一マスも動く気が無かったら何もしない
+				if (x === 0 && y === 0) return;
 
-					// エンカウント判定
-					if (GameManager.dungeon.checkEncount()) {
-						// 戦闘開始
-						const event = EventManager.getEvent(EventCode.StartBattle);
-						const enemyPartyId = GameManager.dungeon.getRandomEnemyPartyId();
-						console.info(`エンカウント(partyId: ${enemyPartyId})`);
-						await event.execute(enemyPartyId);
-						return;
-					}
+				// エンカウント判定
+				if (GameManager.dungeon.checkEncount()) {
+					// 戦闘開始
+					const event = EventManager.getEvent(EventCode.StartBattle);
+					const enemyPartyId = GameManager.dungeon.getRandomEnemyPartyId();
+					console.info(`エンカウント(partyId: ${enemyPartyId})`);
+					await event.execute(enemyPartyId);
+					return;
+				}
+
+				// 実際に移動できるか
+				const flag = GameManager.player.canMove(x, y);
+				if (flag) {
+					// 移動量に合わせてキャラを移動
+					GameManager.player.move(x, y);
+					MapRender.move(x, y);
 				}
 			},
 		});

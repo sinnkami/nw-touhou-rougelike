@@ -55,20 +55,11 @@ export default class Game_Player extends Game_Base {
 	 * 移動を行う
 	 * @param x
 	 * @param y
-	 * @returns boolean (移動できたかどうか)
+	 * @returns
 	 */
-	public move(x: number, y: number): boolean {
-		// 移動量が無い場合はfalse
-		if (!x && !y) return false;
-
-		const flag = this.canMove(x, y);
-
-		if (flag) {
-			this.x += x;
-			this.y += y;
-		}
-
-		return flag;
+	public move(x: number, y: number): void {
+		this.x += x;
+		this.y += y;
 	}
 
 	/**
