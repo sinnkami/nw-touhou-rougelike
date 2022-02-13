@@ -1,8 +1,10 @@
 import { IDataEnemy } from "../../definitions/class/Data/IDataEnemy";
 import { IPartyMenber } from "../../definitions/modules/field/IPartyMenber";
 import sleep from "../../modules/utils/sleep";
+import waitInput from "../../modules/utils/waitInput";
 import { BattlePhase, CharacterType } from "../Construct/BattleConstruct";
 import { CharacterStatus } from "../Construct/CharacterConstruct";
+import { KeyCode } from "../Construct/CommonConstruct";
 import { Material } from "../Construct/MaterialConstruct";
 import DataManager from "../Manager/DataManager";
 import GameManager from "../Manager/GameManager";
@@ -291,6 +293,8 @@ export default class Game_Battle extends Game_Base {
 			}
 		}
 		console.info("--------------");
+
+		await waitInput(KeyCode.Select);
 
 		console.info("戦闘終了");
 
