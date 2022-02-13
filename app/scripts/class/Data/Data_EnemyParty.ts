@@ -28,6 +28,6 @@ export default class Data_EnemyParty extends Data_Base {
 	public get(id: string): IDataEnemyParty | undefined {
 		const value = this.enemyPartyInfoList.find(v => v.enemyPartyId === id);
 		if (!value) return undefined;
-		return clone(value) as IDataEnemyParty;
+		return clone(value);
 	}
 }

@@ -28,6 +28,6 @@ export default class Data_Enemy extends Data_Base {
 	public get(id: string): IDataEnemy | undefined {
 		const value = this.enemyInfoList.find(v => v.enemyId === id);
 		if (!value) return undefined;
-		return clone(value) as IDataEnemy;
+		return clone(value);
 	}
 }
