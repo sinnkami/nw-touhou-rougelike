@@ -42,6 +42,16 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 	private seletedPartyMenber?: ICharacterMenuInfo;
 
 	/**
+	 * 初期化処理
+	 * @override
+	 */
+	public init(): void {
+		super.init();
+		this.sceneType = SceneType.Party;
+		this.seletedPartyMenber = undefined;
+	}
+
+	/**
 	 * シーンを開始する
 	 * @override
 	 */
@@ -229,11 +239,7 @@ export default class Scene_PartyPlanningPlace extends Scene_Base {
 						const addMenber = StoreCharacterSelection.getCurrentMenu();
 						GameManager.party.addMenberByStoreId(addMenber.character.storeId);
 
-						this.seletedPartyMenber = undefined;
-
-						const closeEvent = EventManager.getEvent(EventCode.ClosePartyPlanningPlace);
-						const openEvent = EventManager.getEvent(EventCode.OpenPartyPlanningPlace);
-						await closeEvent.execute().then(() => openEvent.execute());
+						await this.reloadScene();
 					}
 					return;
 				}

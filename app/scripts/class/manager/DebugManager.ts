@@ -4,6 +4,7 @@
 import { Loader, Texture } from "pixi.js";
 import Stats from "stats.js";
 import { SAVE_DIR } from "../Construct/CommonConstruct";
+import { Material } from "../Construct/MaterialConstruct";
 import GameManager from "./GameManager";
 import StoreManager from "./StoreManager";
 /**
@@ -74,6 +75,17 @@ export default class DebugManager {
 
 		// セーブを行う
 		StoreManager.saveFile(SAVE_DIR);
+	}
+
+	public static addAllMaterial(value: number): void {
+		GameManager.material.addMaterial(Material.Flame, value);
+		GameManager.material.addMaterial(Material.Water, value);
+		GameManager.material.addMaterial(Material.Grass, value);
+		GameManager.material.addMaterial(Material.Thunder, value);
+		GameManager.material.addMaterial(Material.Light, value);
+		GameManager.material.addMaterial(Material.Darkness, value);
+
+		console.debug(`デバッグ: 合成用素材を各${value}追加しました`);
 	}
 
 	/**

@@ -104,7 +104,7 @@ export default class Scene_CreateCharacter extends Scene_Base {
 					menuId: index.toString(),
 					character,
 					// TODO: 必要素材判定
-					isMask: false,
+					isMask: !GameManager.material.canMakeCharacter(character.characterId),
 				};
 			}),
 			fontSize: 20,
@@ -125,8 +125,12 @@ export default class Scene_CreateCharacter extends Scene_Base {
 
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					const addCharacter = StoreCharacterSelection.getCurrentMenu();
-					GameManager.partyPlanningPlace.addNewCharacter(addCharacter.character.characterId);
-					console.info(`${addCharacter.character.fullName}(${addCharacter.character.characterId}) 追加`);
+					if (GameManager.material.canMakeCharacter(addCharacter.character.characterId)) {
+						GameManager.partyPlanningPlace.addNewCharacter(addCharacter.character.characterId);
+						console.info(`${addCharacter.character.fullName}(${addCharacter.character.characterId}) 追加`);
+
+						await this.reloadScene();
+					}
 					return;
 				}
 

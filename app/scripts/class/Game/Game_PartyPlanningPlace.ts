@@ -1,6 +1,8 @@
 import { IDataCharacter } from "../../definitions/class/Data/IDataCharacter";
 import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
+import { Material } from "../Construct/MaterialConstruct";
 import DataManager from "../Manager/DataManager";
+import GameManager from "../Manager/GameManager";
 import StoreManager from "../Manager/StoreManager";
 import { Game_Base } from "./Game_Base";
 
@@ -30,6 +32,14 @@ export default class Game_PartyPlanningPlace extends Game_Base {
 		const dataCharacter = DataManager.character.get(characterId);
 		if (!dataCharacter) throw new Error(`選択されたキャラは存在しない(id: ${characterId})`);
 
+		// 素材を消費する
+		GameManager.material.subtractMaterial(Material.Flame, dataCharacter.flame);
+		GameManager.material.subtractMaterial(Material.Water, dataCharacter.water);
+		GameManager.material.subtractMaterial(Material.Grass, dataCharacter.grass);
+		GameManager.material.subtractMaterial(Material.Thunder, dataCharacter.thunder);
+		GameManager.material.subtractMaterial(Material.Light, dataCharacter.light);
+		GameManager.material.subtractMaterial(Material.Darkness, dataCharacter.darkness);
+
 		const storeCharacter = this.convertDataCharacterByStoreCharater(dataCharacter);
 		this.addCharacter(storeCharacter);
 	}
@@ -38,8 +48,8 @@ export default class Game_PartyPlanningPlace extends Game_Base {
 		StoreManager.character.remove(storeId);
 	}
 
-	private convertDataCharacterByStoreCharater(dataCharater: IDataCharacter): IStoreCharacter {
-		const characterId = dataCharater.characterId;
+	private convertDataCharacterByStoreCharater(dataCharacter: IDataCharacter): IStoreCharacter {
+		const characterId = dataCharacter.characterId;
 		return {
 			/** 固有ID */
 			storeId: StoreManager.character.createNewStoreId(),
@@ -47,33 +57,33 @@ export default class Game_PartyPlanningPlace extends Game_Base {
 			characterId,
 			id: characterId,
 			/** 名前 */
-			name: dataCharater.name,
+			name: dataCharacter.name,
 			/** レベル */
 			level: 1,
 			/** 経験値 */
 			exp: 0,
 
 			/** 合成用素材: 炎 */
-			flame: dataCharater.flame,
+			flame: dataCharacter.flame,
 			/** 合成用素材: 水 */
-			water: dataCharater.water,
+			water: dataCharacter.water,
 			/** 合成用素材: 草 */
-			grass: dataCharater.grass,
+			grass: dataCharacter.grass,
 			/** 合成用素材: 雷 */
-			thunder: dataCharater.thunder,
+			thunder: dataCharacter.thunder,
 			/** 合成用素材: 光 */
-			light: dataCharater.light,
+			light: dataCharacter.light,
 			/** 合成用素材: 闇 */
-			darkness: dataCharater.darkness,
+			darkness: dataCharacter.darkness,
 
 			/** 成長タイプ */
-			growthType: dataCharater.growthType,
+			growthType: dataCharacter.growthType,
 
 			// パラメータ関連
 			// レベル1時点でのステータス
-			initStatus: dataCharater.initStatus,
+			initStatus: dataCharacter.initStatus,
 			// 最大レベル時点でのステータス
-			maxStatus: dataCharater.maxStatus,
+			maxStatus: dataCharacter.maxStatus,
 		};
 	}
 }

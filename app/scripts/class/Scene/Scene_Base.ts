@@ -49,6 +49,15 @@ export default class Scene_Base {
 	}
 
 	/**
+	 * シーンを再表示する際の処理
+	 * @returns
+	 */
+	public async reloadScene(): Promise<unknown> {
+		this.init();
+		return this.startScene();
+	}
+
+	/**
 	 * シーンを停止する際の処理
 	 * @returns
 	 */
