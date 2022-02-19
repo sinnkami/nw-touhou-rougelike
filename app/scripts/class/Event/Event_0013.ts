@@ -25,6 +25,10 @@ export class Event_0013 extends Event_Base {
 			{
 				name: "message-background",
 				path: "assets/images/window/menu/test.png",
+			},
+			{
+				name: "menu-background",
+				path: "assets/images/window/menu/test.png",
 			}
 		);
 

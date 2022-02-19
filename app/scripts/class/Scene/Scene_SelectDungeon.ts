@@ -1,10 +1,11 @@
-import { ISelectionInfo } from "../../definitions/class/Window/IWindowSelection";
+import { IMenuInfo } from "../../definitions/class/Window/IWindowMenu";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import { LobbyMenuId } from "../Construct/MenuConstruct";
 import EventManager, { EventCode } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
+import Window_Menu from "../Window/Window_Menu";
 import Window_Selection from "../Window/Window_Selection";
 import Scene_Base from "./Scene_Base";
 
@@ -13,7 +14,7 @@ export enum ProcessName {
 	InputProcess = "InputProcess",
 	BackgroundImage = "BackgroundImage",
 	LobbyText = "LobbyText",
-	LobbyMenuSelection = "LobbyMenuSelection",
+	LobbyMenu = "LobbyMenu",
 }
 
 /** 画像パスを取得する際の名前 */
@@ -97,22 +98,24 @@ export default class Scene_SelectDungeon extends Scene_Base {
 	 * @returns
 	 */
 	private async setProcessLobbyMenu(): Promise<void> {
-		const LobbyMenuSelection = new Window_Selection();
+		const LobbyMenu = new Window_Menu();
 
 		const list = GameManager.dungeon.getDungeonList().map((dungeon, index) => {
 			return {
-				selectionId: dungeon.dungeonId,
-				index,
+				menuId: dungeon.dungeonId,
+				x: 0,
+				y: index,
 				text: dungeon.name,
 			};
 		});
 		list.push({
-			selectionId: LobbyMenuId.ReturnLobby,
-			index: list.length,
+			menuId: LobbyMenuId.ReturnLobby,
 			text: "ロビーへ戻る",
+			x: 0,
+			y: list.length,
 		});
 
-		LobbyMenuSelection.init({
+		LobbyMenu.init({
 			x: 10,
 			y: 40,
 			width: 300,
@@ -120,30 +123,32 @@ export default class Scene_SelectDungeon extends Scene_Base {
 			fontSize: 25,
 			list,
 		});
-		await LobbyMenuSelection.setSprite();
+		await LobbyMenu.setSprite();
 
 		this.addProcess({
-			name: ProcessName.LobbyMenuSelection,
-			class: LobbyMenuSelection,
+			name: ProcessName.LobbyMenu,
+			class: LobbyMenu,
 			process: async () => {
+				LobbyMenu.update();
+
 				if (GameManager.input.isPushedKey(KeyCode.Up)) {
-					LobbyMenuSelection.changeMenu(-1);
+					LobbyMenu.changeMenu(0, -1);
 				}
 				if (GameManager.input.isPushedKey(KeyCode.Down)) {
-					LobbyMenuSelection.changeMenu(1);
+					LobbyMenu.changeMenu(0, 1);
 				}
 
 				// 決定キーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
-					await this.excuteSelectMenu(LobbyMenuSelection.getCurrentSelection());
+					await this.excuteSelectMenu(LobbyMenu.getCurrentMenu());
 					return;
 				}
 			},
 		});
 	}
 
-	private async excuteSelectMenu(info: ISelectionInfo): Promise<void> {
-		switch (info.selectionId) {
+	private async excuteSelectMenu(info: IMenuInfo): Promise<void> {
+		switch (info.menuId) {
 			case LobbyMenuId.ReturnLobby: {
 				const event = EventManager.getEvent(EventCode.Lobby);
 				await event.execute();
@@ -151,7 +156,7 @@ export default class Scene_SelectDungeon extends Scene_Base {
 			}
 			default: {
 				const event = EventManager.getEvent(EventCode.InvasionDungeon);
-				const dungeonId = info.selectionId;
+				const dungeonId = info.menuId;
 				await event.execute(dungeonId);
 			}
 		}
