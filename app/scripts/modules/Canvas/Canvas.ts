@@ -1,4 +1,4 @@
-import { AbstractRenderer, Application, DisplayObject, Renderer } from "pixi.js";
+import { AbstractRenderer, Application, DisplayObject, Renderer, settings } from "pixi.js";
 
 /**
  * pixi.jsの描画処理を行うクラス
@@ -18,6 +18,9 @@ export default class Canvas {
 			//  transparent:      true,     // 背景を透過にしたい場合はこちらを指定
 		});
 		document.body.appendChild(app.view);
+
+		// z-indexを有効にするためのおまじない
+		settings.SORTABLE_CHILDREN = true;
 
 		app.stage.sortableChildren = true;
 
