@@ -1,5 +1,7 @@
 import Canvas from "../../modules/Canvas/Canvas";
-import { CommonConstruct } from "../Construct/CommonConstruct";
+import fs from "../../modules/fs";
+import path from "../../modules/path";
+import { CommonConstruct, SAVE_SCREEN_SHOT_DIR } from "../Construct/CommonConstruct";
 import Game_Battle from "../Game/Game_Battle";
 import Game_Boss from "../Game/Game_Boss";
 import Game_Character from "../Game/Game_Character";
@@ -55,6 +57,22 @@ export default class GameManager {
 	 */
 	public static getCanvas(): Canvas {
 		return this.canvas;
+	}
+
+	public static screenShot(): void {
+		const imgUrl = this.getCanvas().screenShot();
+
+		// data:image/png;base64,が邪魔なので排除
+		const base64String = imgUrl.split(",")[1];
+
+		// TODO: スクリーンショットした際のファイル名
+		const saveFilePath = path.resolve(SAVE_SCREEN_SHOT_DIR, Date.now() + ".png");
+
+		fs.writeFile(saveFilePath, base64String, "base64", (err: Error) => {
+			console.log(err);
+			if (err) throw err;
+			console.info(`スクリーンショットを保存しました (${saveFilePath})`);
+		});
 	}
 
 	/**

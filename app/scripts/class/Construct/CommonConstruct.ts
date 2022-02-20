@@ -13,6 +13,9 @@ export const SAVE_DIR = path.resolve(
 	SAVE_DIR_NAME
 );
 
+/** スクリーンショットを保存する場所 */
+export const SAVE_SCREEN_SHOT_DIR = "F:\\sinnkami\\Desktop";
+
 /**
  * ゲーム内にて変更されることのない定義
  */

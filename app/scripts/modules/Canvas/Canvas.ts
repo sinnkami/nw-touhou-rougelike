@@ -16,6 +16,8 @@ export default class Canvas {
 			// antialias: true,     // アンチエイリアスをONに
 			// backgroundColor: "green", // 背景色
 			//  transparent:      true,     // 背景を透過にしたい場合はこちらを指定
+			// toDataURLを使うため (ss撮影用)
+			preserveDrawingBuffer: true,
 		});
 		document.body.appendChild(app.view);
 
@@ -41,7 +43,6 @@ export default class Canvas {
 
 	/**
 	 * pixi.jsのレンダラーを取得
-	 * TODO: いる？これ？
 	 * @returns
 	 */
 	public getRenderer(): Renderer | AbstractRenderer {
@@ -73,5 +74,15 @@ export default class Canvas {
 	 */
 	public update(): void {
 		return this.app.render();
+	}
+
+	/**
+	 * スクリーンショットを行い画像URLを生成する
+	 * @returns
+	 */
+	public screenShot(): string {
+		const render = this.getRenderer();
+		// TODO: スクリーンショット時の拡張子
+		return render.view.toDataURL("image/png");
 	}
 }
