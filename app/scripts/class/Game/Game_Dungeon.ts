@@ -23,6 +23,11 @@ export class Game_Dungeon extends Game_Base {
 		return DataManager.dungeon.get(this.dungeonId);
 	}
 
+	// エンカウント確率
+	private get encountPercent(): number {
+		return Math.max(StoreManager.dungeon.getEncountPercent(), 1);
+	}
+
 	// ボス前階層かどうか
 	// TODO: storeの方が良い？
 	public get isBeforeBossHierarchy(): boolean {
@@ -104,13 +109,39 @@ export class Game_Dungeon extends Game_Base {
 	}
 
 	/**
+	 * 現在のエンカウント確率を追加
+	 * @returns
+	 */
+	public addEncountPercent(value: number): void {
+		StoreManager.dungeon.setEncountPercent(this.encountPercent + value);
+	}
+
+	/**
+	 * 現在のエンカウント確率を設定
+	 * @returns
+	 */
+	public setEncountPercent(value: number): void {
+		StoreManager.dungeon.setEncountPercent(value);
+	}
+
+	/**
 	 * 敵とエンカウントするかどうかのチェックを行う
-	 * TODO: 確率と値の設定
+	 * TODO: とりあえず適当に設定
 	 * @return エンカウントするかどうか
 	 */
 	public checkEncount(): boolean {
-		const value = Math.floor(Math.random() * 100);
-		const isEncount = value == Math.floor(Math.random() * 100) ? true : false;
+		const value = Math.floor(Math.random() * (100 - this.encountPercent));
+
+		// エンカウントするかどうか
+		const isEncount = value == Math.floor(Math.random() * (100 - this.encountPercent)) ? true : false;
+		console.log(`エンカウント指数: ${this.encountPercent} ${isEncount}`);
+		if (isEncount) {
+			// エンカウントする場合は確率を元に戻す
+			this.setEncountPercent(0);
+		} else {
+			this.addEncountPercent(value / 100);
+		}
+
 		return isEncount;
 	}
 
