@@ -382,8 +382,14 @@ export default class Scene_Battle extends Scene_Base {
 				}
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					this.removeProcess(`target-enemy`);
-					// TODO: スキル選択時
-					GameManager.battle.selectCommandType("");
+					GameManager.battle.selectCommandType("attack");
+
+					const menu = TargetEnemyWindow.getCurrentMenu();
+					const target = GameManager.enemyParty.getMenber(menu.menuId);
+
+					// コマンド選択処理実行
+					GameManager.battle.changePhase(BattlePhase.CommandSelect);
+					await GameManager.battle.executeCommandSelect(target);
 				}
 			},
 		});
@@ -426,12 +432,7 @@ export default class Scene_Battle extends Scene_Base {
 				}
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					this.removeProcess(`selection-skill`);
-					const menu = SelectionSkill.getCurrentMenu();
-					// const target = GameManager.enemyParty.getMenber(menu.menuId);
-
-					// // コマンド選択処理実行
-					// GameManager.battle.changePhase(BattlePhase.CommandSelect);
-					// await GameManager.battle.executeCommandSelect(target);
+					// TODO: スキル選択時
 				}
 			},
 		});
