@@ -11,7 +11,7 @@ export default class Data_Character extends Data_Base {
 	private characterInfoList: IDataCharacter[] = [];
 
 	public async init(): Promise<void> {
-		this.characterInfoList = [];
+		this.characterInfoList.length = 0;
 	}
 
 	public async load(): Promise<void> {

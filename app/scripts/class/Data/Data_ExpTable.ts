@@ -11,7 +11,7 @@ export default class Data_ExpTable extends Data_Base {
 	private expTableInfoList: IDataExpTable[] = [];
 
 	public async init(): Promise<void> {
-		this.expTableInfoList = [];
+		this.expTableInfoList.length = 0;
 	}
 
 	public async load(): Promise<void> {

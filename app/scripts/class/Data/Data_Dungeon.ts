@@ -11,7 +11,7 @@ export default class Data_Dungeon extends Data_Base {
 	private dungeonInfoList: IDataDungeon[] = [];
 
 	public async init(): Promise<void> {
-		this.dungeonInfoList = [];
+		this.dungeonInfoList.length = 0;
 	}
 
 	public async load(): Promise<void> {

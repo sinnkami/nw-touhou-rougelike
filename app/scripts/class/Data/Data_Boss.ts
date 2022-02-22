@@ -11,7 +11,7 @@ export default class Data_Boss extends Data_Base {
 	private bossInfoList: IDataBoss[] = [];
 
 	public async init(): Promise<void> {
-		this.bossInfoList = [];
+		this.bossInfoList.length = 0;
 	}
 
 	public async load(): Promise<void> {

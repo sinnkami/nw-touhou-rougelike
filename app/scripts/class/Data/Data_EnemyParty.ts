@@ -12,7 +12,7 @@ export default class Data_EnemyParty extends Data_Base {
 	private enemyPartyInfoList: IDataEnemyParty[] = [];
 
 	public async init(): Promise<void> {
-		this.enemyPartyInfoList = [];
+		this.enemyPartyInfoList.length = 0;
 	}
 
 	public async load(): Promise<void> {
