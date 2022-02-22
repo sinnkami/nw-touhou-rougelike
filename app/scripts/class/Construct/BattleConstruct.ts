@@ -12,8 +12,8 @@ export const BattleCommandList: IMenuInfo[] = [
 		y: 0,
 	},
 	{
-		menuId: "test2",
-		text: "スペル",
+		menuId: "skill",
+		text: "スキル",
 		x: 0,
 		y: 1,
 	},

@@ -13,6 +13,7 @@ import Sprite_Portrait from "../Sprite/Sprite_Portrait";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
 import Window_BattleLog from "../Window/Window_BattleLog";
 import Window_Menu from "../Window/Window_Menu";
+import Window_SelectionSkill from "../Window/Window_SelectionSkill";
 import Window_TargetEnemy from "../Window/Window_TargetEnemy";
 import Scene_Base from "./Scene_Base";
 
@@ -111,6 +112,10 @@ export default class Scene_Battle extends Scene_Base {
 							GameManager.battle.selectCommandType("attack");
 							this.setProcessSelectCommandAtack();
 							break;
+						}
+						case "skill": {
+							GameManager.battle.selectCommandType("skill");
+							this.setProcessSelectCommandSkill();
 						}
 						default: {
 							console.info("設定されていないコマンド");
@@ -377,12 +382,56 @@ export default class Scene_Battle extends Scene_Base {
 				}
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					this.removeProcess(`target-enemy`);
-					const menu = TargetEnemyWindow.getCurrentMenu();
-					const target = GameManager.enemyParty.getMenber(menu.menuId);
+					// TODO: スキル選択時
+					GameManager.battle.selectCommandType("");
+				}
+			},
+		});
+	}
 
-					// コマンド選択処理実行
-					GameManager.battle.changePhase(BattlePhase.CommandSelect);
-					await GameManager.battle.executeCommandSelect(target);
+	private async setProcessSelectCommandSkill(): Promise<void> {
+		// キー情報を初期化
+		GameManager.input.init();
+
+		const SelectionSkill = new Window_SelectionSkill();
+		SelectionSkill.init({
+			x: 100,
+			y: 100,
+			width: 300,
+			height: 400,
+			fontSize: 26,
+			list: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20].map(v => {
+				return {
+					index: v,
+					menuId: "test" + v,
+					skill: "テスト_" + v,
+				};
+			}),
+		});
+
+		await SelectionSkill.setSprite();
+		SelectionSkill.setZIndex(10);
+		this.addProcess({
+			// TODO: プロセス名
+			name: `selection-skill`,
+			class: SelectionSkill,
+			process: async () => {
+				SelectionSkill.update();
+
+				if (GameManager.input.isPushedKey(KeyCode.Down)) return SelectionSkill.changeMenu(1);
+				if (GameManager.input.isPushedKey(KeyCode.Up)) return SelectionSkill.changeMenu(-1);
+				if (GameManager.input.isPushedKey(KeyCode.Escape)) {
+					this.removeProcess(`selection-skill`);
+					GameManager.battle.selectCommandType("");
+				}
+				if (GameManager.input.isPushedKey(KeyCode.Select)) {
+					this.removeProcess(`selection-skill`);
+					const menu = SelectionSkill.getCurrentMenu();
+					// const target = GameManager.enemyParty.getMenber(menu.menuId);
+
+					// // コマンド選択処理実行
+					// GameManager.battle.changePhase(BattlePhase.CommandSelect);
+					// await GameManager.battle.executeCommandSelect(target);
 				}
 			},
 		});
