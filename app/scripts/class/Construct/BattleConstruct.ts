@@ -1,30 +1,55 @@
 import { IMenuInfo } from "../../definitions/class/Window/IWindowMenu";
 
+export enum CharacterType {
+	Player = "Player",
+	Enemy = "Enemy",
+}
+
+export enum BattlePhase {
+	Init = "Init",
+	BattleStart = "BattleStart",
+	SelectedTrun = "SelectedTrun",
+	TrunStart = "TrunStart",
+	CommandSelect = "CommandSelect",
+	CommandExecute = "CommandExecute",
+	CommandEnd = "CommandEnd",
+	TrunEnd = "TrunEnd",
+	BattleEnd = "BattleEnd",
+	BattleResult = "BattleResult",
+}
+
+export enum BattleCommands {
+	Attack = "Attack",
+	Skill = "Skill",
+	Item = "Item",
+	Escape = "Escape",
+}
+
 interface IEnemyPositionInfo {
 	[size: number]: { x: number; y: number }[];
 }
 
 export const BattleCommandList: IMenuInfo[] = [
 	{
-		menuId: "attack",
+		menuId: BattleCommands.Attack,
 		text: "戦う",
 		x: 0,
 		y: 0,
 	},
 	{
-		menuId: "skill",
+		menuId: BattleCommands.Skill,
 		text: "スキル",
 		x: 0,
 		y: 1,
 	},
 	{
-		menuId: "test3",
+		menuId: BattleCommands.Item,
 		text: "アイテム",
 		x: 0,
 		y: 2,
 	},
 	{
-		menuId: "test4",
+		menuId: BattleCommands.Escape,
 		text: "逃げる",
 		x: 0,
 		y: 3,
@@ -63,21 +88,3 @@ export const EnemyPosition: IEnemyPositionInfo = {
 		},
 	],
 };
-
-export enum CharacterType {
-	Player = "Player",
-	Enemy = "Enemy",
-}
-
-export enum BattlePhase {
-	Init = "Init",
-	BattleStart = "BattleStart",
-	SelectedTrun = "SelectedTrun",
-	TrunStart = "TrunStart",
-	CommandSelect = "CommandSelect",
-	CommandExecute = "CommandExecute",
-	CommandEnd = "CommandEnd",
-	TrunEnd = "TrunEnd",
-	BattleEnd = "BattleEnd",
-	BattleResult = "BattleResult",
-}

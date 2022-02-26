@@ -2,7 +2,7 @@ import { IDataEnemy } from "../../definitions/class/Data/IDataEnemy";
 import { IPartyMenber } from "../../definitions/modules/field/IPartyMenber";
 import sleep from "../../modules/utils/sleep";
 import waitInput from "../../modules/utils/waitInput";
-import { BattlePhase, CharacterType } from "../Construct/BattleConstruct";
+import { BattleCommands, BattlePhase, CharacterType } from "../Construct/BattleConstruct";
 import { CharacterStatus } from "../Construct/CharacterConstruct";
 import { KeyCode } from "../Construct/CommonConstruct";
 import { Material } from "../Construct/MaterialConstruct";
@@ -22,11 +22,6 @@ export default class Game_Battle extends Game_Base {
 	// そのフェイズを実行したか
 	private get hasExecutedPhase(): boolean {
 		return StoreManager.battle.getHasExecutedPhase();
-	}
-
-	// 選択されたコマンド
-	private get commandType(): string {
-		return StoreManager.battle.getCommandType();
 	}
 
 	// 実行するコマンド関数
@@ -54,13 +49,12 @@ export default class Game_Battle extends Game_Base {
 		);
 	}
 
-	// 選択したコマンドを保持する
-	public selectCommandType(command: string): void {
-		StoreManager.battle.setCommandType(command);
+	public getCommandType(): BattleCommands | null {
+		return StoreManager.battle.getCommandType();
 	}
 
-	public getCommandType(): string {
-		return this.commandType;
+	public setCommandType(command: BattleCommands | null): void {
+		StoreManager.battle.setCommandType(command);
 	}
 
 	public getPhase(): BattlePhase {
@@ -112,25 +106,16 @@ export default class Game_Battle extends Game_Base {
 		}
 	}
 
-	// TODO: コマンド内容
-	public async executeCommandSelect(target: IPartyMenber): Promise<void> {
+	public async executeCommandSelectByAttack(target: IPartyMenber): Promise<void> {
 		if (this.hasExecutedPhase) return;
 		StoreManager.battle.setHasExecutedPhase(true);
 
 		const turn = GameManager.turn.getCurrentTrun();
-		switch (this.commandType) {
-			case "attack": {
-				const source = turn.character;
+		const source = turn.character;
 
-				// 通常攻撃コマンドを設定
-				const command = () => attack(source, target);
-				StoreManager.battle.setCommand(command);
-
-				break;
-			}
-			default:
-				throw new Error("選択されたコマンドが存在しない");
-		}
+		// 通常攻撃コマンドを設定
+		const command = () => attack(source, target);
+		StoreManager.battle.setCommand(command);
 
 		// フェイズをコマンド実行へ移行
 		this.changePhase(BattlePhase.CommandExecute);
@@ -153,7 +138,7 @@ export default class Game_Battle extends Game_Base {
 		GameManager.turn.setGaugeInCurrentTurn();
 
 		// 使用したコマンドを初期化
-		this.selectCommandType("");
+		this.setCommandType(null);
 		StoreManager.battle.setCommand(undefined);
 
 		this.changePhase(BattlePhase.TrunEnd);

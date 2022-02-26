@@ -1,5 +1,11 @@
 import getRandomValue from "../../modules/utils/getRandomValue";
-import { BattleCommandList, BattlePhase, CharacterType, EnemyPosition } from "../Construct/BattleConstruct";
+import {
+	BattleCommandList,
+	BattleCommands,
+	BattlePhase,
+	CharacterType,
+	EnemyPosition,
+} from "../Construct/BattleConstruct";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import DataManager from "../Manager/DataManager";
 import GameManager from "../Manager/GameManager";
@@ -109,12 +115,12 @@ export default class Scene_Battle extends Scene_Base {
 					const menu = BattleMenuRender.getCurrentMenu();
 					switch (menu.menuId) {
 						case "attack": {
-							GameManager.battle.selectCommandType("attack");
-							this.setProcessSelectCommandAtack();
+							GameManager.battle.setCommandType(BattleCommands.Attack);
+							this.setProcessSelectCommandAttack();
 							break;
 						}
 						case "skill": {
-							GameManager.battle.selectCommandType("skill");
+							GameManager.battle.setCommandType(BattleCommands.Skill);
 							this.setProcessSelectCommandSkill();
 						}
 						default: {
@@ -328,8 +334,8 @@ export default class Scene_Battle extends Scene_Base {
 							const menberList = GameManager.party.getMenberList();
 
 							// TODO: とりあえず通常攻撃をさせる
-							GameManager.battle.selectCommandType("attack");
-							GameManager.battle.executeCommandSelect(getRandomValue(menberList));
+							GameManager.battle.setCommandType(BattleCommands.Attack);
+							GameManager.battle.executeCommandSelectByAttack(getRandomValue(menberList));
 						}
 						break;
 					}
@@ -358,7 +364,7 @@ export default class Scene_Battle extends Scene_Base {
 		});
 	}
 
-	private async setProcessSelectCommandAtack(): Promise<void> {
+	private async setProcessSelectCommandAttack(): Promise<void> {
 		// キー情報を初期化
 		GameManager.input.init();
 
@@ -378,18 +384,17 @@ export default class Scene_Battle extends Scene_Base {
 				if (GameManager.input.isPushedKey(KeyCode.Left)) return TargetEnemyWindow.changeMenu(-1);
 				if (GameManager.input.isPushedKey(KeyCode.Escape)) {
 					this.removeProcess(`target-enemy`);
-					GameManager.battle.selectCommandType("");
+					GameManager.battle.setCommandType(null);
 				}
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					this.removeProcess(`target-enemy`);
-					GameManager.battle.selectCommandType("attack");
 
 					const menu = TargetEnemyWindow.getCurrentMenu();
 					const target = GameManager.enemyParty.getMenber(menu.menuId);
 
 					// コマンド選択処理実行
 					GameManager.battle.changePhase(BattlePhase.CommandSelect);
-					await GameManager.battle.executeCommandSelect(target);
+					await GameManager.battle.executeCommandSelectByAttack(target);
 				}
 			},
 		});
@@ -428,7 +433,7 @@ export default class Scene_Battle extends Scene_Base {
 				if (GameManager.input.isPushedKey(KeyCode.Up)) return SelectionSkill.changeMenu(-1);
 				if (GameManager.input.isPushedKey(KeyCode.Escape)) {
 					this.removeProcess(`selection-skill`);
-					GameManager.battle.selectCommandType("");
+					GameManager.battle.setCommandType(null);
 				}
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					this.removeProcess(`selection-skill`);

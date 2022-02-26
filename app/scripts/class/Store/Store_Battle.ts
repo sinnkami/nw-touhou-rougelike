@@ -1,5 +1,5 @@
 import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
-import { BattlePhase } from "../Construct/BattleConstruct";
+import { BattleCommands, BattlePhase } from "../Construct/BattleConstruct";
 import Store_Base from "./Store_Base";
 
 /**
@@ -12,10 +12,10 @@ export default class Store_Battle extends Store_Base {
 	private hasExecutedPhase: boolean = false;
 
 	// 現在選択しているコマンド
-	private commandType: string = "";
+	private commandType: BattleCommands | null = null;
 
 	// 実行するコマンド関数
-	private commandFunc?: () => Promise<void> = undefined;
+	private commandFunc?: () => Promise<void>;
 
 	// 表示するバトルテキスト
 	private battleLogList: string[] = [];
@@ -23,7 +23,7 @@ export default class Store_Battle extends Store_Base {
 	public async init(): Promise<void> {
 		this.phase = BattlePhase.Init;
 		this.hasExecutedPhase = false;
-		this.commandType = "";
+		this.commandType = null;
 		this.commandFunc = undefined;
 		this.battleLogList.length = 0;
 	}
@@ -44,11 +44,11 @@ export default class Store_Battle extends Store_Base {
 		this.hasExecutedPhase = hasExecutedPhase;
 	}
 
-	public getCommandType(): string {
+	public getCommandType(): BattleCommands | null {
 		return this.commandType;
 	}
 
-	public setCommandType(commandType: string): void {
+	public setCommandType(commandType: BattleCommands | null): void {
 		this.commandType = commandType;
 	}
 
