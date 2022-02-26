@@ -2,7 +2,7 @@ import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
 import Actor from "../../modules/field/Actor";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import DataManager from "../Manager/DataManager";
-import EventManager, { EventCode } from "../Manager/EventManager";
+import EventManager, { EventName } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import StoreManager from "../Manager/StoreManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
@@ -97,7 +97,7 @@ export default class Scene_Title extends Scene_Base {
 					await this.executeInitStart();
 
 					// ロビー画面表示イベントを取得
-					const event = EventManager.getEvent(EventCode.Lobby);
+					const event = EventManager.getEvent(EventName.SceneToLobby);
 					event.execute();
 				}
 			},

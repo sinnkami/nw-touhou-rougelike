@@ -1,16 +1,14 @@
-import { Event_0001 } from "../Event/Event_0001";
-import { Event_0002 } from "../Event/Event_0002";
-import { Event_0003 } from "../Event/Event_0003";
-import { Event_0004 } from "../Event/Event_0004";
-import { Event_0005 } from "../Event/Event_0005";
-import { Event_0006 } from "../Event/Event_0006";
-import { Event_0007 } from "../Event/Event_0007";
-import { Event_0008 } from "../Event/Event_0008";
-import { Event_0009 } from "../Event/Event_0009";
-import { Event_0010 } from "../Event/Event_0010";
-import { Event_0011 } from "../Event/Event_0011";
-import { Event_0012 } from "../Event/Event_0012";
-import { Event_0013 } from "../Event/Event_0013";
+import { Event_DungeonHierarchy } from "../Event/Event_DungeonHierarchy";
+import { Event_SceneToDungeon } from "../Event/Event_SceneToDungeon";
+import { Event_SceneToTitle } from "../Event/Event_SceneToTitle";
+import { Event_SceneToLobby } from "../Event/Event_SceneToLobby";
+import { Event_OpenDungeonMenu } from "../Event/Event_OpenDungeonMenu";
+import { Event_CloseScene } from "../Event/Event_CloseScene";
+import { Event_SceneToBattle } from "../Event/Event_SceneToBattle";
+import { Event_BossRoom } from "../Event/Event_BossRoom";
+import { Event_OpenEditParty } from "../Event/Event_OpenEditParty";
+import { Event_OpenCreateCharacter } from "../Event/Event_OpenCreateCharacter";
+import { Event_SceneToSelectDungeon } from "../Event/Event_SceneToSelectDungeon";
 import { Event_Base } from "../Event/Event_Base";
 
 /**
@@ -28,52 +26,46 @@ export default class EventManager {
 	/**
 	 * イベント内容を取得
 	 */
-	public static getEvent(eventCode: EventCode): Event_Base {
-		switch (eventCode) {
-			case EventCode.Stairs:
-				return new Event_0001();
-			case EventCode.InvasionDungeon:
-				return new Event_0002();
-			case EventCode.Title:
-				return new Event_0003();
-			case EventCode.Lobby:
-				return new Event_0004();
-			case EventCode.OpenMenu:
-				return new Event_0005();
-			case EventCode.CloseMenu:
-				return new Event_0006();
-			case EventCode.StartBattle:
-				return new Event_0007();
-			case EventCode.BossRoom:
-				return new Event_0008();
-			case EventCode.OpenPartyPlanningPlace:
-				return new Event_0009();
-			case EventCode.ClosePartyPlanningPlace:
-				return new Event_0010();
-			case EventCode.OpenCreateCharacter:
-				return new Event_0011();
-			case EventCode.CloseCreateCharacter:
-				return new Event_0012();
-			case EventCode.SelectDungeon:
-				return new Event_0013();
+	public static getEvent(eventName: EventName): Event_Base {
+		switch (eventName) {
+			case EventName.DungeonHierarchy:
+				return new Event_DungeonHierarchy();
+			case EventName.SceneToDungeon:
+				return new Event_SceneToDungeon();
+			case EventName.SceneToTitle:
+				return new Event_SceneToTitle();
+			case EventName.SceneToLobby:
+				return new Event_SceneToLobby();
+			case EventName.OpenDungeonMenu:
+				return new Event_OpenDungeonMenu();
+			case EventName.CloseScene:
+				return new Event_CloseScene();
+			case EventName.SceneToBattle:
+				return new Event_SceneToBattle();
+			case EventName.BossRoom:
+				return new Event_BossRoom();
+			case EventName.OpenEditParty:
+				return new Event_OpenEditParty();
+			case EventName.OpenCreateCharacter:
+				return new Event_OpenCreateCharacter();
+			case EventName.SceneToSelectDungeon:
+				return new Event_SceneToSelectDungeon();
 			default:
 				throw new Error("no event");
 		}
 	}
 }
 
-export enum EventCode {
-	Stairs = "1",
-	InvasionDungeon = "2",
-	Title = "3",
-	Lobby = "4",
-	OpenMenu = "5",
-	CloseMenu = "6",
-	StartBattle = "7",
-	BossRoom = "8",
-	OpenPartyPlanningPlace = "9",
-	ClosePartyPlanningPlace = "10",
-	OpenCreateCharacter = "11",
-	CloseCreateCharacter = "12",
-	SelectDungeon = "13",
+export enum EventName {
+	DungeonHierarchy = "DungeonHierarchy",
+	SceneToDungeon = "SceneToDungeon",
+	SceneToTitle = "SceneToTitle",
+	SceneToLobby = "SceneToLobby",
+	OpenDungeonMenu = "OpenDungeonMenu",
+	CloseScene = "CloseScene",
+	SceneToBattle = "SceneToBattle",
+	BossRoom = "BossRoom",
+	OpenEditParty = "OpenEditParty",
+	OpenCreateCharacter = "OpenCreateCharacter",
+	SceneToSelectDungeon = "SceneToSelectDungeon",
 }

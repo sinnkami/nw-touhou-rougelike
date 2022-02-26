@@ -2,7 +2,7 @@ import { ISelectionInfo } from "../../definitions/class/Window/IWindowSelection"
 import { IMenuInfo } from "../../definitions/class/Window/IWindowMenu";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import { LobbyMenuId } from "../Construct/MenuConstruct";
-import EventManager, { EventCode } from "../Manager/EventManager";
+import EventManager, { EventName } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
@@ -161,28 +161,28 @@ export default class Scene_Lobby extends Scene_Base {
 		switch (info.menuId) {
 			// タイトルへ戻る
 			case LobbyMenuId.ReturnTitle: {
-				const event = EventManager.getEvent(EventCode.Title);
+				const event = EventManager.getEvent(EventName.SceneToTitle);
 				await event.execute();
 				return;
 			}
 
 			// ダンジョン選択
 			case LobbyMenuId.Dungeon: {
-				const event = EventManager.getEvent(EventCode.SelectDungeon);
+				const event = EventManager.getEvent(EventName.SceneToSelectDungeon);
 				await event.execute();
 				return;
 			}
 
 			// パーティ編集画面
 			case LobbyMenuId.SelectParty: {
-				const event = EventManager.getEvent(EventCode.OpenPartyPlanningPlace);
+				const event = EventManager.getEvent(EventName.OpenEditParty);
 				await event.execute();
 				return;
 			}
 
 			// キャラクター呼び出し画面
 			case LobbyMenuId.CreateCharacter: {
-				const event = EventManager.getEvent(EventCode.OpenCreateCharacter);
+				const event = EventManager.getEvent(EventName.OpenCreateCharacter);
 				await event.execute();
 				return;
 			}

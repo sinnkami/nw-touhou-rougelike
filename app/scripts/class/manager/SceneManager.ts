@@ -1,4 +1,4 @@
-import EventManager, { EventCode } from "./EventManager";
+import EventManager, { EventName } from "./EventManager";
 import Scene_Base from "../Scene/Scene_Base";
 import ErrorManager, { ErrorCode } from "./ErrorManager";
 
@@ -23,7 +23,7 @@ export default class SceneManager {
 	public static async init(): Promise<void> {
 		// TODO: Scene_Bootを作成し、設定
 		// MEMO: Boot要らない気がしてきた
-		const event = EventManager.getEvent(EventCode.Title);
+		const event = EventManager.getEvent(EventName.SceneToTitle);
 		await event.execute();
 	}
 

@@ -1,13 +1,12 @@
-import EventManager, { EventCode } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import LoadManager from "../Manager/LoadManager";
 import SceneManager from "../Manager/SceneManager";
 import { Event_Base } from "./Event_Base";
 
 /**
- * 0001: ダンジョン内階段イベント
+ * ダンジョン内階段イベント
  */
-export class Event_0001 extends Event_Base {
+export class Event_DungeonHierarchy extends Event_Base {
 	/**
 	 * イベントを実行
 	 * @override

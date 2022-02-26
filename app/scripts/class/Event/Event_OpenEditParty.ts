@@ -4,15 +4,14 @@ import GameManager from "../Manager/GameManager";
 import LoadManager from "../Manager/LoadManager";
 import ResourceManager from "../Manager/ResourceManager";
 import SceneManager from "../Manager/SceneManager";
-import Scene_CreateCharacter from "../Scene/Scene_CreateCharacter";
 import Scene_Menu from "../Scene/Scene_Menu";
 import Scene_PartyPlanningPlace from "../Scene/Scene_PartyPlanningPlace";
 import { Event_Base } from "./Event_Base";
 
 /**
- * 0011: キャラクター呼び出し画面
+ * 0009: パーティ編集画面表示
  */
-export class Event_0011 extends Event_Base {
+export class Event_OpenEditParty extends Event_Base {
 	/**
 	 * イベントを実行
 	 * @override
@@ -39,7 +38,7 @@ export class Event_0011 extends Event_Base {
 
 		await ResourceManager.loadResources(...loadResources);
 
-		await SceneManager.addScene(new Scene_CreateCharacter());
+		await SceneManager.addScene(new Scene_PartyPlanningPlace());
 
 		await SceneManager.startScene();
 

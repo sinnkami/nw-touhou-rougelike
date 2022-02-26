@@ -3,9 +3,9 @@ import { Event_Base } from "./Event_Base";
 import LoadManager from "../Manager/LoadManager";
 
 /**
- * 0006: メニューを閉じる
+ * シーンを閉じる
  */
-export class Event_0006 extends Event_Base {
+export class Event_CloseScene extends Event_Base {
 	/**
 	 * イベントを実行
 	 * @override

@@ -1,6 +1,6 @@
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import DataManager from "../Manager/DataManager";
-import EventManager, { EventCode } from "../Manager/EventManager";
+import EventManager, { EventName } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import StoreManager from "../Manager/StoreManager";
 import Sprite_Mask from "../Sprite/Sprite_Mask";
@@ -137,7 +137,7 @@ export default class Scene_CreateCharacter extends Scene_Base {
 				// escキーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Escape)) {
 					// メニューを閉じる
-					const event = EventManager.getEvent(EventCode.CloseCreateCharacter);
+					const event = EventManager.getEvent(EventName.CloseScene);
 					event.execute();
 					return;
 				}

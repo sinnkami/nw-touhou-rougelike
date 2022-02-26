@@ -8,9 +8,9 @@ import DataManager from "../Manager/DataManager";
 import sleep from "../../modules/utils/sleep";
 
 /**
- * 0002: ダンジョン突入イベント
+ * ダンジョン突入イベント
  */
-export class Event_0002 extends Event_Base {
+export class Event_SceneToDungeon extends Event_Base {
 	/**
 	 * イベントを実行
 	 * @override

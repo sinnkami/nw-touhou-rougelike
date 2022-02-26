@@ -1,6 +1,6 @@
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import EventChipName from "../Construct/EventChipName";
-import EventManager, { EventCode } from "../Manager/EventManager";
+import EventManager, { EventName } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import Sprite_Character from "../Sprite/Sprite_Character";
 import Sprite_Map from "../Sprite/Sprite_Map";
@@ -47,7 +47,7 @@ export default class Scene_Dungeon extends Scene_Base {
 			process: async () => {
 				// スペースキーの処理
 				if (GameManager.input.isPushedKey(KeyCode.Space)) {
-					const event = EventManager.getEvent(EventCode.OpenMenu);
+					const event = EventManager.getEvent(EventName.OpenDungeonMenu);
 					event.execute();
 				}
 			},
@@ -110,7 +110,7 @@ export default class Scene_Dungeon extends Scene_Base {
 				// エンカウント判定
 				if (GameManager.dungeon.checkEncount()) {
 					// 戦闘開始
-					const event = EventManager.getEvent(EventCode.StartBattle);
+					const event = EventManager.getEvent(EventName.SceneToBattle);
 					const enemyPartyId = GameManager.dungeon.getRandomEnemyPartyId();
 					console.info(`エンカウント(partyId: ${enemyPartyId})`);
 					await event.execute(enemyPartyId);
@@ -187,7 +187,7 @@ export default class Scene_Dungeon extends Scene_Base {
 						// ボス階層かどうか
 						if (GameManager.dungeon.isBeforeBossHierarchy) {
 							// ボス部屋イベント呼び出し
-							const event = EventManager.getEvent(EventCode.BossRoom);
+							const event = EventManager.getEvent(EventName.BossRoom);
 							await event.execute();
 						} else {
 							// 通常階層

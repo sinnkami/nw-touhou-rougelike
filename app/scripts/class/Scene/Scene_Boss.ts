@@ -2,7 +2,7 @@ import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
 import Actor from "../../modules/field/Actor";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import DataManager from "../Manager/DataManager";
-import EventManager, { EventCode } from "../Manager/EventManager";
+import EventManager, { EventName } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import StoreManager from "../Manager/StoreManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
@@ -111,7 +111,7 @@ export default class Scene_Boss extends Scene_Base {
 						this.setProcessMessageWindow();
 					} else {
 						// TODO: ボスバトル呼び出し
-						const event = EventManager.getEvent(EventCode.StartBattle);
+						const event = EventManager.getEvent(EventName.SceneToBattle);
 						event.execute(bossMessagesInfo.enemyPartyId);
 						this.isBattle = true;
 					}
@@ -120,7 +120,7 @@ export default class Scene_Boss extends Scene_Base {
 
 				if (this.isBattle) {
 					// TODO: 戦闘終了後処理
-					const event = EventManager.getEvent(EventCode.Lobby);
+					const event = EventManager.getEvent(EventName.SceneToLobby);
 					event.execute();
 				}
 			},

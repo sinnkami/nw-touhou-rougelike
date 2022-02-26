@@ -5,9 +5,9 @@ import LoadManager from "../Manager/LoadManager";
 import Scene_Lobby from "../Scene/Scene_Lobby";
 
 /**
- * 0004: ロビー表示
+ * ロビー表示
  */
-export class Event_0004 extends Event_Base {
+export class Event_SceneToLobby extends Event_Base {
 	/**
 	 * イベントを実行
 	 * @override

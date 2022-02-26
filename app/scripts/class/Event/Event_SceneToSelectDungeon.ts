@@ -8,7 +8,7 @@ import Scene_SelectDungeon from "../Scene/Scene_SelectDungeon";
 /**
  * 0013: ダンジョン選択画面表示
  */
-export class Event_0013 extends Event_Base {
+export class Event_SceneToSelectDungeon extends Event_Base {
 	/**
 	 * イベントを実行
 	 * @override

@@ -1,7 +1,7 @@
 import { IMenuInfo } from "../../definitions/class/Window/IWindowMenu";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import { LobbyMenuId } from "../Construct/MenuConstruct";
-import EventManager, { EventCode } from "../Manager/EventManager";
+import EventManager, { EventName } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import { Sprite_Background } from "../Sprite/Sprite_Background";
 import { Sprite_Text } from "../Sprite/Sprite_Text";
@@ -150,12 +150,12 @@ export default class Scene_SelectDungeon extends Scene_Base {
 	private async excuteSelectMenu(info: IMenuInfo): Promise<void> {
 		switch (info.menuId) {
 			case LobbyMenuId.ReturnLobby: {
-				const event = EventManager.getEvent(EventCode.Lobby);
+				const event = EventManager.getEvent(EventName.SceneToLobby);
 				await event.execute();
 				return;
 			}
 			default: {
-				const event = EventManager.getEvent(EventCode.InvasionDungeon);
+				const event = EventManager.getEvent(EventName.SceneToSelectDungeon);
 				const dungeonId = info.menuId;
 				await event.execute(dungeonId);
 			}

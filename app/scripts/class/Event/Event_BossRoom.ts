@@ -9,7 +9,7 @@ import Scene_Boss from "../Scene/Scene_Boss";
 /**
  * 0008: ボス戦前会話を実行
  */
-export class Event_0008 extends Event_Base {
+export class Event_BossRoom extends Event_Base {
 	/**
 	 * イベントを実行
 	 * @override

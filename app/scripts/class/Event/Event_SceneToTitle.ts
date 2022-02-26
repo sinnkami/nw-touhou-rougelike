@@ -7,7 +7,7 @@ import LoadManager from "../Manager/LoadManager";
 /**
  * 0003: タイトル表示
  */
-export class Event_0003 extends Event_Base {
+export class Event_SceneToTitle extends Event_Base {
 	/**
 	 * イベントを実行
 	 * @override
