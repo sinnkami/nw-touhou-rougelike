@@ -20,7 +20,7 @@ export class Event_BossRoom extends Event_Base {
 
 		const bossMessagesInfo = GameManager.boss.getBossMessages();
 
-		await ResourceManager.loadResources(
+		await this.loadResources(
 			{
 				name: "boss-background",
 				path: bossMessagesInfo.backgroundImagePath,

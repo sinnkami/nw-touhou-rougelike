@@ -1,3 +1,4 @@
+import { RenderTextureSystem } from "pixi.js";
 import { ILoadResourceInfo } from "../../definitions/class/Manager/IResourceManager";
 import DataManager from "../Manager/DataManager";
 import GameManager from "../Manager/GameManager";
@@ -20,7 +21,7 @@ export class Event_SceneToBattle extends Event_Base {
 		if (!executed) return false;
 
 		// ロードするリソース一覧
-		const loadResources: ILoadResourceInfo[] = [];
+		const loadResources = [];
 
 		loadResources.push({
 			name: "battle-background",
@@ -40,20 +41,17 @@ export class Event_SceneToBattle extends Event_Base {
 			});
 		}
 
-		// const enemyPartyId = "0001";
-		GameManager.battle.init(enemyPartyId);
-		const enemyParty = DataManager.enemyParty.get(enemyPartyId);
-		if (!enemyParty) throw new Error("存在しない敵パーティ");
-		for (const enemyId of enemyParty.enemyList) {
-			const enemyData = DataManager.enemy.get(enemyId);
-			if (!enemyData) throw new Error("存在しないエネミー情報です");
+		for (const enemy of GameManager.enemyParty.getEnemyPartyList()) {
+			const enemyData = GameManager.enemy.getEnemy(enemy.enemyId);
 			loadResources.push({
-				name: `enemy-portrait-${enemyId}`,
+				name: `enemy-portrait-${enemy.enemyId}`,
 				path: enemyData.portraitPath,
 			});
 		}
 
-		await ResourceManager.loadResources(...loadResources);
+		await this.loadResources(...loadResources);
+
+		GameManager.battle.init(enemyPartyId);
 
 		await SceneManager.addScene(new Scene_Battle());
 

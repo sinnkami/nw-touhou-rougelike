@@ -16,7 +16,7 @@ export class Event_SceneToLobby extends Event_Base {
 		const executed = await super.execute();
 		if (!executed) return false;
 
-		await ResourceManager.loadResources(
+		await this.loadResources(
 			{
 				name: "title-background",
 				path: "assets/images/background/title.jpg",

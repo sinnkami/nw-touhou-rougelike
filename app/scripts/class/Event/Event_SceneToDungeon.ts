@@ -22,14 +22,11 @@ export class Event_SceneToDungeon extends Event_Base {
 		// TODO: 遅延しないと何故かロード中の画面が後から表示される
 		await sleep(100);
 
-		// ダンジョン情報を初期化する
-		GameManager.dungeon.init(dungeonId);
-
 		// パーティ内の先頭のキャラを取得
 		const firstCharacter = GameManager.party.getFirstMenber();
 		const characterData = GameManager.character.getCharacter(firstCharacter.characterId);
 
-		await ResourceManager.loadResources(
+		await this.loadResources(
 			{
 				name: "mapChip",
 				path: "assets/images/map/chip.png",
@@ -39,6 +36,9 @@ export class Event_SceneToDungeon extends Event_Base {
 				path: characterData.charaChipPath,
 			}
 		);
+
+		// ダンジョン情報を初期化する
+		GameManager.dungeon.init(dungeonId);
 
 		await SceneManager.stopScene();
 

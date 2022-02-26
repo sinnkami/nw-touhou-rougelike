@@ -21,7 +21,7 @@ export class Event_OpenEditParty extends Event_Base {
 		if (!executed) return false;
 
 		// ロードするリソース一覧
-		const loadResources: ILoadResourceInfo[] = [];
+		const loadResources = [];
 
 		loadResources.push({
 			name: "menu-background",

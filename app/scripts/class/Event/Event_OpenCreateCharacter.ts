@@ -22,7 +22,7 @@ export class Event_OpenCreateCharacter extends Event_Base {
 		if (!executed) return false;
 
 		// ロードするリソース一覧
-		const loadResources: ILoadResourceInfo[] = [];
+		const loadResources = [];
 
 		loadResources.push({
 			name: "menu-background",
@@ -37,7 +37,7 @@ export class Event_OpenCreateCharacter extends Event_Base {
 			});
 		}
 
-		await ResourceManager.loadResources(...loadResources);
+		await this.loadResources(...loadResources);
 
 		await SceneManager.addScene(new Scene_CreateCharacter());
 

@@ -16,14 +16,16 @@ export class Event_SceneToTitle extends Event_Base {
 		const executed = await super.execute();
 		if (!executed) return false;
 
-		await ResourceManager.loadResources({
-			name: "title-background",
-			path: "assets/images/background/title.jpg",
-		});
-		await ResourceManager.loadResources({
-			name: "title-logo",
-			path: "assets/images/title/logo.png",
-		});
+		await this.loadResources(
+			{
+				name: "title-background",
+				path: "assets/images/background/title.jpg",
+			},
+			{
+				name: "title-logo",
+				path: "assets/images/title/logo.png",
+			}
+		);
 
 		// MEMO: 最初以外に呼ぶことあると思うから条件分岐
 		if (SceneManager.getScene()) {
