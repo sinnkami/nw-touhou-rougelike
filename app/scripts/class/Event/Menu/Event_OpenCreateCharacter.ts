@@ -1,13 +1,13 @@
-import { ILoadResourceInfo } from "../../definitions/class/Manager/IResourceManager";
-import DataManager from "../Manager/DataManager";
-import GameManager from "../Manager/GameManager";
-import LoadManager from "../Manager/LoadManager";
-import ResourceManager from "../Manager/ResourceManager";
-import SceneManager from "../Manager/SceneManager";
-import Scene_CreateCharacter from "../Scene/Scene_CreateCharacter";
-import Scene_Menu from "../Scene/Scene_Menu";
-import Scene_PartyPlanningPlace from "../Scene/Scene_PartyPlanningPlace";
-import { Event_Base } from "./Event_Base";
+import { ILoadResourceInfo } from "../../../definitions/class/Manager/IResourceManager";
+import DataManager from "../../Manager/DataManager";
+import GameManager from "../../Manager/GameManager";
+import LoadManager from "../../Manager/LoadManager";
+import ResourceManager from "../../Manager/ResourceManager";
+import SceneManager from "../../Manager/SceneManager";
+import Scene_CreateCharacter from "../../Scene/Scene_CreateCharacter";
+import Scene_Menu from "../../Scene/Scene_Menu";
+import Scene_PartyPlanningPlace from "../../Scene/Scene_PartyPlanningPlace";
+import { Event_Base } from "../Event_Base";
 
 /**
  * 0011: キャラクター呼び出し画面

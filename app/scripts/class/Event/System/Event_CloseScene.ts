@@ -1,6 +1,6 @@
-import SceneManager from "../Manager/SceneManager";
-import { Event_Base } from "./Event_Base";
-import LoadManager from "../Manager/LoadManager";
+import SceneManager from "../../Manager/SceneManager";
+import { Event_Base } from "../Event_Base";
+import LoadManager from "../../Manager/LoadManager";
 
 /**
  * シーンを閉じる

@@ -1,9 +1,9 @@
-import ResourceManager from "../Manager/ResourceManager";
-import SceneManager from "../Manager/SceneManager";
-import { Event_Base } from "./Event_Base";
-import LoadManager from "../Manager/LoadManager";
-import Scene_Lobby from "../Scene/Scene_Lobby";
-import Scene_SelectDungeon from "../Scene/Scene_SelectDungeon";
+import ResourceManager from "../../Manager/ResourceManager";
+import SceneManager from "../../Manager/SceneManager";
+import { Event_Base } from "../Event_Base";
+import LoadManager from "../../Manager/LoadManager";
+import Scene_Lobby from "../../Scene/Scene_Lobby";
+import Scene_SelectDungeon from "../../Scene/Scene_SelectDungeon";
 
 /**
  * 0013: ダンジョン選択画面表示

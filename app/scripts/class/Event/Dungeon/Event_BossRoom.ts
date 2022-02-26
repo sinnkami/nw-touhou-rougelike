@@ -1,10 +1,10 @@
-import ResourceManager from "../Manager/ResourceManager";
-import SceneManager from "../Manager/SceneManager";
-import { Event_Base } from "./Event_Base";
-import LoadManager from "../Manager/LoadManager";
-import Scene_Lobby from "../Scene/Scene_Lobby";
-import GameManager from "../Manager/GameManager";
-import Scene_Boss from "../Scene/Scene_Boss";
+import ResourceManager from "../../Manager/ResourceManager";
+import SceneManager from "../../Manager/SceneManager";
+import { Event_Base } from "../Event_Base";
+import LoadManager from "../../Manager/LoadManager";
+import Scene_Lobby from "../../Scene/Scene_Lobby";
+import GameManager from "../../Manager/GameManager";
+import Scene_Boss from "../../Scene/Scene_Boss";
 
 /**
  * 0008: ボス戦前会話を実行

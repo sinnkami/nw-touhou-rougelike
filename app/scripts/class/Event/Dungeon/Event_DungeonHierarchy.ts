@@ -1,7 +1,7 @@
-import GameManager from "../Manager/GameManager";
-import LoadManager from "../Manager/LoadManager";
-import SceneManager from "../Manager/SceneManager";
-import { Event_Base } from "./Event_Base";
+import GameManager from "../../Manager/GameManager";
+import LoadManager from "../../Manager/LoadManager";
+import SceneManager from "../../Manager/SceneManager";
+import { Event_Base } from "../Event_Base";
 
 /**
  * ダンジョン内階段イベント

@@ -1,12 +1,12 @@
 import { RenderTextureSystem } from "pixi.js";
-import { ILoadResourceInfo } from "../../definitions/class/Manager/IResourceManager";
-import DataManager from "../Manager/DataManager";
-import GameManager from "../Manager/GameManager";
-import LoadManager from "../Manager/LoadManager";
-import ResourceManager from "../Manager/ResourceManager";
-import SceneManager from "../Manager/SceneManager";
-import Scene_Battle from "../Scene/Scene_Battle";
-import { Event_Base } from "./Event_Base";
+import { ILoadResourceInfo } from "../../../definitions/class/Manager/IResourceManager";
+import DataManager from "../../Manager/DataManager";
+import GameManager from "../../Manager/GameManager";
+import LoadManager from "../../Manager/LoadManager";
+import ResourceManager from "../../Manager/ResourceManager";
+import SceneManager from "../../Manager/SceneManager";
+import Scene_Battle from "../../Scene/Scene_Battle";
+import { Event_Base } from "../Event_Base";
 
 /**
  * 0007: 通常戦闘開始

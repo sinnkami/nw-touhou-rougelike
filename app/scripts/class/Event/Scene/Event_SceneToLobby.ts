@@ -1,8 +1,8 @@
-import ResourceManager from "../Manager/ResourceManager";
-import SceneManager from "../Manager/SceneManager";
-import { Event_Base } from "./Event_Base";
-import LoadManager from "../Manager/LoadManager";
-import Scene_Lobby from "../Scene/Scene_Lobby";
+import ResourceManager from "../../Manager/ResourceManager";
+import SceneManager from "../../Manager/SceneManager";
+import { Event_Base } from "../Event_Base";
+import LoadManager from "../../Manager/LoadManager";
+import Scene_Lobby from "../../Scene/Scene_Lobby";
 
 /**
  * ロビー表示
