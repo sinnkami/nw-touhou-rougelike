@@ -12,8 +12,7 @@ export class Event_DungeonHierarchy extends Event_Base {
 	 * @override
 	 */
 	public async execute(): Promise<boolean> {
-		const executed = await super.execute();
-		if (!executed) return false;
+		await this.startLoading();
 
 		GameManager.map.initMapData();
 
@@ -33,6 +32,6 @@ export class Event_DungeonHierarchy extends Event_Base {
 		// 再実行することでダンジョン階層を変更
 		await SceneManager.startScene(true);
 
-		return LoadManager.complete(this.name);
+		return this.endLoading();
 	}
 }

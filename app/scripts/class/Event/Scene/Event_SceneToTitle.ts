@@ -13,8 +13,7 @@ export class Event_SceneToTitle extends Event_Base {
 	 * @override
 	 */
 	public async execute(): Promise<boolean> {
-		const executed = await super.execute();
-		if (!executed) return false;
+		await this.startLoading();
 
 		await this.loadResources(
 			{
@@ -36,6 +35,6 @@ export class Event_SceneToTitle extends Event_Base {
 
 		await SceneManager.startScene();
 
-		return LoadManager.complete(this.name);
+		return this.endLoading();
 	}
 }

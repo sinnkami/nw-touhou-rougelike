@@ -11,13 +11,12 @@ export class Event_CloseScene extends Event_Base {
 	 * @override
 	 */
 	public async execute(): Promise<boolean> {
-		const executed = await super.execute();
-		if (!executed) return false;
+		await this.startLoading();
 
 		await SceneManager.stopScene();
 
 		await SceneManager.startScene(true);
 
-		return LoadManager.complete(this.name);
+		return this.endLoading();
 	}
 }

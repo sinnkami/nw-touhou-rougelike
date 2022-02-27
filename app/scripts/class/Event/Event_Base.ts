@@ -17,11 +17,23 @@ export class Event_Base {
 	 */
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	public async execute(...values: unknown[]): Promise<boolean> {
-		if (LoadManager.isLoading) {
-			return false;
-		}
-		await LoadManager.start(this.name);
 		return true;
+	}
+
+	/**
+	 * ロード処理を開始
+	 * @returns
+	 */
+	public async startLoading(): Promise<boolean> {
+		return LoadManager.start(this.name);
+	}
+
+	/**
+	 * ロード処理を終了
+	 * @returns
+	 */
+	public async endLoading(): Promise<boolean> {
+		return LoadManager.complete(this.name);
 	}
 
 	/**

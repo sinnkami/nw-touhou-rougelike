@@ -16,8 +16,7 @@ export class Event_OpenDungeonMenu extends Event_Base {
 	 * @override
 	 */
 	public async execute(): Promise<boolean> {
-		const executed = await super.execute();
-		if (!executed) return false;
+		await this.startLoading();
 
 		// ロードするリソース一覧
 		const loadResources = [];
@@ -41,6 +40,6 @@ export class Event_OpenDungeonMenu extends Event_Base {
 
 		await SceneManager.startScene();
 
-		return LoadManager.complete(this.name);
+		return this.endLoading();
 	}
 }

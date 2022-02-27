@@ -15,8 +15,7 @@ export class Event_BossRoom extends Event_Base {
 	 * @override
 	 */
 	public async execute(): Promise<boolean> {
-		const executed = await super.execute();
-		if (!executed) return false;
+		await this.startLoading();
 
 		const bossMessagesInfo = GameManager.boss.getBossMessages();
 
@@ -39,6 +38,6 @@ export class Event_BossRoom extends Event_Base {
 
 		await SceneManager.startScene();
 
-		return LoadManager.complete(this.name);
+		return this.endLoading();
 	}
 }

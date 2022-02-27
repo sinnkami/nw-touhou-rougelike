@@ -16,8 +16,7 @@ export class Event_SceneToDungeon extends Event_Base {
 	 * @override
 	 */
 	public async execute(dungeonId: string): Promise<boolean> {
-		const executed = await super.execute();
-		if (!executed) return false;
+		await this.startLoading();
 
 		// TODO: 遅延しないと何故かロード中の画面が後から表示される
 		await sleep(100);
@@ -46,6 +45,6 @@ export class Event_SceneToDungeon extends Event_Base {
 
 		await SceneManager.startScene();
 
-		return LoadManager.complete(this.name);
+		return this.endLoading();
 	}
 }
