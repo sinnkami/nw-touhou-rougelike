@@ -34,19 +34,9 @@ export default class Game_Battle extends Game_Base {
 		return StoreManager.battle.getBattleLogList();
 	}
 
-	public async init(enemyGroupId: string): Promise<void> {
+	public async init(): Promise<void> {
 		StoreManager.battle.init();
 		StoreManager.battle.setHasExecutedPhase(true);
-
-		GameManager.enemyParty.init();
-		GameManager.turn.init();
-
-		GameManager.enemyParty.setEnemyParty(enemyGroupId);
-
-		GameManager.turn.setCharacterList(
-			GameManager.party.getMenberList(),
-			GameManager.enemyParty.getEnemyPartyList()
-		);
 	}
 
 	public getCommandType(): BattleCommands | null {

@@ -51,7 +51,17 @@ export class Event_SceneToBattle extends Event_Base {
 
 		await this.loadResources(...loadResources);
 
-		GameManager.battle.init(enemyPartyId);
+		GameManager.battle.init();
+
+		GameManager.enemyParty.init();
+		GameManager.turn.init();
+
+		GameManager.enemyParty.setEnemyParty(enemyPartyId);
+
+		GameManager.turn.setCharacterList(
+			GameManager.party.getMenberList(),
+			GameManager.enemyParty.getEnemyPartyList()
+		);
 
 		await SceneManager.addScene(new Scene_Battle());
 
