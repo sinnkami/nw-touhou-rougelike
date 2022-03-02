@@ -9,6 +9,7 @@ import Store_Party from "../Store/Store_Party";
 import fs from "../../modules/fs";
 import path from "../../modules/path";
 import Store_Material from "../Store/Store_Material";
+import Store_BattleTurn from "../Store/Store_BattleTurn";
 
 /**
  * セーブデータの情報を管理するクラス
@@ -21,6 +22,7 @@ export default class StoreManager {
 	public static battle: Store_Battle = new Store_Battle();
 	public static dungeon: Store_Dungeon = new Store_Dungeon();
 	public static material: Store_Material = new Store_Material();
+	public static battleTurn: Store_BattleTurn = new Store_BattleTurn();
 
 	/**
 	 * 初期化処理
@@ -34,6 +36,7 @@ export default class StoreManager {
 			this.battle.init(),
 			this.dungeon.init(),
 			this.material.init(),
+			this.battleTurn.init(),
 		]).then();
 	}
 

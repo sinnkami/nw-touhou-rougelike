@@ -8,6 +8,7 @@ import {
 } from "../Construct/BattleConstruct";
 import { CommonConstruct, KeyCode } from "../Construct/CommonConstruct";
 import DataManager from "../Manager/DataManager";
+import EventManager, { EventName } from "../Manager/EventManager";
 import GameManager from "../Manager/GameManager";
 import SceneManager from "../Manager/SceneManager";
 import StoreManager from "../Manager/StoreManager";
@@ -36,7 +37,6 @@ export default class Scene_Battle extends Scene_Base {
 		if (!executed) return;
 
 		await this.setProcessBackImage();
-		await this.setBattleCommandMenu();
 		await this.setProcessEnemy();
 		await this.setCharacterStatus();
 		await this.setProcessMessageWindow();
@@ -87,22 +87,6 @@ export default class Scene_Battle extends Scene_Base {
 			class: BattleMenuRender,
 			process: async () => {
 				BattleMenuRender.update();
-				BattleMenuRender.hide();
-
-				// TODO: 表示する段階の指定（多分これで大丈夫だとは思うけど一応）
-				// ターン開始フェイズ以外は動作させない
-				if (GameManager.battle.getPhase() !== BattlePhase.TrunStart) {
-					return;
-				}
-
-				// 敵ターンの場合、メニューを操作させない
-				const turn = GameManager.turn.getCurrentTrun();
-				if (turn.type === CharacterType.Enemy) {
-					return;
-				}
-
-				// このタイミングでメニューを表示
-				BattleMenuRender.show();
 
 				// メニューが既に選択済みの場合は処理しない
 				if (GameManager.battle.getCommandType()) {
@@ -114,12 +98,12 @@ export default class Scene_Battle extends Scene_Base {
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					const menu = BattleMenuRender.getCurrentMenu();
 					switch (menu.menuId) {
-						case "attack": {
+						case BattleCommands.Attack: {
 							GameManager.battle.setCommandType(BattleCommands.Attack);
 							this.setProcessSelectCommandAttack();
 							break;
 						}
-						case "skill": {
+						case BattleCommands.Skill: {
 							GameManager.battle.setCommandType(BattleCommands.Skill);
 							this.setProcessSelectCommandSkill();
 						}
@@ -307,57 +291,51 @@ export default class Scene_Battle extends Scene_Base {
 			process: async () => {
 				switch (GameManager.battle.getPhase()) {
 					case BattlePhase.Init: {
-						// MEMO: 処理は既にイベントにて呼び出し済み
-						GameManager.battle.changePhase(BattlePhase.BattleStart);
-						break;
+						await EventManager.getEvent(EventName.BattleInit).execute();
+						return;
 					}
 					case BattlePhase.BattleStart: {
-						await GameManager.battle.executeBattleStart();
-
-						break;
+						await EventManager.getEvent(EventName.BattleStart).execute();
+						return;
 					}
 					case BattlePhase.SelectedTrun: {
-						await GameManager.battle.executeSelectedTurn();
-						break;
+						await EventManager.getEvent(EventName.BattleSelectedTrun).execute();
+						return;
 					}
 					case BattlePhase.TrunStart: {
-						await GameManager.battle.executeTurnStart();
-						break;
+						await EventManager.getEvent(EventName.BattleTrunStart)
+							.execute()
+							.then(() => this.setBattleCommandMenu());
+						return;
 					}
 					case BattlePhase.CommandSelect: {
-						// MEMO: プレイヤー側コマンド選択は対象選択時に実行
-						// TODO: 敵側のターン処理
-						const turn = GameManager.turn.getCurrentTrun();
-
-						// TODO: turnの要領？
-						if (turn.type === CharacterType.Enemy) {
-							const menberList = GameManager.party.getMenberList();
-
-							// TODO: とりあえず通常攻撃をさせる
-							GameManager.battle.setCommandType(BattleCommands.Attack);
-							GameManager.battle.executeCommandSelectByAttack(getRandomValue(menberList));
-						}
-						break;
+						await EventManager.getEvent(EventName.BattleCommandSelect).execute();
+						return;
 					}
 					case BattlePhase.CommandExecute: {
-						await GameManager.battle.executeCommandExecute();
-						break;
+						this.removeProcess("battle-menu");
+						await EventManager.getEvent(EventName.BattleCommandExecute).execute();
+						return;
 					}
 					case BattlePhase.CommandEnd: {
-						await GameManager.battle.executeCommandEnd();
-						break;
+						await EventManager.getEvent(EventName.BattleCommandEnd).execute();
+						return;
 					}
 					case BattlePhase.TrunEnd: {
-						await GameManager.battle.executeTurnEnd();
-						break;
+						await EventManager.getEvent(EventName.BattleTrunEnd).execute();
+						return;
 					}
 					case BattlePhase.BattleEnd: {
-						await GameManager.battle.executeBattleEnd();
-						break;
+						await EventManager.getEvent(EventName.BattleEnd).execute();
+						return;
 					}
 					case BattlePhase.BattleResult: {
-						await GameManager.battle.executeBattleResult(() => this.stopScene().then());
-						break;
+						await EventManager.getEvent(EventName.BattleResult)
+							.execute()
+							.then(async (reslt: boolean) => {
+								if (reslt) await this.stopScene();
+							});
+						return;
 					}
 				}
 			},
@@ -391,10 +369,7 @@ export default class Scene_Battle extends Scene_Base {
 
 					const menu = TargetEnemyWindow.getCurrentMenu();
 					const target = GameManager.enemyParty.getMenber(menu.menuId);
-
-					// コマンド選択処理実行
-					GameManager.battle.changePhase(BattlePhase.CommandSelect);
-					await GameManager.battle.executeCommandSelectByAttack(target);
+					GameManager.battle.setTarget(target);
 				}
 			},
 		});

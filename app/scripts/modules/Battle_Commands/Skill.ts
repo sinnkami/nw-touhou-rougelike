@@ -1,6 +1,6 @@
-import { IPartyMenber } from "../../../definitions/modules/field/IPartyMenber";
-import sleep from "../../../modules/utils/sleep";
-import GameManager from "../../Manager/GameManager";
+import { IPartyMenber } from "../../definitions/modules/field/IPartyMenber";
+import sleep from "../utils/sleep";
+import GameManager from "../../class/Manager/GameManager";
 
 export const skill = async (source: IPartyMenber, target: IPartyMenber): Promise<void> => {
 	// TODO: 通常攻撃のダメージ計算

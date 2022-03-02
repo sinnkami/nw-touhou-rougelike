@@ -1,4 +1,5 @@
 import { IStoreCharacter } from "../../definitions/class/Store/IStoreCharacter";
+import { IPartyMenber } from "../../definitions/modules/field/IPartyMenber";
 import { BattleCommands, BattlePhase } from "../Construct/BattleConstruct";
 import Store_Base from "./Store_Base";
 
@@ -20,12 +21,16 @@ export default class Store_Battle extends Store_Base {
 	// 表示するバトルテキスト
 	private battleLogList: string[] = [];
 
+	// コマンド対象
+	private target: IPartyMenber | null = null;
+
 	public async init(): Promise<void> {
 		this.phase = BattlePhase.Init;
 		this.hasExecutedPhase = false;
 		this.commandType = null;
 		this.commandFunc = undefined;
 		this.battleLogList.length = 0;
+		this.target = null;
 	}
 
 	public getPhase(): BattlePhase {
@@ -71,5 +76,13 @@ export default class Store_Battle extends Store_Base {
 
 	public clearBattleLogList(): void {
 		this.battleLogList.length = 0;
+	}
+
+	public getTarget(): IPartyMenber | null {
+		return this.target;
+	}
+
+	public setTarget(target: IPartyMenber | null): void {
+		this.target = target;
 	}
 }

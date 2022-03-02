@@ -10,6 +10,16 @@ import { Event_OpenEditParty } from "../Event/Menu/Event_OpenEditParty";
 import { Event_OpenCreateCharacter } from "../Event/Menu/Event_OpenCreateCharacter";
 import { Event_SceneToSelectDungeon } from "../Event/Scene/Event_SceneToSelectDungeon";
 import { Event_Base } from "../Event/Event_Base";
+import { Event_BattleInit } from "../Event/Battle/Event_BattleInit";
+import { Event_BattleStart } from "../Event/Battle/Event_BattleStart";
+import { Event_SelectedTrun } from "../Event/Battle/Event_SelectedTrun";
+import { Event_TurnStart } from "../Event/Battle/Event_TurnStart";
+import { Event_CommandSelect } from "../Event/Battle/Event_CommandSelect";
+import { Event_CommandExecute } from "../Event/Battle/Event_CommandExecute";
+import { Event_CommandEnd } from "../Event/Battle/Event_CommandEnd";
+import { Event_TurnEnd } from "../Event/Battle/Event_TurnEnd";
+import { Event_BattleEnd } from "../Event/Battle/Event_BattleEnd";
+import { Event_BattleResult } from "../Event/Battle/Event_BattleResult";
 
 /**
  * ゲーム内イベントを管理するクラス
@@ -50,6 +60,26 @@ export default class EventManager {
 				return new Event_OpenCreateCharacter();
 			case EventName.SceneToSelectDungeon:
 				return new Event_SceneToSelectDungeon();
+			case EventName.BattleInit:
+				return new Event_BattleInit();
+			case EventName.BattleStart:
+				return new Event_BattleStart();
+			case EventName.BattleSelectedTrun:
+				return new Event_SelectedTrun();
+			case EventName.BattleTrunStart:
+				return new Event_TurnStart();
+			case EventName.BattleCommandSelect:
+				return new Event_CommandSelect();
+			case EventName.BattleCommandExecute:
+				return new Event_CommandExecute();
+			case EventName.BattleCommandEnd:
+				return new Event_CommandEnd();
+			case EventName.BattleTrunEnd:
+				return new Event_TurnEnd();
+			case EventName.BattleEnd:
+				return new Event_BattleEnd();
+			case EventName.BattleResult:
+				return new Event_BattleResult();
 			default:
 				throw new Error("no event");
 		}
@@ -63,9 +93,21 @@ export enum EventName {
 	SceneToLobby = "SceneToLobby",
 	OpenDungeonMenu = "OpenDungeonMenu",
 	CloseScene = "CloseScene",
-	SceneToBattle = "SceneToBattle",
 	BossRoom = "BossRoom",
 	OpenEditParty = "OpenEditParty",
 	OpenCreateCharacter = "OpenCreateCharacter",
 	SceneToSelectDungeon = "SceneToSelectDungeon",
+
+	// 戦闘関連
+	SceneToBattle = "SceneToBattle",
+	BattleInit = "BattleInit",
+	BattleStart = "BattleStart",
+	BattleSelectedTrun = "BattleSelectedTrun",
+	BattleTrunStart = "BattleTrunStart",
+	BattleCommandSelect = "BattleCommandSelect",
+	BattleCommandExecute = "BattleCommandExecute",
+	BattleCommandEnd = "BattleCommandEnd",
+	BattleTrunEnd = "BattleTrunEnd",
+	BattleEnd = "BattleEnd",
+	BattleResult = "BattleResult",
 }

@@ -19,6 +19,15 @@ export class Event_SceneToBattle extends Event_Base {
 	public async execute(enemyPartyId: string): Promise<boolean> {
 		await this.startLoading();
 
+		GameManager.battle.init();
+
+		GameManager.enemyParty.init();
+		GameManager.turn.init();
+
+		GameManager.enemyParty.setEnemyParty(enemyPartyId);
+
+		GameManager.turn.setTurnList(GameManager.party.getMenberList(), GameManager.enemyParty.getEnemyPartyList());
+
 		// ロードするリソース一覧
 		const loadResources = [];
 
@@ -49,18 +58,6 @@ export class Event_SceneToBattle extends Event_Base {
 		}
 
 		await this.loadResources(...loadResources);
-
-		GameManager.battle.init();
-
-		GameManager.enemyParty.init();
-		GameManager.turn.init();
-
-		GameManager.enemyParty.setEnemyParty(enemyPartyId);
-
-		GameManager.turn.setCharacterList(
-			GameManager.party.getMenberList(),
-			GameManager.enemyParty.getEnemyPartyList()
-		);
 
 		await SceneManager.addScene(new Scene_Battle());
 
