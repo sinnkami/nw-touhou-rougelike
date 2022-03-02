@@ -155,7 +155,7 @@ export default class Scene_SelectDungeon extends Scene_Base {
 				return;
 			}
 			default: {
-				const event = EventManager.getEvent(EventName.SceneToSelectDungeon);
+				const event = EventManager.getEvent(EventName.SceneToDungeon);
 				const dungeonId = info.menuId;
 				await event.execute(dungeonId);
 			}
