@@ -100,7 +100,7 @@ export default class Scene_Battle extends Scene_Base {
 					switch (menu.menuId) {
 						case BattleCommands.Attack: {
 							GameManager.battle.setCommandType(BattleCommands.Attack);
-							this.setProcessSelectCommandAttack();
+							this.setProcessTargetEnemy();
 							break;
 						}
 						case BattleCommands.Skill: {
@@ -342,7 +342,7 @@ export default class Scene_Battle extends Scene_Base {
 		});
 	}
 
-	private async setProcessSelectCommandAttack(): Promise<void> {
+	private async setProcessTargetEnemy(): Promise<void> {
 		// キー情報を初期化
 		GameManager.input.init();
 
@@ -379,6 +379,7 @@ export default class Scene_Battle extends Scene_Base {
 		// キー情報を初期化
 		GameManager.input.init();
 
+		// TODO: キャラが取得しているスキルを算出する
 		const SelectionSkill = new Window_SelectionSkill();
 		SelectionSkill.init({
 			x: 100,
@@ -390,7 +391,7 @@ export default class Scene_Battle extends Scene_Base {
 				return {
 					index: v,
 					menuId: "test" + v,
-					skill: "テスト_" + v,
+					skill: GameManager.skill.getSkill("0001"),
 				};
 			}),
 		});
@@ -412,7 +413,11 @@ export default class Scene_Battle extends Scene_Base {
 				}
 				if (GameManager.input.isPushedKey(KeyCode.Select)) {
 					this.removeProcess(`selection-skill`);
-					// TODO: スキル選択時
+					// TODO: スキルIDを指定してから対象選択
+					const menu = SelectionSkill.getCurrentMenu();
+					const skill = menu.skill;
+
+					this.setProcessTargetEnemy();
 				}
 			},
 		});

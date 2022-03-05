@@ -15,6 +15,7 @@ import Game_Material from "../Game/Game_Material";
 import Game_Party from "../Game/Game_Party";
 import Game_PartyPlanningPlace from "../Game/Game_PartyPlanningPlace";
 import Game_Player from "../Game/Game_Player";
+import Game_Skill from "../Game/Game_Skill";
 import Game_Turn from "../Game/Game_Turn";
 
 // 解像度
@@ -42,6 +43,7 @@ export default class GameManager {
 	public static boss: Game_Boss = new Game_Boss();
 	public static partyPlanningPlace: Game_PartyPlanningPlace = new Game_PartyPlanningPlace();
 	public static material: Game_Material = new Game_Material();
+	public static skill: Game_Skill = new Game_Skill();
 
 	/**
 	 * 初期化処理

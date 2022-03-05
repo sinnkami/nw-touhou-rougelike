@@ -5,6 +5,7 @@ import GameManager from "../../Manager/GameManager";
 import { BattleCommands, BattlePhase, CharacterType } from "../../Construct/BattleConstruct";
 import getRandomValue from "../../../modules/utils/getRandomValue";
 import { attack } from "../../../modules/Battle_Commands/Attack";
+import { skill } from "../../../modules/Battle_Commands/Skill";
 
 /**
  * コマンド選択処理
@@ -41,6 +42,14 @@ export class Event_CommandSelect extends Event_Base {
 				// 通常攻撃コマンドを設定
 				const command = () => attack(source, target);
 				GameManager.battle.setCommand(command);
+				break;
+			}
+			case BattleCommands.Skill: {
+				// TODO: 選択したスキルを使用する
+				const skillId = "0001";
+				const command = () => skill(skillId, source, target);
+				GameManager.battle.setCommand(command);
+				break;
 			}
 		}
 

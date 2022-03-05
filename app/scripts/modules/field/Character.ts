@@ -2,6 +2,7 @@ import { CalcStatusType, CharacterStatus, MAX_LEVEL, INIT_LEVEL } from "../../cl
 import { ICharacter, IStatus } from "../../definitions/modules/field/ICharacter";
 
 // キャラ情報
+// TODO: 取得できるスキルリストを持つ
 export default class Character implements ICharacter {
 	public id: string;
 	/** 名前 */

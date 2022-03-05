@@ -4,6 +4,7 @@ import Data_Dungeon from "../Data/Data_Dungeon";
 import Data_Enemy from "../Data/Data_Enemy";
 import Data_EnemyParty from "../Data/Data_EnemyParty";
 import Data_ExpTable from "../Data/Data_ExpTable";
+import Data_Skill from "../Data/Data_Skill";
 
 /**
  * DB情報を管理するクラス
@@ -16,6 +17,7 @@ export default class DataManager {
 	public static enemyParty: Data_EnemyParty = new Data_EnemyParty();
 	public static boss: Data_Boss = new Data_Boss();
 	public static expTable: Data_ExpTable = new Data_ExpTable();
+	public static skill: Data_Skill = new Data_Skill();
 
 	/**
 	 * 初期化処理
@@ -29,6 +31,7 @@ export default class DataManager {
 			this.enemyParty.load(),
 			this.boss.load(),
 			this.expTable.load(),
+			this.skill.load(),
 		]).then();
 	}
 }

@@ -92,7 +92,7 @@ export default class Window_SelectionSkill extends Window_Base {
 				y,
 				width,
 				height,
-				text: menuInfo.skill,
+				text: menuInfo.skill.name,
 				fontSize: this.fontSize,
 			});
 			await sprite.setSprite();
